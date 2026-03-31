@@ -30,7 +30,7 @@ builder-tool: Lovable
 
 ### A1: Initialize Lovable Project
 
-- [ ] TASK-A01: Create new Lovable project "Familienzentrale". Connect Supabase. Enable Tailwind. Install framer-motion, react-hook-form, zod, @tanstack/react-query, lucide-react, recharts, date-fns, react-i18next, @dnd-kit/core, @dnd-kit/sortable, sonner. | type: setup
+- [x] TASK-A01: Create new Lovable project "Familienzentrale". Connect Supabase. Enable Tailwind. Install framer-motion, react-hook-form, zod, @tanstack/react-query, lucide-react, recharts, date-fns, react-i18next, @dnd-kit/core, @dnd-kit/sortable, sonner. | type: setup
 
 - [ ] TASK-A02: Configure Tailwind with full design token palette from design-tokens.md v2.0.0. DM Sans font from Google Fonts. Custom colors: primary (forest sage), secondary (terracotta), accent (amber), background (warm linen), child palette, gamification colors, semantic colors. | spec: design-tokens §1 | type: setup
 
