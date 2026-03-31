@@ -14,16 +14,256 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      child_permissions: {
+        Row: {
+          can_create_events: boolean
+          can_create_tasks: boolean
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          can_create_events?: boolean
+          can_create_tasks?: boolean
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          can_create_events?: boolean
+          can_create_tasks?: boolean
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      families: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          timezone: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          timezone?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          timezone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      family_invites: {
+        Row: {
+          created_at: string
+          created_by: string
+          expires_at: string
+          family_id: string
+          id: string
+          token: string
+          used_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          expires_at?: string
+          family_id: string
+          id?: string
+          token?: string
+          used_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          expires_at?: string
+          family_id?: string
+          id?: string
+          token?: string
+          used_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "family_invites_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      family_members: {
+        Row: {
+          color: string
+          created_at: string
+          family_id: string
+          id: string
+          is_admin: boolean
+          managed_by_user_id: string | null
+          name: string
+          role: Database["public"]["Enums"]["member_role"]
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          family_id: string
+          id?: string
+          is_admin?: boolean
+          managed_by_user_id?: string | null
+          name?: string
+          role?: Database["public"]["Enums"]["member_role"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          family_id?: string
+          id?: string
+          is_admin?: boolean
+          managed_by_user_id?: string | null
+          name?: string
+          role?: Database["public"]["Enums"]["member_role"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "family_members_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          locale: string
+          name: string
+          onboarding_completed: boolean
+          pin_hash: string | null
+          role: Database["public"]["Enums"]["member_role"]
+          sound_enabled: boolean
+          sound_volume: number
+          updated_at: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id: string
+          locale?: string
+          name?: string
+          onboarding_completed?: boolean
+          pin_hash?: string | null
+          role?: Database["public"]["Enums"]["member_role"]
+          sound_enabled?: boolean
+          sound_volume?: number
+          updated_at?: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          locale?: string
+          name?: string
+          onboarding_completed?: boolean
+          pin_hash?: string | null
+          role?: Database["public"]["Enums"]["member_role"]
+          sound_enabled?: boolean
+          sound_volume?: number
+          updated_at?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          app_store_product_id: string | null
+          created_at: string
+          expires_at: string | null
+          family_id: string
+          id: string
+          started_at: string
+          status: Database["public"]["Enums"]["subscription_status"]
+          tier: Database["public"]["Enums"]["subscription_tier"]
+          updated_at: string
+        }
+        Insert: {
+          app_store_product_id?: string | null
+          created_at?: string
+          expires_at?: string | null
+          family_id: string
+          id?: string
+          started_at?: string
+          status?: Database["public"]["Enums"]["subscription_status"]
+          tier?: Database["public"]["Enums"]["subscription_tier"]
+          updated_at?: string
+        }
+        Update: {
+          app_store_product_id?: string | null
+          created_at?: string
+          expires_at?: string | null
+          family_id?: string
+          id?: string
+          started_at?: string
+          status?: Database["public"]["Enums"]["subscription_status"]
+          tier?: Database["public"]["Enums"]["subscription_tier"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_family_id: { Args: never; Returns: string }
+      is_family_admin: { Args: { p_family_id: string }; Returns: boolean }
+      is_family_member: { Args: { p_family_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      challenge_type: "individual" | "family" | "boss_battle"
+      creature_stage: "egg" | "baby" | "juvenile" | "adult"
+      drop_type:
+        | "bonus_gold"
+        | "xp_boost"
+        | "avatar_item"
+        | "streak_freeze"
+        | "mystery_egg"
+      event_status: "active" | "pending"
+      member_role: "adult" | "child" | "baby"
+      subscription_status: "active" | "cancelled" | "expired"
+      subscription_tier: "free" | "family" | "familyplus"
+      task_priority: "high" | "normal" | "low"
+      task_status: "open" | "completed"
+      time_block_type: "school" | "work" | "nap" | "unavailable"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +390,23 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      challenge_type: ["individual", "family", "boss_battle"],
+      creature_stage: ["egg", "baby", "juvenile", "adult"],
+      drop_type: [
+        "bonus_gold",
+        "xp_boost",
+        "avatar_item",
+        "streak_freeze",
+        "mystery_egg",
+      ],
+      event_status: ["active", "pending"],
+      member_role: ["adult", "child", "baby"],
+      subscription_status: ["active", "cancelled", "expired"],
+      subscription_tier: ["free", "family", "familyplus"],
+      task_priority: ["high", "normal", "low"],
+      task_status: ["open", "completed"],
+      time_block_type: ["school", "work", "nap", "unavailable"],
+    },
   },
 } as const
