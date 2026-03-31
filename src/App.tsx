@@ -2,22 +2,64 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Index from "./pages/Index.tsx";
-import NotFound from "./pages/NotFound.tsx";
+import { AuthProvider } from "@/hooks/useAuth";
+import ProtectedRoute from "@/components/layout/ProtectedRoute";
+import AppShell from "@/components/layout/AppShell";
+import FAB from "@/components/layout/FAB";
+import LoginPage from "@/components/auth/LoginPage";
+import SignupPage from "@/components/auth/SignupPage";
+import HomePage from "@/pages/HomePage";
+import ParentCalendar from "@/pages/ParentCalendar";
+import ParentTasks from "@/pages/ParentTasks";
+import ParentRewards from "@/pages/ParentRewards";
+import ParentSettings from "@/pages/ParentSettings";
+import ChildQuests from "@/pages/ChildQuests";
+import ChildProgress from "@/pages/ChildProgress";
+import ChildRewards from "@/pages/ChildRewards";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+function AuthenticatedApp() {
+  return (
+    <AppShell>
+      <Routes>
+        {/* Parent routes */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/calendar" element={<ParentCalendar />} />
+        <Route path="/tasks" element={<ParentTasks />} />
+        <Route path="/rewards" element={<ParentRewards />} />
+        <Route path="/settings" element={<ParentSettings />} />
+        {/* Child routes */}
+        <Route path="/quests" element={<ChildQuests />} />
+        <Route path="/progress" element={<ChildProgress />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <FAB />
+    </AppShell>
+  );
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route
+              path="/*"
+              element={
+                <ProtectedRoute>
+                  <AuthenticatedApp />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
