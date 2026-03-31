@@ -46,7 +46,7 @@ builder-tool: Lovable
 
 - [x] TASK-A07: Create Supabase migration `001_core.sql`: users (profile table linked to auth.users), families, family_members (role enum: adult/child/baby, managed_by_user_id), family_invites, child_permissions (can_create_tasks, can_create_events). RLS policies for all tables. | spec: P-5, constitution §3 | type: schema
 
-- [ ] TASK-A08: Create migration `002_tasks_routines.sql`: tasks (title, description, family_id, assigned_to_user_id, visibility, priority, due_date, start_time, end_time, xp_value, icon, photo_required, status, challenge_id, created_by_user_id, timestamps), family_tags, task_tags, task_comments, routines (flow_mode, flow_target_minutes, flow_step_order, photo_required), routine_task_instances. RLS. | spec: P-2, P-3, P-8 | type: schema
+- [x] TASK-A08: Create migration `002_tasks_routines.sql`: tasks (title, description, family_id, assigned_to_user_id, visibility, priority, due_date, start_time, end_time, xp_value, icon, photo_required, status, challenge_id, created_by_user_id, timestamps), family_tags, task_tags, task_comments, routines (flow_mode, flow_target_minutes, flow_step_order, photo_required), routine_task_instances. RLS. | spec: P-2, P-3, P-8 | type: schema
 
 - [ ] TASK-A09: Create migration `003_events_timeblocks.sql`: events (title, description, family_id, start_at, end_at, is_all_day, assigned_to_user_ids, icon, status enum active/pending, created_by_user_id), time_blocks (family_id, user_id, type enum school/work/nap/unavailable, weekdays, start_time, end_time, label). RLS. | spec: P-2, P-3 | type: schema
 
