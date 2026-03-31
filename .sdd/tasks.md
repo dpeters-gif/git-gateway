@@ -56,7 +56,7 @@ builder-tool: Lovable
 
 - [x] TASK-A12: Create migration `006_sync_subscriptions.sql`: calendar_connections, external_calendar_events, family_link_requests, care_share_snapshots, subscriptions (family_id, tier enum free/family/familyplus, status, expires_at), email_inbox_items. RLS. | spec: P-6, P-7, S-2, M-1, P-14 | type: schema
 
-- [ ] TASK-A13: Create migration `007_functions.sql`: Database functions get_leaderboard, get_care_share, get_gold_balance. | spec: api-contracts §4 | type: schema
+- [x] TASK-A13: Create migration `007_functions.sql`: Database functions get_leaderboard, get_care_share, get_gold_balance. | spec: api-contracts §4 | type: schema
 
 - [ ] TASK-A14: Seed data: 12 badges (9 standard + 3 streak milestones), 14 starter avatar items, 6 boss creature types, 6 companion creature types. All via INSERT statements. | spec: S-3-ENHANCED, C-6 | type: seed
 
