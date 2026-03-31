@@ -66,21 +66,21 @@ builder-tool: Lovable
 
 ## Phase B: Auth + App Shell
 
-- [ ] TASK-B01: Build auth pages: Login (adults: email+password via Supabase Auth, children: username+PIN via Edge Function — tab switch between modes). Signup (adults only: name, email, password). shadcn/ui form components, Zod validation, warm linen background, DM Sans font. Framer Motion page transitions. | spec: constitution §2, §5 | type: ui+auth
+- [x] TASK-B01: Build auth pages: Login (adults: email+password via Supabase Auth, children: username+PIN via Edge Function — tab switch between modes). Signup (adults only: name, email, password). shadcn/ui form components, Zod validation, warm linen background, DM Sans font. Framer Motion page transitions. | spec: constitution §2, §5 | type: ui+auth
 
-- [ ] TASK-B02: Create Edge Function `child-auth`: username + PIN verification, JWT generation with custom claims {userId, familyId, role:'child'}. | spec: api-contracts §2 | type: edge-function
+- [x] TASK-B02: Create Edge Function `child-auth`: username + PIN verification, JWT generation with custom claims {userId, familyId, role:'child'}. | spec: api-contracts §2 | type: edge-function
 
-- [ ] TASK-B03: Build AppShell: role-aware layout (parent=sage green nav + warm linen bg, child=honey bg + orange accents). Bottom nav (5 items parent, 4 items child) with Framer Motion scale on tap. App bar (family name, notification bell, user avatar, gold counter for children). Desktop sidebar at ≥1280px. | spec: design-constraints §1, §6, §9 | type: ui
+- [x] TASK-B03: Build AppShell: role-aware layout (parent=sage green nav + warm linen bg, child=honey bg + orange accents). Bottom nav (5 items parent, 4 items child) with Framer Motion scale on tap. App bar (family name, notification bell, user avatar, gold counter for children). Desktop sidebar at ≥1280px. | spec: design-constraints §1, §6, §9 | type: ui
 
-- [ ] TASK-B04: Build FAB component: 56px circle, primary color, positioned bottom-right above bottom nav. Opens radial menu (Task, Event, Routine, Board Note) with stagger slideUp. Present on ALL authenticated pages. | spec: design-constraints §1 | type: ui
+- [x] TASK-B04: Build FAB component: 56px circle, primary color, positioned bottom-right above bottom nav. Opens radial menu (Task, Event, Routine, Board Note) with stagger slideUp. Present on ALL authenticated pages. | spec: design-constraints §1 | type: ui
 
-- [ ] TASK-B05: Build reusable state components: SkeletonLoader (matching content shapes), EmptyState (icon + heading + body + CTA), ErrorState (friendly message + retry), SuccessToast (sonner, 4s). | spec: design-constraints §7 | type: ui
+- [x] TASK-B05: Build reusable state components: SkeletonLoader (matching content shapes), EmptyState (icon + heading + body + CTA), ErrorState (friendly message + retry), SuccessToast (sonner, 4s). | spec: design-constraints §7 | type: ui
 
-- [ ] TASK-B06: Build notification menu: dropdown from bell icon, list of notifications, mark read, empty state. Supabase Realtime subscription for new notifications. | spec: all | type: ui
+- [x] TASK-B06: Build notification menu: dropdown from bell icon, list of notifications, mark read, empty state. Supabase Realtime subscription for new notifications. | spec: all | type: ui
 
-- [ ] TASK-B07: Create useAuth hook, useFamily hook, useSubscription hook. Protected routes (redirect to login if unauth, redirect to onboarding if no family). Role-based routing (parent pages vs child pages). | spec: constitution §2 | type: hooks
+- [x] TASK-B07: Create useAuth hook, useFamily hook, useSubscription hook. Protected routes (redirect to login if unauth, redirect to onboarding if no family). Role-based routing (parent pages vs child pages). | spec: constitution §2 | type: hooks
 
-- [ ] TASK-B08: **CHECKPOINT** — Auth works (adult + child), app shell renders correctly at 768px and 375px, FAB visible, bottom nav functional, role-based routing works. | type: verification
+- [x] TASK-B08: **CHECKPOINT** — Auth works (adult + child), app shell renders correctly at 768px and 375px, FAB visible, bottom nav functional, role-based routing works. | type: verification
 
 ---
 
