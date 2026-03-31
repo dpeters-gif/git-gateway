@@ -36,7 +36,7 @@ builder-tool: Lovable
 
 - [x] TASK-A03: Create Framer Motion animation presets file (`src/lib/animations.ts`): fadeIn, slideUp, slideInRight, scaleIn, popIn, bounceIn, progressFill, shake, pulse, glow, confetti, slideDown, fadeOut, strikethrough, float, wobble, flame. All with values from design-tokens §8. | spec: design-tokens §8 | type: setup
 
-- [ ] TASK-A04: Create SoundEngine service (`src/services/soundEngine.ts`): Web Audio API procedural sounds. 14 functions: playComplete, playXPAward, playGoldDrop, playLevelUp, playStreakFire, playStreakMilestone, playDropChest, playDropOpen, playBadgeEarn, playBossHit, playBossDefeat, playError, playFlowStep, playFlowDone. ±2 semitone randomization. Master volume + mute. | spec: S-3-ENHANCED §3.2, constitution §5 | type: setup
+- [x] TASK-A04: Create SoundEngine service (`src/services/soundEngine.ts`): Web Audio API procedural sounds. 14 functions: playComplete, playXPAward, playGoldDrop, playLevelUp, playStreakFire, playStreakMilestone, playDropChest, playDropOpen, playBadgeEarn, playBossHit, playBossDefeat, playError, playFlowStep, playFlowDone. ±2 semitone randomization. Master volume + mute. | spec: S-3-ENHANCED §3.2, constitution §5 | type: setup
 
 - [ ] TASK-A05: Create i18n setup: de.json + en.json with section structure. DE default. All keys organized by page/component. | spec: constitution §4 | type: setup
 
