@@ -52,7 +52,7 @@ builder-tool: Lovable
 
 - [x] TASK-A10: Create migration `004_gamification.sql`: points_ledger (append-only, user_id, task_id, xp_awarded, gold_awarded, reason, created_at — NO update/delete policy), rewards, reward_fulfillments, streaks, levels, badges, user_badges, challenges (type, target_count, boss_creature_type, boss_hp, boss_current_hp), challenge_progress, family_quests, leaderboard_snapshots, drop_events, streak_freezes, companion_creatures (creature_type, stage enum egg/baby/juvenile/adult, feed_count, hatch_progress), gold_transactions. RLS. | spec: S-3-ENHANCED | type: schema
 
-- [ ] TASK-A11: Create migration `005_features.sql`: nudge_rules, task_completion_photos, weekly_recaps, shopping_lists, shopping_items (with category field), child_avatars, avatar_items (with available_from/until for seasonal), board_notes (with image_url, expires_at), notifications, caregiver_links (token, expires_at, visible_member_ids). RLS. | spec: P-8 through P-13, C-5, C-6, S-5 | type: schema
+- [x] TASK-A11: Create migration `005_features.sql`: nudge_rules, task_completion_photos, weekly_recaps, shopping_lists, shopping_items (with category field), child_avatars, avatar_items (with available_from/until for seasonal), board_notes (with image_url, expires_at), notifications, caregiver_links (token, expires_at, visible_member_ids). RLS. | spec: P-8 through P-13, C-5, C-6, S-5 | type: schema
 
 - [ ] TASK-A12: Create migration `006_sync_subscriptions.sql`: calendar_connections, external_calendar_events, family_link_requests, care_share_snapshots, subscriptions (family_id, tier enum free/family/familyplus, status, expires_at), email_inbox_items. RLS. | spec: P-6, P-7, S-2, M-1, P-14 | type: schema
 
