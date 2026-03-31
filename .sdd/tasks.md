@@ -60,7 +60,7 @@ builder-tool: Lovable
 
 - [x] TASK-A14: Seed data: 12 badges (9 standard + 3 streak milestones), 14 starter avatar items, 6 boss creature types, 6 companion creature types. All via INSERT statements. | spec: S-3-ENHANCED, C-6 | type: seed
 
-- [ ] TASK-A15: **CHECKPOINT** — All tables created, RLS policies active, seed data loaded, Supabase types generated. | type: verification
+- [x] TASK-A15: **CHECKPOINT** — All tables created, RLS policies active, seed data loaded, Supabase types generated. | type: verification
 
 ---
 
