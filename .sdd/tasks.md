@@ -58,7 +58,7 @@ builder-tool: Lovable
 
 - [x] TASK-A13: Create migration `007_functions.sql`: Database functions get_leaderboard, get_care_share, get_gold_balance. | spec: api-contracts §4 | type: schema
 
-- [ ] TASK-A14: Seed data: 12 badges (9 standard + 3 streak milestones), 14 starter avatar items, 6 boss creature types, 6 companion creature types. All via INSERT statements. | spec: S-3-ENHANCED, C-6 | type: seed
+- [x] TASK-A14: Seed data: 12 badges (9 standard + 3 streak milestones), 14 starter avatar items, 6 boss creature types, 6 companion creature types. All via INSERT statements. | spec: S-3-ENHANCED, C-6 | type: seed
 
 - [ ] TASK-A15: **CHECKPOINT** — All tables created, RLS policies active, seed data loaded, Supabase types generated. | type: verification
 
