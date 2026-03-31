@@ -1,0 +1,10 @@
+{
+  "name": "Familienzentrale",
+  "short_name": "Familienzentrale",
+  "description": "Die Familienorganisation für den Alltag",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#4E6E5D",
+  "background_color": "#FBF7F0",
+  "icons": []
+}

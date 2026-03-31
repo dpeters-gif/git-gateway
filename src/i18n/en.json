@@ -1,0 +1,109 @@
+{
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "close": "Close",
+    "undo": "Undo",
+    "search": "Search",
+    "noData": "No data yet"
+  },
+  "auth": {
+    "login": "Log in",
+    "signup": "Sign up",
+    "logout": "Log out",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "pin": "PIN",
+    "adultTab": "Adults",
+    "childTab": "Children",
+    "forgotPassword": "Forgot password?"
+  },
+  "nav": {
+    "home": "Home",
+    "calendar": "Calendar",
+    "tasks": "Tasks",
+    "rewards": "Rewards",
+    "settings": "Settings",
+    "myDay": "My Day",
+    "quests": "Quests",
+    "progress": "Progress"
+  },
+  "home": {
+    "welcome": "Welcome back",
+    "openTasks": "Open tasks",
+    "completedToday": "Completed today",
+    "weeklyOverview": "Weekly overview",
+    "familyBoard": "Family Board",
+    "empty": {
+      "title": "Nothing planned yet",
+      "body": "Create your first task or event.",
+      "cta": "Create task"
+    }
+  },
+  "child": {
+    "greeting": "Hey {{name}}! 👋",
+    "questsToday": "{{count}} quests today",
+    "streakActive": "{{count}} day streak 🔥",
+    "streakBroken": "Start a streak!",
+    "levelLabel": "Level {{level}}",
+    "xpProgress": "{{current}} / {{target}} XP",
+    "quest": {
+      "complete": "Quest complete!"
+    },
+    "empty": {
+      "title": "No quests today",
+      "body": "Enjoy your free day! 🎉",
+      "cta": "View all quests"
+    },
+    "error": {
+      "title": "Oops! Something went wrong",
+      "body": "Please try again."
+    }
+  },
+  "task": {
+    "create": "Create task",
+    "edit": "Edit task",
+    "title": "Title",
+    "description": "Description",
+    "dueDate": "Due date",
+    "priority": "Priority",
+    "priorityHigh": "High",
+    "priorityNormal": "Normal",
+    "priorityLow": "Low",
+    "assignee": "Assigned to",
+    "xpValue": "XP value",
+    "completed": "Completed",
+    "open": "Open"
+  },
+  "event": {
+    "create": "Create event",
+    "edit": "Edit event",
+    "title": "Title",
+    "date": "Date",
+    "startTime": "Start time",
+    "endTime": "End time",
+    "allDay": "All day",
+    "description": "Description"
+  },
+  "gamification": {
+    "xpAwarded": "+{{amount}} XP",
+    "goldAwarded": "+{{amount}} 🪙",
+    "levelUp": "Level {{level}} reached!",
+    "streakDay": "Day {{count}} 🔥",
+    "newBadge": "New badge!",
+    "treasureFound": "Treasure chest found!"
+  },
+  "fab": {
+    "task": "Task",
+    "event": "Event",
+    "routine": "Routine",
+    "boardNote": "Note"
+  }
+}

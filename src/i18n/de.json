@@ -1,0 +1,109 @@
+{
+  "common": {
+    "loading": "Wird geladen…",
+    "error": "Etwas ist schiefgelaufen",
+    "retry": "Erneut versuchen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "create": "Erstellen",
+    "close": "Schließen",
+    "undo": "Rückgängig",
+    "search": "Suchen",
+    "noData": "Noch keine Daten"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "signup": "Registrieren",
+    "logout": "Abmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "username": "Benutzername",
+    "pin": "PIN",
+    "adultTab": "Erwachsene",
+    "childTab": "Kinder",
+    "forgotPassword": "Passwort vergessen?"
+  },
+  "nav": {
+    "home": "Startseite",
+    "calendar": "Kalender",
+    "tasks": "Aufgaben",
+    "rewards": "Belohnungen",
+    "settings": "Einstellungen",
+    "myDay": "Mein Tag",
+    "quests": "Quests",
+    "progress": "Fortschritt"
+  },
+  "home": {
+    "welcome": "Willkommen zurück",
+    "openTasks": "Offene Aufgaben",
+    "completedToday": "Heute erledigt",
+    "weeklyOverview": "Wochenübersicht",
+    "familyBoard": "Pinnwand",
+    "empty": {
+      "title": "Noch nichts geplant",
+      "body": "Erstelle deine erste Aufgabe oder dein erstes Event.",
+      "cta": "Aufgabe erstellen"
+    }
+  },
+  "child": {
+    "greeting": "Hey {{name}}! 👋",
+    "questsToday": "{{count}} Quests heute",
+    "streakActive": "{{count}} Tage Streak 🔥",
+    "streakBroken": "Streak starten!",
+    "levelLabel": "Level {{level}}",
+    "xpProgress": "{{current}} / {{target}} XP",
+    "quest": {
+      "complete": "Quest geschafft!"
+    },
+    "empty": {
+      "title": "Keine Quests heute",
+      "body": "Genieße deinen freien Tag! 🎉",
+      "cta": "Alle Quests anzeigen"
+    },
+    "error": {
+      "title": "Ups! Etwas ist schiefgelaufen",
+      "body": "Versuche es noch einmal."
+    }
+  },
+  "task": {
+    "create": "Aufgabe erstellen",
+    "edit": "Aufgabe bearbeiten",
+    "title": "Titel",
+    "description": "Beschreibung",
+    "dueDate": "Fälligkeitsdatum",
+    "priority": "Priorität",
+    "priorityHigh": "Hoch",
+    "priorityNormal": "Normal",
+    "priorityLow": "Niedrig",
+    "assignee": "Zugewiesen an",
+    "xpValue": "XP-Wert",
+    "completed": "Erledigt",
+    "open": "Offen"
+  },
+  "event": {
+    "create": "Event erstellen",
+    "edit": "Event bearbeiten",
+    "title": "Titel",
+    "date": "Datum",
+    "startTime": "Startzeit",
+    "endTime": "Endzeit",
+    "allDay": "Ganztägig",
+    "description": "Beschreibung"
+  },
+  "gamification": {
+    "xpAwarded": "+{{amount}} XP",
+    "goldAwarded": "+{{amount}} 🪙",
+    "levelUp": "Level {{level}} erreicht!",
+    "streakDay": "Tag {{count}} 🔥",
+    "newBadge": "Neues Abzeichen!",
+    "treasureFound": "Schatzkiste gefunden!"
+  },
+  "fab": {
+    "task": "Aufgabe",
+    "event": "Event",
+    "routine": "Routine",
+    "boardNote": "Notiz"
+  }
+}
