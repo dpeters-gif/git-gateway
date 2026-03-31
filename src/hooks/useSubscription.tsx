@@ -32,8 +32,8 @@ export function useSubscription() {
     isFamilyPlus: tier === TIERS.FAMILY_PLUS,
     memberLimit,
     activeItemLimit: tier === TIERS.FREE ? FREE_ACTIVE_ITEM_LIMIT : Infinity,
-    canUseFeature: (requiredTier: string) => {
-      const tierOrder = [TIERS.FREE, TIERS.FAMILY, TIERS.FAMILY_PLUS];
+    canUseFeature: (requiredTier: typeof TIERS[keyof typeof TIERS]) => {
+      const tierOrder = [TIERS.FREE, TIERS.FAMILY, TIERS.FAMILY_PLUS] as string[];
       return tierOrder.indexOf(tier) >= tierOrder.indexOf(requiredTier);
     },
   };
