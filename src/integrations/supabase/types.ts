@@ -14,6 +14,317 @@ export type Database = {
   }
   public: {
     Tables: {
+      avatar_items: {
+        Row: {
+          available_from: string | null
+          available_until: string | null
+          category: string
+          created_at: string
+          description: string | null
+          gold_price: number | null
+          icon: string
+          id: string
+          is_seasonal: boolean
+          name: string
+          required_level: number
+        }
+        Insert: {
+          available_from?: string | null
+          available_until?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          gold_price?: number | null
+          icon?: string
+          id?: string
+          is_seasonal?: boolean
+          name: string
+          required_level?: number
+        }
+        Update: {
+          available_from?: string | null
+          available_until?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          gold_price?: number | null
+          icon?: string
+          id?: string
+          is_seasonal?: boolean
+          name?: string
+          required_level?: number
+        }
+        Relationships: []
+      }
+      badges: {
+        Row: {
+          category: string
+          created_at: string
+          criteria_type: string
+          criteria_value: number
+          description: string
+          icon: string
+          id: string
+          is_seasonal: boolean
+          name: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          criteria_type: string
+          criteria_value?: number
+          description?: string
+          icon?: string
+          id?: string
+          is_seasonal?: boolean
+          name: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          criteria_type?: string
+          criteria_value?: number
+          description?: string
+          icon?: string
+          id?: string
+          is_seasonal?: boolean
+          name?: string
+        }
+        Relationships: []
+      }
+      board_notes: {
+        Row: {
+          author_user_id: string | null
+          created_at: string
+          expires_at: string | null
+          family_id: string
+          id: string
+          image_url: string | null
+          text: string
+        }
+        Insert: {
+          author_user_id?: string | null
+          created_at?: string
+          expires_at?: string | null
+          family_id: string
+          id?: string
+          image_url?: string | null
+          text?: string
+        }
+        Update: {
+          author_user_id?: string | null
+          created_at?: string
+          expires_at?: string | null
+          family_id?: string
+          id?: string
+          image_url?: string | null
+          text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "board_notes_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      calendar_connections: {
+        Row: {
+          access_token_encrypted: string | null
+          calendar_id: string | null
+          created_at: string
+          id: string
+          last_synced_at: string | null
+          provider: string
+          refresh_token_encrypted: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_token_encrypted?: string | null
+          calendar_id?: string | null
+          created_at?: string
+          id?: string
+          last_synced_at?: string | null
+          provider?: string
+          refresh_token_encrypted?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          access_token_encrypted?: string | null
+          calendar_id?: string | null
+          created_at?: string
+          id?: string
+          last_synced_at?: string | null
+          provider?: string
+          refresh_token_encrypted?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      caregiver_links: {
+        Row: {
+          created_at: string
+          expires_at: string
+          family_id: string
+          id: string
+          name: string
+          token: string
+          visible_member_ids: string[]
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          family_id: string
+          id?: string
+          name?: string
+          token?: string
+          visible_member_ids?: string[]
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          family_id?: string
+          id?: string
+          name?: string
+          token?: string
+          visible_member_ids?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "caregiver_links_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      challenge_progress: {
+        Row: {
+          challenge_id: string
+          count: number
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          challenge_id: string
+          count?: number
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          challenge_id?: string
+          count?: number
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_progress_challenge_id_fkey"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "challenges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      challenges: {
+        Row: {
+          boss_creature_type: string | null
+          boss_current_hp: number | null
+          boss_hp: number | null
+          created_at: string
+          description: string | null
+          end_date: string | null
+          family_id: string
+          id: string
+          is_completed: boolean
+          reward_xp: number
+          start_date: string
+          target_count: number
+          title: string
+          type: Database["public"]["Enums"]["challenge_type"]
+          updated_at: string
+        }
+        Insert: {
+          boss_creature_type?: string | null
+          boss_current_hp?: number | null
+          boss_hp?: number | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          family_id: string
+          id?: string
+          is_completed?: boolean
+          reward_xp?: number
+          start_date?: string
+          target_count?: number
+          title: string
+          type?: Database["public"]["Enums"]["challenge_type"]
+          updated_at?: string
+        }
+        Update: {
+          boss_creature_type?: string | null
+          boss_current_hp?: number | null
+          boss_hp?: number | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          family_id?: string
+          id?: string
+          is_completed?: boolean
+          reward_xp?: number
+          start_date?: string
+          target_count?: number
+          title?: string
+          type?: Database["public"]["Enums"]["challenge_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenges_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      child_avatars: {
+        Row: {
+          background: string | null
+          created_at: string
+          equipped_items: string[]
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          background?: string | null
+          created_at?: string
+          equipped_items?: string[]
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          background?: string | null
+          created_at?: string
+          equipped_items?: string[]
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       child_permissions: {
         Row: {
           can_create_events: boolean
@@ -40,6 +351,124 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      companion_creatures: {
+        Row: {
+          created_at: string
+          creature_type: string
+          feed_count: number
+          hatch_progress: number
+          id: string
+          is_active: boolean
+          name: string | null
+          stage: Database["public"]["Enums"]["creature_stage"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          creature_type: string
+          feed_count?: number
+          hatch_progress?: number
+          id?: string
+          is_active?: boolean
+          name?: string | null
+          stage?: Database["public"]["Enums"]["creature_stage"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          creature_type?: string
+          feed_count?: number
+          hatch_progress?: number
+          id?: string
+          is_active?: boolean
+          name?: string | null
+          stage?: Database["public"]["Enums"]["creature_stage"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      drop_events: {
+        Row: {
+          created_at: string
+          id: string
+          task_id: string | null
+          type: Database["public"]["Enums"]["drop_type"]
+          user_id: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          task_id?: string | null
+          type: Database["public"]["Enums"]["drop_type"]
+          user_id: string
+          value?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          task_id?: string | null
+          type?: Database["public"]["Enums"]["drop_type"]
+          user_id?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drop_events_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_inbox_items: {
+        Row: {
+          created_at: string
+          extracted_date: string | null
+          extracted_title: string
+          extracted_type: string
+          family_id: string
+          id: string
+          is_processed: boolean
+          original_subject: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          extracted_date?: string | null
+          extracted_title: string
+          extracted_type?: string
+          family_id: string
+          id?: string
+          is_processed?: boolean
+          original_subject?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          extracted_date?: string | null
+          extracted_title?: string
+          extracted_type?: string
+          family_id?: string
+          id?: string
+          is_processed?: boolean
+          original_subject?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_inbox_items_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       events: {
         Row: {
@@ -90,6 +519,56 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "events_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      external_calendar_events: {
+        Row: {
+          created_at: string
+          end_at: string | null
+          external_id: string
+          family_id: string
+          id: string
+          is_all_day: boolean
+          source: string
+          start_at: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_at?: string | null
+          external_id: string
+          family_id: string
+          id?: string
+          is_all_day?: boolean
+          source?: string
+          start_at: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          end_at?: string | null
+          external_id?: string
+          family_id?: string
+          id?: string
+          is_all_day?: boolean
+          source?: string
+          start_at?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "external_calendar_events_family_id_fkey"
             columns: ["family_id"]
             isOneToOne: false
             referencedRelation: "families"
@@ -238,6 +717,216 @@ export type Database = {
           },
         ]
       }
+      gold_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          item_id: string | null
+          item_type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          item_id?: string | null
+          item_type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          item_id?: string | null
+          item_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      leaderboard_snapshots: {
+        Row: {
+          created_at: string
+          family_id: string
+          id: string
+          period: string
+          period_start: string
+          rank: number
+          user_id: string
+          xp_earned: number
+        }
+        Insert: {
+          created_at?: string
+          family_id: string
+          id?: string
+          period: string
+          period_start: string
+          rank?: number
+          user_id: string
+          xp_earned?: number
+        }
+        Update: {
+          created_at?: string
+          family_id?: string
+          id?: string
+          period?: string
+          period_start?: string
+          rank?: number
+          user_id?: string
+          xp_earned?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leaderboard_snapshots_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      levels: {
+        Row: {
+          current_level: number
+          id: string
+          total_xp: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          current_level?: number
+          id?: string
+          total_xp?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          current_level?: number
+          id?: string
+          total_xp?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          data: Json | null
+          id: string
+          read: boolean
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          data?: Json | null
+          id?: string
+          read?: boolean
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          data?: Json | null
+          id?: string
+          read?: boolean
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nudge_rules: {
+        Row: {
+          child_user_id: string
+          created_at: string
+          family_id: string
+          id: string
+          is_enabled: boolean
+          parent_alert: boolean
+          quiet_end: string | null
+          quiet_start: string | null
+          times: string[]
+          updated_at: string
+        }
+        Insert: {
+          child_user_id: string
+          created_at?: string
+          family_id: string
+          id?: string
+          is_enabled?: boolean
+          parent_alert?: boolean
+          quiet_end?: string | null
+          quiet_start?: string | null
+          times?: string[]
+          updated_at?: string
+        }
+        Update: {
+          child_user_id?: string
+          created_at?: string
+          family_id?: string
+          id?: string
+          is_enabled?: boolean
+          parent_alert?: boolean
+          quiet_end?: string | null
+          quiet_start?: string | null
+          times?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nudge_rules_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      points_ledger: {
+        Row: {
+          created_at: string
+          gold_awarded: number
+          id: string
+          reason: string
+          task_id: string | null
+          user_id: string
+          xp_awarded: number
+        }
+        Insert: {
+          created_at?: string
+          gold_awarded?: number
+          id?: string
+          reason?: string
+          task_id?: string | null
+          user_id: string
+          xp_awarded?: number
+        }
+        Update: {
+          created_at?: string
+          gold_awarded?: number
+          id?: string
+          reason?: string
+          task_id?: string | null
+          user_id?: string
+          xp_awarded?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "points_ledger_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -282,6 +971,88 @@ export type Database = {
           username?: string | null
         }
         Relationships: []
+      }
+      reward_fulfillments: {
+        Row: {
+          child_user_id: string
+          created_at: string
+          fulfilled_by_user_id: string
+          id: string
+          reward_id: string
+        }
+        Insert: {
+          child_user_id: string
+          created_at?: string
+          fulfilled_by_user_id: string
+          id?: string
+          reward_id: string
+        }
+        Update: {
+          child_user_id?: string
+          created_at?: string
+          fulfilled_by_user_id?: string
+          id?: string
+          reward_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reward_fulfillments_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rewards: {
+        Row: {
+          child_user_id: string | null
+          created_at: string
+          description: string | null
+          family_id: string
+          gold_price: number | null
+          icon: string
+          id: string
+          is_active: boolean
+          title: string
+          updated_at: string
+          xp_threshold: number | null
+        }
+        Insert: {
+          child_user_id?: string | null
+          created_at?: string
+          description?: string | null
+          family_id: string
+          gold_price?: number | null
+          icon?: string
+          id?: string
+          is_active?: boolean
+          title: string
+          updated_at?: string
+          xp_threshold?: number | null
+        }
+        Update: {
+          child_user_id?: string | null
+          created_at?: string
+          description?: string | null
+          family_id?: string
+          gold_price?: number | null
+          icon?: string
+          id?: string
+          is_active?: boolean
+          title?: string
+          updated_at?: string
+          xp_threshold?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rewards_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       routine_task_instances: {
         Row: {
@@ -378,6 +1149,136 @@ export type Database = {
           },
         ]
       }
+      shopping_items: {
+        Row: {
+          added_by_user_id: string | null
+          category: string
+          checked: boolean
+          checked_at: string | null
+          checked_by_user_id: string | null
+          created_at: string
+          id: string
+          list_id: string
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          added_by_user_id?: string | null
+          category?: string
+          checked?: boolean
+          checked_at?: string | null
+          checked_by_user_id?: string | null
+          created_at?: string
+          id?: string
+          list_id: string
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          added_by_user_id?: string | null
+          category?: string
+          checked?: boolean
+          checked_at?: string | null
+          checked_by_user_id?: string | null
+          created_at?: string
+          id?: string
+          list_id?: string
+          name?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shopping_items_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "shopping_lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shopping_lists: {
+        Row: {
+          created_at: string
+          family_id: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          family_id: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          family_id?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shopping_lists_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      streak_freezes: {
+        Row: {
+          created_at: string
+          id: string
+          is_used: boolean
+          used_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_used?: boolean
+          used_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_used?: boolean
+          used_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      streaks: {
+        Row: {
+          current_count: number
+          id: string
+          last_activity_date: string | null
+          longest_count: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          current_count?: number
+          id?: string
+          last_activity_date?: string | null
+          longest_count?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          current_count?: number
+          id?: string
+          last_activity_date?: string | null
+          longest_count?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           app_store_product_id: string | null
@@ -447,6 +1348,38 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "task_comments_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      task_completion_photos: {
+        Row: {
+          created_at: string
+          id: string
+          photo_url: string
+          task_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          photo_url: string
+          task_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          photo_url?: string
+          task_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_completion_photos_task_id_fkey"
             columns: ["task_id"]
             isOneToOne: false
             referencedRelation: "tasks"
@@ -550,6 +1483,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "fk_tasks_challenge"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "challenges"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "tasks_family_id_fkey"
             columns: ["family_id"]
             isOneToOne: false
@@ -605,11 +1545,92 @@ export type Database = {
           },
         ]
       }
+      user_badges: {
+        Row: {
+          badge_id: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          badge_id: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          badge_id?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_badges_badge_id_fkey"
+            columns: ["badge_id"]
+            isOneToOne: false
+            referencedRelation: "badges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      weekly_recaps: {
+        Row: {
+          created_at: string
+          data: Json
+          family_id: string
+          id: string
+          week_start: string
+        }
+        Insert: {
+          created_at?: string
+          data?: Json
+          family_id: string
+          id?: string
+          week_start: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          family_id?: string
+          id?: string
+          week_start?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "weekly_recaps_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      get_care_share: {
+        Args: { p_family_id: string; p_period: string }
+        Returns: {
+          completed_count: number
+          pct: number
+          uid: string
+          uname: string
+        }[]
+      }
+      get_gold_balance: { Args: { p_user_id: string }; Returns: number }
+      get_leaderboard: {
+        Args: { p_family_id: string; p_period: string }
+        Returns: {
+          pos: number
+          pos_change: number
+          uid: string
+          uname: string
+          xp: number
+        }[]
+      }
       get_user_family_id: { Args: never; Returns: string }
       is_family_admin: { Args: { p_family_id: string }; Returns: boolean }
       is_family_member: { Args: { p_family_id: string }; Returns: boolean }
