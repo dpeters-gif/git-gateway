@@ -17,10 +17,6 @@ import ChildQuests from "@/pages/ChildQuests";
 import ChildProgress from "@/pages/ChildProgress";
 import ChildRewards from "@/pages/ChildRewards";
 import NotFound from "./pages/NotFound";
-import ChildQuests from "@/pages/ChildQuests";
-import ChildProgress from "@/pages/ChildProgress";
-import ChildRewards from "@/pages/ChildRewards";
-import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
