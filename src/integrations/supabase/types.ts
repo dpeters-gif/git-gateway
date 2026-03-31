@@ -41,6 +41,62 @@ export type Database = {
         }
         Relationships: []
       }
+      events: {
+        Row: {
+          assigned_to_user_ids: string[]
+          created_at: string
+          created_by_user_id: string | null
+          description: string | null
+          end_at: string | null
+          family_id: string
+          icon: string
+          id: string
+          is_all_day: boolean
+          start_at: string
+          status: Database["public"]["Enums"]["event_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to_user_ids?: string[]
+          created_at?: string
+          created_by_user_id?: string | null
+          description?: string | null
+          end_at?: string | null
+          family_id: string
+          icon?: string
+          id?: string
+          is_all_day?: boolean
+          start_at: string
+          status?: Database["public"]["Enums"]["event_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to_user_ids?: string[]
+          created_at?: string
+          created_by_user_id?: string | null
+          description?: string | null
+          end_at?: string | null
+          family_id?: string
+          icon?: string
+          id?: string
+          is_all_day?: boolean
+          start_at?: string
+          status?: Database["public"]["Enums"]["event_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       families: {
         Row: {
           created_at: string
@@ -150,6 +206,38 @@ export type Database = {
           },
         ]
       }
+      family_tags: {
+        Row: {
+          color: string
+          created_at: string
+          family_id: string
+          id: string
+          name: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          family_id: string
+          id?: string
+          name: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          family_id?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "family_tags_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -195,6 +283,101 @@ export type Database = {
         }
         Relationships: []
       }
+      routine_task_instances: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          position: number
+          routine_id: string
+          task_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          position?: number
+          routine_id: string
+          task_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          position?: number
+          routine_id?: string
+          task_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routine_task_instances_routine_id_fkey"
+            columns: ["routine_id"]
+            isOneToOne: false
+            referencedRelation: "routines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routine_task_instances_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      routines: {
+        Row: {
+          assigned_to_user_id: string | null
+          created_at: string
+          family_id: string
+          flow_mode: boolean
+          flow_step_order: string[]
+          flow_target_minutes: number | null
+          id: string
+          is_active: boolean
+          photo_required: boolean
+          title: string
+          updated_at: string
+          weekdays: number[]
+        }
+        Insert: {
+          assigned_to_user_id?: string | null
+          created_at?: string
+          family_id: string
+          flow_mode?: boolean
+          flow_step_order?: string[]
+          flow_target_minutes?: number | null
+          id?: string
+          is_active?: boolean
+          photo_required?: boolean
+          title: string
+          updated_at?: string
+          weekdays?: number[]
+        }
+        Update: {
+          assigned_to_user_id?: string | null
+          created_at?: string
+          family_id?: string
+          flow_mode?: boolean
+          flow_step_order?: string[]
+          flow_target_minutes?: number | null
+          id?: string
+          is_active?: boolean
+          photo_required?: boolean
+          title?: string
+          updated_at?: string
+          weekdays?: number[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routines_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           app_store_product_id: string | null
@@ -232,6 +415,189 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "subscriptions_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      task_comments: {
+        Row: {
+          created_at: string
+          id: string
+          task_id: string
+          text: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          task_id: string
+          text: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          task_id?: string
+          text?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_comments_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      task_tags: {
+        Row: {
+          tag_id: string
+          task_id: string
+        }
+        Insert: {
+          tag_id: string
+          task_id: string
+        }
+        Update: {
+          tag_id?: string
+          task_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "family_tags"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_tags_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tasks: {
+        Row: {
+          assigned_to_user_id: string | null
+          challenge_id: string | null
+          completed_at: string | null
+          created_at: string
+          created_by_user_id: string | null
+          description: string | null
+          due_date: string | null
+          end_time: string | null
+          family_id: string
+          icon: string
+          id: string
+          photo_required: boolean
+          priority: Database["public"]["Enums"]["task_priority"]
+          start_time: string | null
+          status: Database["public"]["Enums"]["task_status"]
+          title: string
+          updated_at: string
+          visibility: string
+          xp_value: number
+        }
+        Insert: {
+          assigned_to_user_id?: string | null
+          challenge_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by_user_id?: string | null
+          description?: string | null
+          due_date?: string | null
+          end_time?: string | null
+          family_id: string
+          icon?: string
+          id?: string
+          photo_required?: boolean
+          priority?: Database["public"]["Enums"]["task_priority"]
+          start_time?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          title: string
+          updated_at?: string
+          visibility?: string
+          xp_value?: number
+        }
+        Update: {
+          assigned_to_user_id?: string | null
+          challenge_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by_user_id?: string | null
+          description?: string | null
+          due_date?: string | null
+          end_time?: string | null
+          family_id?: string
+          icon?: string
+          id?: string
+          photo_required?: boolean
+          priority?: Database["public"]["Enums"]["task_priority"]
+          start_time?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          title?: string
+          updated_at?: string
+          visibility?: string
+          xp_value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      time_blocks: {
+        Row: {
+          created_at: string
+          end_time: string
+          family_id: string
+          id: string
+          label: string
+          start_time: string
+          type: Database["public"]["Enums"]["time_block_type"]
+          updated_at: string
+          user_id: string | null
+          weekdays: number[]
+        }
+        Insert: {
+          created_at?: string
+          end_time: string
+          family_id: string
+          id?: string
+          label?: string
+          start_time: string
+          type: Database["public"]["Enums"]["time_block_type"]
+          updated_at?: string
+          user_id?: string | null
+          weekdays?: number[]
+        }
+        Update: {
+          created_at?: string
+          end_time?: string
+          family_id?: string
+          id?: string
+          label?: string
+          start_time?: string
+          type?: Database["public"]["Enums"]["time_block_type"]
+          updated_at?: string
+          user_id?: string | null
+          weekdays?: number[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_blocks_family_id_fkey"
             columns: ["family_id"]
             isOneToOne: false
             referencedRelation: "families"
