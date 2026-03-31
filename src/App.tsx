@@ -29,7 +29,7 @@ function AuthenticatedApp() {
     <AppShell>
       <Routes>
         {/* Parent routes */}
-        <Route path="/" element={<ParentHome />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/calendar" element={<ParentCalendar />} />
         <Route path="/tasks" element={<ParentTasks />} />
         <Route path="/rewards" element={<ParentRewards />} />
