@@ -1,16 +1,26 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const { t } = useTranslation();
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-background flex items-center justify-center p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="text-center space-y-4"
+      >
+        <h1 className="text-2xl font-extrabold text-foreground">
+          Familienzentrale
+        </h1>
+        <p className="text-base text-muted-foreground">
+          {t("home.empty.body")}
+        </p>
+      </motion.div>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;

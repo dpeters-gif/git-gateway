@@ -1,96 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Brand — Nordic Hearth v2 */
+    --background: 36 43% 96%;        /* #FBF7F0 warm linen */
+    --background-surface: 40 100% 99%; /* #FFFCF7 soft cream */
+    --background-subtle: 33 25% 92%;  /* #F3EDE4 */
+    --foreground: 96 14% 17%;         /* #2D3229 warm charcoal */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 40 100% 99%;              /* #FFFCF7 */
+    --card-foreground: 96 14% 17%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 40 100% 99%;
+    --popover-foreground: 96 14% 17%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary — Forest Sage */
+    --primary: 150 17% 37%;           /* #4E6E5D */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 150 19% 28%;     /* #3A5446 */
+    --primary-light: 120 11% 94%;     /* #EEF2EE */
+    --primary-surface: 150 17% 37% / 0.08;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary — Terracotta */
+    --secondary: 16 40% 57%;          /* #C67B5C */
+    --secondary-foreground: 0 0% 100%;
+    --secondary-hover: 16 28% 40%;    /* #8B5640 */
+    --secondary-light: 20 55% 95%;    /* #FBF0EA */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Accent — Amber Honey */
+    --accent: 32 62% 53%;             /* #D4943A */
+    --accent-foreground: 0 0% 100%;
+    --accent-hover: 32 72% 41%;       /* #B07820 */
+    --accent-light: 40 87% 95%;       /* #FDF5E6 */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 6 50% 54%;         /* #C25B4E */
+    --destructive-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --muted: 33 25% 92%;
+    --muted-foreground: 100 7% 42%;   /* #6B7264 */
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 96 14% 17% / 0.08;
+    --input: 96 14% 17% / 0.08;
+    --ring: 150 17% 37%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    /* Sidebar */
+    --sidebar-background: 36 43% 96%;
+    --sidebar-foreground: 96 14% 17%;
+    --sidebar-primary: 150 17% 37%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 120 11% 94%;
+    --sidebar-accent-foreground: 96 14% 17%;
+    --sidebar-border: 96 14% 17% / 0.08;
+    --sidebar-ring: 150 17% 37%;
+
+    /* Gamification */
+    --xp: 36 100% 56%;                /* #FFB020 */
+    --xp-light: 36 100% 56% / 0.15;
+    --streak: 18 100% 56%;            /* #FF6B35 */
+    --streak-light: 18 100% 60% / 0.12;
+    --level-up: 260 100% 65%;         /* #7C4DFF */
+    --level-up-light: 260 100% 65% / 0.12;
+    --challenge: 170 100% 37%;        /* #00BFA5 */
+    --challenge-light: 170 100% 37% / 0.12;
+    --gold: 51 100% 50%;              /* #FFD700 */
+    --drop: 291 95% 62%;              /* #E040FB */
+    --boss-hp: 4 78% 55%;             /* #E53935 */
+    --streak-freeze: 199 91% 64%;     /* #4FC3F7 */
+
+    /* Semantic */
+    --success: 117 21% 45%;           /* #5D8A5B */
+    --success-light: 117 21% 45% / 0.12;
+    --warning: 32 62% 53%;            /* #D4943A */
+    --warning-light: 32 62% 53% / 0.12;
+    --error: 6 50% 54%;               /* #C25B4E */
+    --error-light: 6 50% 54% / 0.12;
+    --info: 196 26% 47%;              /* #5B8A9B */
+    --info-light: 196 26% 47% / 0.12;
+
+    /* Time Blocks */
+    --block-school: 196 26% 47% / 0.12;
+    --block-school-border: 196 26% 47%;
+    --block-work: 150 17% 37% / 0.10;
+    --block-work-border: 150 17% 37%;
+    --block-nap: 16 40% 57% / 0.10;
+    --block-nap-border: 16 40% 57%;
+    --block-unavailable: 120 5% 51% / 0.10;
+    --block-unavailable-border: 120 5% 51%;
+
+    /* Priority */
+    --priority-high: 6 50% 54%;
+    --priority-normal: 150 17% 37%;
+    --priority-low: 120 5% 51%;
+
+    /* Child UI */
+    --child-bg: 40 100% 95%;          /* #FFF8EB */
+    --child-surface: 0 0% 100%;
+    --child-accent: 18 100% 60%;      /* #FF6B35 */
+    --child-accent-hover: 18 86% 54%; /* #E55A2B */
+
+    /* Leaderboard */
+    --leaderboard-1st: 51 100% 50%;
+    --leaderboard-2nd: 0 0% 75%;
+    --leaderboard-3rd: 28 62% 50%;
   }
 }
 
@@ -100,6 +117,6 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
   }
 }
