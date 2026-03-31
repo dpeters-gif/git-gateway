@@ -34,7 +34,7 @@ builder-tool: Lovable
 
 - [x] TASK-A02: Configure Tailwind with full design token palette from design-tokens.md v2.0.0. DM Sans font from Google Fonts. Custom colors: primary (forest sage), secondary (terracotta), accent (amber), background (warm linen), child palette, gamification colors, semantic colors. | spec: design-tokens §1 | type: setup
 
-- [ ] TASK-A03: Create Framer Motion animation presets file (`src/lib/animations.ts`): fadeIn, slideUp, slideInRight, scaleIn, popIn, bounceIn, progressFill, shake, pulse, glow, confetti, slideDown, fadeOut, strikethrough, float, wobble, flame. All with values from design-tokens §8. | spec: design-tokens §8 | type: setup
+- [x] TASK-A03: Create Framer Motion animation presets file (`src/lib/animations.ts`): fadeIn, slideUp, slideInRight, scaleIn, popIn, bounceIn, progressFill, shake, pulse, glow, confetti, slideDown, fadeOut, strikethrough, float, wobble, flame. All with values from design-tokens §8. | spec: design-tokens §8 | type: setup
 
 - [ ] TASK-A04: Create SoundEngine service (`src/services/soundEngine.ts`): Web Audio API procedural sounds. 14 functions: playComplete, playXPAward, playGoldDrop, playLevelUp, playStreakFire, playStreakMilestone, playDropChest, playDropOpen, playBadgeEarn, playBossHit, playBossDefeat, playError, playFlowStep, playFlowDone. ±2 semitone randomization. Master volume + mute. | spec: S-3-ENHANCED §3.2, constitution §5 | type: setup
 
