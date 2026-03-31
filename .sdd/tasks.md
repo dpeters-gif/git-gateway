@@ -38,7 +38,7 @@ builder-tool: Lovable
 
 - [x] TASK-A04: Create SoundEngine service (`src/services/soundEngine.ts`): Web Audio API procedural sounds. 14 functions: playComplete, playXPAward, playGoldDrop, playLevelUp, playStreakFire, playStreakMilestone, playDropChest, playDropOpen, playBadgeEarn, playBossHit, playBossDefeat, playError, playFlowStep, playFlowDone. ±2 semitone randomization. Master volume + mute. | spec: S-3-ENHANCED §3.2, constitution §5 | type: setup
 
-- [ ] TASK-A05: Create i18n setup: de.json + en.json with section structure. DE default. All keys organized by page/component. | spec: constitution §4 | type: setup
+- [x] TASK-A05: Create i18n setup: de.json + en.json with section structure. DE default. All keys organized by page/component. | spec: constitution §4 | type: setup
 
 - [ ] TASK-A06: Create PWA manifest (manifest.json): app name "Familienzentrale", theme_color #4E6E5D, background_color #FBF7F0, display standalone. | spec: constitution §2 | type: setup
 
