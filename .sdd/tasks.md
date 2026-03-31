@@ -48,7 +48,7 @@ builder-tool: Lovable
 
 - [x] TASK-A08: Create migration `002_tasks_routines.sql`: tasks (title, description, family_id, assigned_to_user_id, visibility, priority, due_date, start_time, end_time, xp_value, icon, photo_required, status, challenge_id, created_by_user_id, timestamps), family_tags, task_tags, task_comments, routines (flow_mode, flow_target_minutes, flow_step_order, photo_required), routine_task_instances. RLS. | spec: P-2, P-3, P-8 | type: schema
 
-- [ ] TASK-A09: Create migration `003_events_timeblocks.sql`: events (title, description, family_id, start_at, end_at, is_all_day, assigned_to_user_ids, icon, status enum active/pending, created_by_user_id), time_blocks (family_id, user_id, type enum school/work/nap/unavailable, weekdays, start_time, end_time, label). RLS. | spec: P-2, P-3 | type: schema
+- [x] TASK-A09: Create migration `003_events_timeblocks.sql`: events (title, description, family_id, start_at, end_at, is_all_day, assigned_to_user_ids, icon, status enum active/pending, created_by_user_id), time_blocks (family_id, user_id, type enum school/work/nap/unavailable, weekdays, start_time, end_time, label). RLS. | spec: P-2, P-3 | type: schema
 
 - [ ] TASK-A10: Create migration `004_gamification.sql`: points_ledger (append-only, user_id, task_id, xp_awarded, gold_awarded, reason, created_at — NO update/delete policy), rewards, reward_fulfillments, streaks, levels, badges, user_badges, challenges (type, target_count, boss_creature_type, boss_hp, boss_current_hp), challenge_progress, family_quests, leaderboard_snapshots, drop_events, streak_freezes, companion_creatures (creature_type, stage enum egg/baby/juvenile/adult, feed_count, hatch_progress), gold_transactions. RLS. | spec: S-3-ENHANCED | type: schema
 
