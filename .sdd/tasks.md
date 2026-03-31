@@ -30,37 +30,37 @@ builder-tool: Lovable
 
 ### A1: Initialize Lovable Project
 
-- [ ] TASK-A01: Create new Lovable project "Familienzentrale". Connect Supabase. Enable Tailwind. Install framer-motion, react-hook-form, zod, @tanstack/react-query, lucide-react, recharts, date-fns, react-i18next, @dnd-kit/core, @dnd-kit/sortable, sonner. | type: setup
+- [x] TASK-A01: Create new Lovable project "Familienzentrale". Connect Supabase. Enable Tailwind. Install framer-motion, react-hook-form, zod, @tanstack/react-query, lucide-react, recharts, date-fns, react-i18next, @dnd-kit/core, @dnd-kit/sortable, sonner. | type: setup
 
-- [ ] TASK-A02: Configure Tailwind with full design token palette from design-tokens.md v2.0.0. DM Sans font from Google Fonts. Custom colors: primary (forest sage), secondary (terracotta), accent (amber), background (warm linen), child palette, gamification colors, semantic colors. | spec: design-tokens §1 | type: setup
+- [x] TASK-A02: Configure Tailwind with full design token palette from design-tokens.md v2.0.0. DM Sans font from Google Fonts. Custom colors: primary (forest sage), secondary (terracotta), accent (amber), background (warm linen), child palette, gamification colors, semantic colors. | spec: design-tokens §1 | type: setup
 
-- [ ] TASK-A03: Create Framer Motion animation presets file (`src/lib/animations.ts`): fadeIn, slideUp, slideInRight, scaleIn, popIn, bounceIn, progressFill, shake, pulse, glow, confetti, slideDown, fadeOut, strikethrough, float, wobble, flame. All with values from design-tokens §8. | spec: design-tokens §8 | type: setup
+- [x] TASK-A03: Create Framer Motion animation presets file (`src/lib/animations.ts`): fadeIn, slideUp, slideInRight, scaleIn, popIn, bounceIn, progressFill, shake, pulse, glow, confetti, slideDown, fadeOut, strikethrough, float, wobble, flame. All with values from design-tokens §8. | spec: design-tokens §8 | type: setup
 
-- [ ] TASK-A04: Create SoundEngine service (`src/services/soundEngine.ts`): Web Audio API procedural sounds. 14 functions: playComplete, playXPAward, playGoldDrop, playLevelUp, playStreakFire, playStreakMilestone, playDropChest, playDropOpen, playBadgeEarn, playBossHit, playBossDefeat, playError, playFlowStep, playFlowDone. ±2 semitone randomization. Master volume + mute. | spec: S-3-ENHANCED §3.2, constitution §5 | type: setup
+- [x] TASK-A04: Create SoundEngine service (`src/services/soundEngine.ts`): Web Audio API procedural sounds. 14 functions: playComplete, playXPAward, playGoldDrop, playLevelUp, playStreakFire, playStreakMilestone, playDropChest, playDropOpen, playBadgeEarn, playBossHit, playBossDefeat, playError, playFlowStep, playFlowDone. ±2 semitone randomization. Master volume + mute. | spec: S-3-ENHANCED §3.2, constitution §5 | type: setup
 
-- [ ] TASK-A05: Create i18n setup: de.json + en.json with section structure. DE default. All keys organized by page/component. | spec: constitution §4 | type: setup
+- [x] TASK-A05: Create i18n setup: de.json + en.json with section structure. DE default. All keys organized by page/component. | spec: constitution §4 | type: setup
 
-- [ ] TASK-A06: Create PWA manifest (manifest.json): app name "Familienzentrale", theme_color #4E6E5D, background_color #FBF7F0, display standalone. | spec: constitution §2 | type: setup
+- [x] TASK-A06: Create PWA manifest (manifest.json): app name "Familienzentrale", theme_color #4E6E5D, background_color #FBF7F0, display standalone. | spec: constitution §2 | type: setup
 
 ### A2: Database Schema
 
-- [ ] TASK-A07: Create Supabase migration `001_core.sql`: users (profile table linked to auth.users), families, family_members (role enum: adult/child/baby, managed_by_user_id), family_invites, child_permissions (can_create_tasks, can_create_events). RLS policies for all tables. | spec: P-5, constitution §3 | type: schema
+- [x] TASK-A07: Create Supabase migration `001_core.sql`: users (profile table linked to auth.users), families, family_members (role enum: adult/child/baby, managed_by_user_id), family_invites, child_permissions (can_create_tasks, can_create_events). RLS policies for all tables. | spec: P-5, constitution §3 | type: schema
 
-- [ ] TASK-A08: Create migration `002_tasks_routines.sql`: tasks (title, description, family_id, assigned_to_user_id, visibility, priority, due_date, start_time, end_time, xp_value, icon, photo_required, status, challenge_id, created_by_user_id, timestamps), family_tags, task_tags, task_comments, routines (flow_mode, flow_target_minutes, flow_step_order, photo_required), routine_task_instances. RLS. | spec: P-2, P-3, P-8 | type: schema
+- [x] TASK-A08: Create migration `002_tasks_routines.sql`: tasks (title, description, family_id, assigned_to_user_id, visibility, priority, due_date, start_time, end_time, xp_value, icon, photo_required, status, challenge_id, created_by_user_id, timestamps), family_tags, task_tags, task_comments, routines (flow_mode, flow_target_minutes, flow_step_order, photo_required), routine_task_instances. RLS. | spec: P-2, P-3, P-8 | type: schema
 
-- [ ] TASK-A09: Create migration `003_events_timeblocks.sql`: events (title, description, family_id, start_at, end_at, is_all_day, assigned_to_user_ids, icon, status enum active/pending, created_by_user_id), time_blocks (family_id, user_id, type enum school/work/nap/unavailable, weekdays, start_time, end_time, label). RLS. | spec: P-2, P-3 | type: schema
+- [x] TASK-A09: Create migration `003_events_timeblocks.sql`: events (title, description, family_id, start_at, end_at, is_all_day, assigned_to_user_ids, icon, status enum active/pending, created_by_user_id), time_blocks (family_id, user_id, type enum school/work/nap/unavailable, weekdays, start_time, end_time, label). RLS. | spec: P-2, P-3 | type: schema
 
-- [ ] TASK-A10: Create migration `004_gamification.sql`: points_ledger (append-only, user_id, task_id, xp_awarded, gold_awarded, reason, created_at — NO update/delete policy), rewards, reward_fulfillments, streaks, levels, badges, user_badges, challenges (type, target_count, boss_creature_type, boss_hp, boss_current_hp), challenge_progress, family_quests, leaderboard_snapshots, drop_events, streak_freezes, companion_creatures (creature_type, stage enum egg/baby/juvenile/adult, feed_count, hatch_progress), gold_transactions. RLS. | spec: S-3-ENHANCED | type: schema
+- [x] TASK-A10: Create migration `004_gamification.sql`: points_ledger (append-only, user_id, task_id, xp_awarded, gold_awarded, reason, created_at — NO update/delete policy), rewards, reward_fulfillments, streaks, levels, badges, user_badges, challenges (type, target_count, boss_creature_type, boss_hp, boss_current_hp), challenge_progress, family_quests, leaderboard_snapshots, drop_events, streak_freezes, companion_creatures (creature_type, stage enum egg/baby/juvenile/adult, feed_count, hatch_progress), gold_transactions. RLS. | spec: S-3-ENHANCED | type: schema
 
-- [ ] TASK-A11: Create migration `005_features.sql`: nudge_rules, task_completion_photos, weekly_recaps, shopping_lists, shopping_items (with category field), child_avatars, avatar_items (with available_from/until for seasonal), board_notes (with image_url, expires_at), notifications, caregiver_links (token, expires_at, visible_member_ids). RLS. | spec: P-8 through P-13, C-5, C-6, S-5 | type: schema
+- [x] TASK-A11: Create migration `005_features.sql`: nudge_rules, task_completion_photos, weekly_recaps, shopping_lists, shopping_items (with category field), child_avatars, avatar_items (with available_from/until for seasonal), board_notes (with image_url, expires_at), notifications, caregiver_links (token, expires_at, visible_member_ids). RLS. | spec: P-8 through P-13, C-5, C-6, S-5 | type: schema
 
-- [ ] TASK-A12: Create migration `006_sync_subscriptions.sql`: calendar_connections, external_calendar_events, family_link_requests, care_share_snapshots, subscriptions (family_id, tier enum free/family/familyplus, status, expires_at), email_inbox_items. RLS. | spec: P-6, P-7, S-2, M-1, P-14 | type: schema
+- [x] TASK-A12: Create migration `006_sync_subscriptions.sql`: calendar_connections, external_calendar_events, family_link_requests, care_share_snapshots, subscriptions (family_id, tier enum free/family/familyplus, status, expires_at), email_inbox_items. RLS. | spec: P-6, P-7, S-2, M-1, P-14 | type: schema
 
-- [ ] TASK-A13: Create migration `007_functions.sql`: Database functions get_leaderboard, get_care_share, get_gold_balance. | spec: api-contracts §4 | type: schema
+- [x] TASK-A13: Create migration `007_functions.sql`: Database functions get_leaderboard, get_care_share, get_gold_balance. | spec: api-contracts §4 | type: schema
 
-- [ ] TASK-A14: Seed data: 12 badges (9 standard + 3 streak milestones), 14 starter avatar items, 6 boss creature types, 6 companion creature types. All via INSERT statements. | spec: S-3-ENHANCED, C-6 | type: seed
+- [x] TASK-A14: Seed data: 12 badges (9 standard + 3 streak milestones), 14 starter avatar items, 6 boss creature types, 6 companion creature types. All via INSERT statements. | spec: S-3-ENHANCED, C-6 | type: seed
 
-- [ ] TASK-A15: **CHECKPOINT** — All tables created, RLS policies active, seed data loaded, Supabase types generated. | type: verification
+- [x] TASK-A15: **CHECKPOINT** — All tables created, RLS policies active, seed data loaded, Supabase types generated. | type: verification
 
 ---
 
