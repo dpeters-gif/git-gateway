@@ -62,9 +62,9 @@ export default function ParentTasks() {
           </SelectContent>
         </Select>
         <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-          <SelectTrigger className="w-32"><SelectValue placeholder="Priorität" /></SelectTrigger>
+          <SelectTrigger className="w-32"><SelectValue placeholder={t("task.priorityLabel", "Priorität")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Alle</SelectItem>
+            <SelectItem value="all">{t("common.all")}</SelectItem>
             <SelectItem value="high">{t("task.priorityHigh")}</SelectItem>
             <SelectItem value="normal">{t("task.priorityNormal")}</SelectItem>
             <SelectItem value="low">{t("task.priorityLow")}</SelectItem>
