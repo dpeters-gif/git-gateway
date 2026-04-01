@@ -1,7 +1,9 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { bounceIn, confettiParticle } from "@/lib/animations";
 import { playLevelUp } from "@/services/soundEngine";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface LevelUpCelebrationProps {
   level: number;
@@ -11,12 +13,17 @@ interface LevelUpCelebrationProps {
 const CONFETTI_COLORS = ["#FFB020", "#FF6B35", "#7C4DFF", "#00BFA5", "#FFD700", "#E040FB"];
 
 export default function LevelUpCelebration({ level, onDismiss }: LevelUpCelebrationProps) {
+  const { t } = useTranslation();
+  const prefersReduced = useReducedMotion();
+
   useEffect(() => {
-    playLevelUp();
-    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+    if (!prefersReduced) {
+      playLevelUp();
+      if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+    }
     const timer = setTimeout(onDismiss, 3000);
     return () => clearTimeout(timer);
-  }, [onDismiss]);
+  }, [onDismiss, prefersReduced]);
 
   return (
     <motion.div
@@ -27,18 +34,20 @@ export default function LevelUpCelebration({ level, onDismiss }: LevelUpCelebrat
       className="fixed inset-0 z-[100] bg-foreground/60 flex items-center justify-center cursor-pointer"
     >
       {/* Confetti particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 30 }).map((_, i) => (
-          <motion.div
-            key={i}
-            variants={confettiParticle(i)}
-            initial="hidden"
-            animate="visible"
-            className="absolute left-1/2 top-1/2 w-3 h-3 rounded-sm"
-            style={{ backgroundColor: CONFETTI_COLORS[i % CONFETTI_COLORS.length] }}
-          />
-        ))}
-      </div>
+      {!prefersReduced && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {Array.from({ length: 30 }).map((_, i) => (
+            <motion.div
+              key={i}
+              variants={confettiParticle(i)}
+              initial="hidden"
+              animate="visible"
+              className="absolute left-1/2 top-1/2 w-3 h-3 rounded-sm"
+              style={{ backgroundColor: CONFETTI_COLORS[i % CONFETTI_COLORS.length] }}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Level badge */}
       <motion.div
@@ -49,7 +58,7 @@ export default function LevelUpCelebration({ level, onDismiss }: LevelUpCelebrat
       >
         <motion.div
           className="w-32 h-32 rounded-full bg-level-up flex items-center justify-center shadow-glow-levelup"
-          animate={{ boxShadow: ["0 0 30px rgba(124,77,255,0.3)", "0 0 60px rgba(124,77,255,0.5)", "0 0 30px rgba(124,77,255,0.3)"] }}
+          animate={prefersReduced ? {} : { boxShadow: ["0 0 30px rgba(124,77,255,0.3)", "0 0 60px rgba(124,77,255,0.5)", "0 0 30px rgba(124,77,255,0.3)"] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         >
           <span className="text-display font-extrabold text-primary-foreground">{level}</span>
@@ -60,7 +69,7 @@ export default function LevelUpCelebration({ level, onDismiss }: LevelUpCelebrat
           transition={{ delay: 0.5 }}
           className="text-xl font-extrabold text-primary-foreground"
         >
-          Level {level} erreicht! 🎉
+          {t("gamification.levelUp", { level })}
         </motion.span>
       </motion.div>
     </motion.div>
