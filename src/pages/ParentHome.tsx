@@ -58,6 +58,21 @@ export default function ParentHome() {
             <StatCard icon={Users} label={t("home.members")} value={members.length} color="text-secondary" />
           </motion.div>
 
+          {/* Today's Tasks Widget */}
+          <motion.div variants={slideUp}>
+            <TodaysTasksWidget />
+          </motion.div>
+
+          {/* Grocery Widget */}
+          <motion.div variants={slideUp}>
+            <GroceryWidget />
+          </motion.div>
+
+          {/* Rewards & Challenges Widget */}
+          <motion.div variants={slideUp}>
+            <RewardsChallengesWidget />
+          </motion.div>
+
           {distribution.length > 0 && (
             <motion.div variants={slideUp} className="bg-card rounded-lg p-5 border border-border">
               <h2 className="text-sm font-semibold text-foreground mb-3">{t("home.taskDistribution")}</h2>
