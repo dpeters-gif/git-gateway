@@ -18,6 +18,8 @@ import ChildProgress from "@/pages/ChildProgress";
 import ChildRewards from "@/pages/ChildRewards";
 import OnboardingFlow from "@/pages/OnboardingFlow";
 import ShoppingList from "@/pages/ShoppingList";
+import CareShare from "@/pages/CareShare";
+import GrandparentView from "@/pages/GrandparentView";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,7 @@ function AuthenticatedApp() {
         <Route path="/rewards" element={<ParentRewards />} />
         <Route path="/settings" element={<ParentSettings />} />
         <Route path="/shopping" element={<ShoppingList />} />
+        <Route path="/care-share" element={<CareShare />} />
         {/* Child routes */}
         <Route path="/quests" element={<ChildQuests />} />
         <Route path="/progress" element={<ChildProgress />} />
@@ -54,6 +57,7 @@ const App = () => (
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/onboarding" element={<OnboardingFlow />} />
+            <Route path="/share" element={<GrandparentView />} />
             <Route
               path="/*"
               element={
