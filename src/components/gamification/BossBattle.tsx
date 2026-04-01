@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { slideUp, popIn, pulse, shake } from "@/lib/animations";
+import { slideUp, popIn, pulse } from "@/lib/animations";
 import { Progress } from "@/components/ui/progress";
-import { Sword, Shield, Heart, Trophy, Users } from "lucide-react";
+import { Sword, Heart, Trophy, Users } from "lucide-react";
 
 interface BossBattleProps {
   challenge: {
@@ -20,20 +20,19 @@ interface BossBattleProps {
 }
 
 const BOSS_EMOJIS: Record<string, string> = {
-  dragon: "🐉",
-  troll: "🧌",
-  ghost: "👻",
-  robot: "🤖",
-  kraken: "🐙",
-  phoenix: "🔥",
+  dragon: "🐉", troll: "🧌", ghost: "👻", robot: "🤖", kraken: "🐙", phoenix: "🔥",
 };
 
 export default function BossBattle({ challenge, contributors = [] }: BossBattleProps) {
   const { t } = useTranslation();
-  const bossHp = challenge.boss_hp ?? 100;
+  // boss_hp = target_count * 10 per spec
+  const bossHp = challenge.boss_hp ?? challenge.target_count * 10;
   const currentHp = challenge.boss_current_hp ?? bossHp;
   const hpPercent = Math.max(0, (currentHp / bossHp) * 100);
   const defeated = challenge.is_completed || currentHp <= 0;
+
+  // Damage stages per spec
+  const damageStage = hpPercent > 50 ? "healthy" : hpPercent > 25 ? "wounded" : "critical";
 
   return (
     <motion.div
@@ -51,7 +50,7 @@ export default function BossBattle({ challenge, contributors = [] }: BossBattleP
           initial="hidden"
           animate="visible"
           className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl ${
-            defeated ? "bg-success-light" : "bg-error-light"
+            defeated ? "bg-success-light" : damageStage === "critical" ? "bg-error-light animate-pulse" : "bg-error-light"
           }`}
         >
           {defeated ? "🏆" : BOSS_EMOJIS[challenge.boss_creature_type ?? "dragon"] ?? "🐉"}
@@ -84,7 +83,7 @@ export default function BossBattle({ challenge, contributors = [] }: BossBattleP
               animate={{ width: `${hpPercent}%` }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
               className={`h-full rounded-full ${
-                hpPercent > 50 ? "bg-error" : hpPercent > 25 ? "bg-warning" : "bg-error animate-pulse"
+                damageStage === "healthy" ? "bg-error" : damageStage === "wounded" ? "bg-warning" : "bg-error animate-pulse"
               }`}
             />
           </div>
@@ -93,13 +92,8 @@ export default function BossBattle({ challenge, contributors = [] }: BossBattleP
 
       {/* Defeated state */}
       {defeated && (
-        <motion.div
-          variants={popIn}
-          initial="hidden"
-          animate="visible"
-          className="text-center py-2"
-        >
-          <span className="text-sm font-extrabold text-success">Boss besiegt! 🎉</span>
+        <motion.div variants={popIn} initial="hidden" animate="visible" className="text-center py-2">
+          <span className="text-sm font-extrabold text-success">{t("boss.defeated", "Boss besiegt! 🎉")}</span>
         </motion.div>
       )}
 

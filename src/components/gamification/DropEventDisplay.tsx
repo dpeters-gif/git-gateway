@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { bounceIn, popIn } from "@/lib/animations";
 import { playDropChest, playDropOpen } from "@/services/soundEngine";
@@ -19,23 +20,24 @@ const DROP_ICONS: Record<string, React.ReactNode> = {
   avatar_item: <Shirt className="w-8 h-8 text-accent" />,
 };
 
-const DROP_LABELS: Record<string, string> = {
-  bonus_gold: "Bonus Gold!",
-  xp_boost: "2× XP Boost!",
-  streak_freeze: "Streak Freeze!",
-  mystery_egg: "Mysteriöses Ei!",
-  avatar_item: "Avatar Item!",
-};
-
 export default function DropEventDisplay({ dropType, dropValue, onComplete }: DropEventDisplayProps) {
+  const { t } = useTranslation();
   const prefersReduced = useReducedMotion();
   const [phase, setPhase] = useState<"chest" | "open" | "reveal">("chest");
+
+  const DROP_LABELS: Record<string, string> = {
+    bonus_gold: t("drop.bonusGold", "Bonus Gold!"),
+    xp_boost: t("drop.xpBoost", "2× XP Boost!"),
+    streak_freeze: t("drop.streakFreeze", "Streak Freeze!"),
+    mystery_egg: t("drop.mysteryEgg", "Mysteriöses Ei!"),
+    avatar_item: t("drop.avatarItem", "Avatar Item!"),
+  };
 
   useEffect(() => {
     if (prefersReduced) {
       setPhase("reveal");
-      const t = setTimeout(onComplete, 1500);
-      return () => clearTimeout(t);
+      const timer = setTimeout(onComplete, 1500);
+      return () => clearTimeout(timer);
     }
 
     playDropChest();
@@ -54,7 +56,6 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
       onClick={onComplete}
     >
       <div className="flex flex-col items-center gap-4">
-        {/* Chest phase */}
         {phase === "chest" && (
           <motion.div
             variants={bounceIn}
@@ -66,7 +67,6 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
           </motion.div>
         )}
 
-        {/* Open phase — chest splits */}
         {phase === "open" && (
           <motion.div
             initial={{ scale: 1 }}
@@ -78,7 +78,6 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
           </motion.div>
         )}
 
-        {/* Reveal phase — item shown */}
         {phase === "reveal" && (
           <motion.div
             variants={popIn}
@@ -90,7 +89,7 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
               {DROP_ICONS[dropType] ?? <Gift className="w-8 h-8 text-accent" />}
             </div>
             <span className="text-lg font-extrabold text-primary-foreground">
-              {DROP_LABELS[dropType] ?? "Belohnung!"}
+              {DROP_LABELS[dropType] ?? t("drop.reward", "Belohnung!")}
             </span>
             {dropType === "bonus_gold" && (
               <span className="text-sm text-primary-foreground/80">+{dropValue} 🪙</span>

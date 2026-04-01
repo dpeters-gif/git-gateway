@@ -226,8 +226,10 @@
     "done": "Geschafft!",
     "time": "Zeit: {{minutes}} Min",
     "underTime": "Unter der Zeit! Mega! 🚀",
+    "underTimeBonus": "+25% XP Bonus!",
     "noStress": "Kein Stress — mach einfach weiter",
     "exitConfirm": "Routine abbrechen? Dein Fortschritt wird gespeichert.",
+    "exitYes": "Ja, beenden",
     "error": "Verbindungsproblem — nochmal versuchen",
     "noSteps": "Keine Schritte übrig"
   },
@@ -263,5 +265,77 @@
   "suggestions": {
     "title": "Vorschläge",
     "show": "Vorschläge anzeigen"
+  },
+  "onboarding": {
+    "welcome": "Willkommen bei Familienzentrale!",
+    "welcomeSub": "In wenigen Schritten richtest du deine Familie ein.",
+    "familyName": "Wie heißt eure Familie?",
+    "familyPlaceholder": "z.B. Familie Müller",
+    "whoJoins": "Wer gehört dazu?",
+    "youAdded": "Du bist bereits als Elternteil dabei.",
+    "schoolTimes": "Schul- oder Kitazeiten?",
+    "yesSchool": "Ja, Schulzeiten eintragen",
+    "firstTask": "Erste Aufgabe?",
+    "orSuggestion": "Oder wähle einen Vorschlag.",
+    "taskPlaceholder": "Aufgabe eingeben…",
+    "allReady": "Alles bereit!",
+    "summary": "{{family}} wird eingerichtet mit {{count}} Mitgliedern.",
+    "firstTaskLabel": "Erste Aufgabe",
+    "creatureEgg": "Kinder bekommen ein Begleiter-Ei das mit ihnen wächst! 🐣",
+    "defaultFamily": "Meine Familie",
+    "parentDefault": "Elternteil",
+    "school": "Schule",
+    "createError": "Familienerstellung fehlgeschlagen",
+    "success": "Familie erstellt! 🎉",
+    "letsGo": "Los geht's",
+    "createFamily": "Familie erstellen",
+    "suggestion1": "Zimmer aufräumen",
+    "suggestion2": "Zähne putzen",
+    "suggestion3": "Schulranzen packen",
+    "suggestion4": "Tisch decken",
+    "suggestion5": "Hausaufgaben machen",
+    "suggestion6": "Bett machen"
+  },
+  "shop": {
+    "title": "Gold Shop",
+    "streakFreeze": "Streak Freeze",
+    "freezeMax": "Max {{max}}",
+    "freezeAvailable": "{{count}}× Streak Freeze verfügbar",
+    "purchased": "{{name}} gekauft!",
+    "purchaseFailed": "Kauf fehlgeschlagen"
+  },
+  "avatar": {
+    "equippedCount": "{{count}} Items angelegt",
+    "unequipped": "Item abgelegt",
+    "purchased": "{{name}} gekauft!"
+  },
+  "drop": {
+    "bonusGold": "Bonus Gold!",
+    "xpBoost": "2× XP Boost!",
+    "streakFreeze": "Streak Freeze!",
+    "mysteryEgg": "Mysteriöses Ei!",
+    "avatarItem": "Avatar Item!",
+    "reward": "Belohnung!"
+  },
+  "boss": {
+    "defeated": "Boss besiegt! 🎉"
+  },
+  "challenges": {
+    "title": "Challenges",
+    "create": "Challenge erstellen",
+    "created": "Challenge erstellt",
+    "empty": "Noch keine Challenges",
+    "emptyBody": "Erstelle eine Challenge für die Familie.",
+    "type": "Typ",
+    "individual": "Individuell",
+    "family": "Familie",
+    "bossBattle": "Boss-Kampf",
+    "target": "Ziel"
+  },
+  "childRewards": {
+    "emptyBody": "Erledige Quests und sammle Gold!",
+    "available": "Verfügbar",
+    "upcoming": "Bald verfügbar",
+    "received": "Erhalten"
   }
 }

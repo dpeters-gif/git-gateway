@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { slideUp, staggerContainer } from "@/lib/animations";
@@ -15,13 +15,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMediaQuery } from "@/hooks/use-mobile";
-import { StickyNote, Plus, Trash2, ImageIcon, X, Maximize2 } from "lucide-react";
+import { StickyNote, Plus, Trash2, ImageIcon, X } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { de } from "date-fns/locale";
 import { toast } from "sonner";
 
 interface FamilyBoardProps {
-  preview?: boolean; // show only 3 notes in compact mode
+  preview?: boolean;
 }
 
 export default function FamilyBoard({ preview = false }: FamilyBoardProps) {
@@ -39,7 +39,38 @@ export default function FamilyBoard({ preview = false }: FamilyBoardProps) {
   const [expiresAt, setExpiresAt] = useState("");
   const [posting, setPosting] = useState(false);
 
+  // Undo delete support
+  const undoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+
   const isAdmin = profile?.role === "adult";
+
+  const handleDelete = (noteId: string) => {
+    // Show undo toast (5 seconds) instead of confirm()
+    setPendingDeleteId(noteId);
+    const toastId = toast(t("board.noteDeleted", "Notiz gelöscht"), {
+      action: {
+        label: t("common.undo"),
+        onClick: () => {
+          if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+          setPendingDeleteId(null);
+        },
+      },
+      duration: 5000,
+      onDismiss: () => {
+        // If not undone, perform actual delete
+        if (pendingDeleteId === noteId) {
+          deleteNote.mutate(noteId);
+          setPendingDeleteId(null);
+        }
+      },
+    });
+
+    undoTimerRef.current = setTimeout(() => {
+      deleteNote.mutate(noteId);
+      setPendingDeleteId(null);
+    }, 5000);
+  };
 
   const handlePost = async () => {
     if (!text.trim() && !imageFile) return;
@@ -77,7 +108,9 @@ export default function FamilyBoard({ preview = false }: FamilyBoardProps) {
     return m?.name ?? "?";
   };
 
-  const noteCards = (notes ?? []).map(note => (
+  const noteCards = (notes ?? [])
+    .filter(n => n.id !== pendingDeleteId)
+    .map(note => (
     <motion.div key={note.id} variants={slideUp} className="bg-card rounded-lg p-3 border border-border">
       <div className="flex items-start gap-2">
         <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground shrink-0">
@@ -99,11 +132,7 @@ export default function FamilyBoard({ preview = false }: FamilyBoardProps) {
         </div>
         {(isAdmin || note.author_user_id === user?.id) && (
           <button
-            onClick={() => {
-              if (confirm(t("board.deleteConfirm", "Diese Notiz löschen?"))) {
-                deleteNote.mutate(note.id);
-              }
-            }}
+            onClick={() => handleDelete(note.id)}
             className="shrink-0 p-1 text-muted-foreground hover:text-error"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -116,24 +145,22 @@ export default function FamilyBoard({ preview = false }: FamilyBoardProps) {
   const createForm = (
     <div className="space-y-4">
       <div>
-        <Label>{t("board.text", "Nachricht")}</Label>
+        <Label>{t("board.text")}</Label>
         <Textarea
           value={text}
-          onChange={e => {
-            if (e.target.value.length <= 500) setText(e.target.value);
-          }}
+          onChange={e => { if (e.target.value.length <= 500) setText(e.target.value); }}
           rows={3}
-          placeholder={t("board.textPlaceholder", "Was gibt's Neues?")}
+          placeholder={t("board.textPlaceholder")}
         />
         <span className={`text-[10px] ${text.length >= 500 ? "text-error" : "text-muted-foreground"}`}>
           {text.length}/500
         </span>
       </div>
       <div>
-        <Label>{t("board.image", "Bild (optional)")}</Label>
+        <Label>{t("board.image")}</Label>
         <div className="flex items-center gap-2 mt-1">
           <Button variant="outline" size="sm" onClick={() => document.getElementById("board-img-input")?.click()} className="gap-1">
-            <ImageIcon className="w-3.5 h-3.5" /> {t("board.addImage", "Bild wählen")}
+            <ImageIcon className="w-3.5 h-3.5" /> {t("board.addImage")}
           </Button>
           {imageFile && (
             <div className="flex items-center gap-1 text-xs text-foreground">
@@ -149,17 +176,17 @@ export default function FamilyBoard({ preview = false }: FamilyBoardProps) {
             onChange={e => {
               const f = e.target.files?.[0];
               if (f && f.size <= 5 * 1024 * 1024) setImageFile(f);
-              else if (f) toast.error(t("board.imageTooLarge", "Bild zu groß (max 5MB)"));
+              else if (f) toast.error(t("board.imageTooLarge"));
             }}
           />
         </div>
       </div>
       <div>
-        <Label>{t("board.expiry", "Ablaufdatum (optional)")}</Label>
+        <Label>{t("board.expiry")}</Label>
         <Input type="date" value={expiresAt} onChange={e => setExpiresAt(e.target.value)} />
       </div>
       <Button onClick={handlePost} className="w-full" disabled={posting || (!text.trim() && !imageFile)}>
-        {posting ? t("common.loading") : t("board.post", "Posten")}
+        {posting ? t("common.loading") : t("board.post")}
       </Button>
     </div>
   );
@@ -180,7 +207,7 @@ export default function FamilyBoard({ preview = false }: FamilyBoardProps) {
             </Button>
             {preview && notes.length > 0 && (
               <Button size="sm" variant="link" onClick={() => setShowAll(true)} className="text-xs h-7">
-                {t("board.viewAll", "Alle anzeigen")}
+                {t("board.viewAll")}
               </Button>
             )}
           </div>
@@ -189,9 +216,9 @@ export default function FamilyBoard({ preview = false }: FamilyBoardProps) {
         {notes.length === 0 ? (
           <EmptyState
             icon={StickyNote}
-            title={t("board.emptyTitle", "Noch keine Nachrichten")}
-            body={t("board.emptyBody", "Schreib die erste!")}
-            ctaLabel={t("board.post", "Posten")}
+            title={t("board.emptyTitle")}
+            body={t("board.emptyBody")}
+            ctaLabel={t("board.post")}
             onCta={() => setShowCreate(true)}
           />
         ) : (
@@ -206,14 +233,14 @@ export default function FamilyBoard({ preview = false }: FamilyBoardProps) {
       {isMobile ? (
         <Sheet open={showCreate} onOpenChange={setShowCreate}>
           <SheetContent side="bottom" className="rounded-t-xl max-h-[85vh] overflow-y-auto">
-            <SheetHeader><SheetTitle>{t("board.createNote", "Notiz erstellen")}</SheetTitle></SheetHeader>
+            <SheetHeader><SheetTitle>{t("board.createNote")}</SheetTitle></SheetHeader>
             {createForm}
           </SheetContent>
         </Sheet>
       ) : (
         <Dialog open={showCreate} onOpenChange={setShowCreate}>
           <DialogContent className="max-w-md">
-            <DialogHeader><DialogTitle>{t("board.createNote", "Notiz erstellen")}</DialogTitle></DialogHeader>
+            <DialogHeader><DialogTitle>{t("board.createNote")}</DialogTitle></DialogHeader>
             {createForm}
           </DialogContent>
         </Dialog>

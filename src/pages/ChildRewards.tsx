@@ -63,16 +63,15 @@ export default function ChildRewards() {
       {rewards.length === 0 ? (
         <EmptyState
           icon={Gift}
-          title="Noch keine Belohnungen"
-          body="Erledige Quests und sammle Gold!"
+          title={t("rewards.empty")}
+          body={t("childRewards.emptyBody", "Erledige Quests und sammle Gold!")}
         />
       ) : (
         <>
-          {/* Available */}
           {available.length > 0 && (
             <motion.div variants={slideUp}>
               <h2 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5">
-                <Gift className="w-4 h-4 text-success" /> Verfügbar
+                <Gift className="w-4 h-4 text-success" /> {t("childRewards.available", "Verfügbar")}
               </h2>
               <div className="space-y-2">
                 {available.map(r => (
@@ -93,11 +92,10 @@ export default function ChildRewards() {
             </motion.div>
           )}
 
-          {/* Upcoming */}
           {upcoming.length > 0 && (
             <motion.div variants={slideUp}>
               <h2 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5">
-                <Lock className="w-4 h-4 text-muted-foreground" /> Bald verfügbar
+                <Lock className="w-4 h-4 text-muted-foreground" /> {t("childRewards.upcoming", "Bald verfügbar")}
               </h2>
               <div className="space-y-2">
                 {upcoming.map(r => (
@@ -120,11 +118,10 @@ export default function ChildRewards() {
             </motion.div>
           )}
 
-          {/* History */}
           {history.length > 0 && (
             <motion.div variants={slideUp}>
               <h2 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-success" /> Erhalten
+                <CheckCircle2 className="w-4 h-4 text-success" /> {t("childRewards.received", "Erhalten")}
               </h2>
               <div className="space-y-2">
                 {history.map(r => (
