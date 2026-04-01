@@ -23,6 +23,16 @@ import GrandparentView from "@/pages/GrandparentView";
 import SeedPage from "@/pages/SeedPage";
 import NotFound from "./pages/NotFound";
 
+// Admin
+import AdminGuard from "@/components/admin/AdminGuard";
+import AdminLayout from "@/components/admin/AdminLayout";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AdminFamilies from "@/pages/admin/AdminFamilies";
+import AdminUsers from "@/pages/admin/AdminUsers";
+import AdminSubscriptions from "@/pages/admin/AdminSubscriptions";
+import AdminFlags from "@/pages/admin/AdminFlags";
+import AdminTools from "@/pages/admin/AdminTools";
+
 const queryClient = new QueryClient();
 
 function AuthenticatedApp() {
@@ -49,6 +59,21 @@ function AuthenticatedApp() {
   );
 }
 
+function AdminApp() {
+  return (
+    <AdminLayout>
+      <Routes>
+        <Route index element={<AdminDashboard />} />
+        <Route path="families" element={<AdminFamilies />} />
+        <Route path="users" element={<AdminUsers />} />
+        <Route path="subscriptions" element={<AdminSubscriptions />} />
+        <Route path="flags" element={<AdminFlags />} />
+        <Route path="tools" element={<AdminTools />} />
+      </Routes>
+    </AdminLayout>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -60,6 +85,14 @@ const App = () => (
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/onboarding" element={<OnboardingFlow />} />
             <Route path="/share" element={<GrandparentView />} />
+            <Route
+              path="/admin/*"
+              element={
+                <AdminGuard>
+                  <AdminApp />
+                </AdminGuard>
+              }
+            />
             <Route
               path="/*"
               element={
