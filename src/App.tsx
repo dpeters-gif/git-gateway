@@ -20,6 +20,7 @@ import OnboardingFlow from "@/pages/OnboardingFlow";
 import ShoppingList from "@/pages/ShoppingList";
 import CareShare from "@/pages/CareShare";
 import GrandparentView from "@/pages/GrandparentView";
+import SeedPage from "@/pages/SeedPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
