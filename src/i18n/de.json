@@ -226,8 +226,10 @@
     "done": "Geschafft!",
     "time": "Zeit: {{minutes}} Min",
     "underTime": "Unter der Zeit! Mega! 🚀",
+    "underTimeBonus": "+25% XP Bonus!",
     "noStress": "Kein Stress — mach einfach weiter",
     "exitConfirm": "Routine abbrechen? Dein Fortschritt wird gespeichert.",
+    "exitYes": "Ja, beenden",
     "error": "Verbindungsproblem — nochmal versuchen",
     "noSteps": "Keine Schritte übrig"
   },
