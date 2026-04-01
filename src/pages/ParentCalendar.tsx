@@ -47,6 +47,7 @@ export default function ParentCalendar() {
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [showEventForm, setShowEventForm] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | undefined>();
+  const [selectedTime, setSelectedTime] = useState<string | undefined>();
   const [selectedAssignee, setSelectedAssignee] = useState<string | undefined>();
   const [selectedItem, setSelectedItem] = useState<Task | Event | null>(null);
   const [showDetail, setShowDetail] = useState(false);
@@ -79,10 +80,11 @@ export default function ParentCalendar() {
     return map;
   }, [tasks, events]);
 
-  const handleCellClick = useCallback((date: Date, memberId: string | null) => {
+  const handleCellClick = useCallback((date: Date, memberId: string | null, time?: string) => {
     const dateStr = format(date, "yyyy-MM-dd");
     setSelectedDate(dateStr);
     setSelectedAssignee(memberId ?? undefined);
+    setSelectedTime(time);
     setShowQuickCreate(true);
   }, []);
 
@@ -97,17 +99,19 @@ export default function ParentCalendar() {
   const handleQuickTask = useCallback((title: string) => {
     createTask.mutate({
       title, due_date: selectedDate ?? null, assigned_to_user_id: selectedAssignee ?? null, created_by_user_id: user?.id ?? null,
+      start_time: selectedTime ?? null,
     });
     setShowQuickCreate(false);
-  }, [createTask, selectedDate, selectedAssignee, user]);
+  }, [createTask, selectedDate, selectedAssignee, selectedTime, user]);
 
   const handleQuickEvent = useCallback((title: string) => {
+    const timeStr = selectedTime ?? "09:00";
     createEvent.mutate({
-      title, start_at: selectedDate ? `${selectedDate}T09:00:00` : new Date().toISOString(),
+      title, start_at: selectedDate ? `${selectedDate}T${timeStr}:00` : new Date().toISOString(),
       assigned_to_user_ids: selectedAssignee ? [selectedAssignee] : [], created_by_user_id: user?.id ?? null,
     });
     setShowQuickCreate(false);
-  }, [createEvent, selectedDate, selectedAssignee, user]);
+  }, [createEvent, selectedDate, selectedAssignee, selectedTime, user]);
 
   const handleTaskComplete = useCallback((taskId: string) => {
     completeTask.mutate(taskId);
@@ -240,6 +244,7 @@ export default function ParentCalendar() {
           onOpenChange={setShowQuickCreate}
           onCreateTask={handleQuickTask}
           onCreateEvent={handleQuickEvent}
+          defaultTime={selectedTime}
         >
           <span />
         </QuickCreatePopover>
