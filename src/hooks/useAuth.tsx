@@ -55,10 +55,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (session?.user) {
-          const profile = await fetchProfile(session.user.id);
+    // Restore session first
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        fetchProfile(session.user.id).then(profile => {
           setState({
             user: session.user,
             session,
@@ -67,6 +67,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             isChild: profile?.role === "child",
             childToken: null,
           });
+        });
+      } else {
+        setState(s => ({ ...s, isLoading: false }));
+      }
+    });
+
+    // Listen for subsequent auth changes — never await Supabase calls inside this callback
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (session?.user) {
+          // Use setTimeout to avoid deadlocking the auth client
+          setTimeout(() => {
+            fetchProfile(session.user.id).then(profile => {
+              setState({
+                user: session.user,
+                session,
+                profile,
+                isLoading: false,
+                isChild: profile?.role === "child",
+                childToken: null,
+              });
+            });
+          }, 0);
         } else {
           setState({
             user: null,
@@ -79,22 +102,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       }
     );
-
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
-        const profile = await fetchProfile(session.user.id);
-        setState({
-          user: session.user,
-          session,
-          profile,
-          isLoading: false,
-          isChild: profile?.role === "child",
-          childToken: null,
-        });
-      } else {
-        setState(s => ({ ...s, isLoading: false }));
-      }
-    });
 
     return () => subscription.unsubscribe();
   }, [fetchProfile]);
