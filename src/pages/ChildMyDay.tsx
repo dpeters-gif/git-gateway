@@ -14,6 +14,8 @@ import DopamineLoop from "@/components/gamification/DopamineLoop";
 import { Progress } from "@/components/ui/progress";
 import { Sparkles, Flame, CheckSquare, Square, Coins, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import FamilyBoard from "@/components/board/FamilyBoard";
+import { ChildRecapMiniCard } from "@/components/recap/WeeklyRecap";
 
 export default function ChildMyDay() {
   const { t } = useTranslation();
