@@ -162,6 +162,7 @@ ADD: "Default icon for tasks: checkbox (CheckSquare). Default icon for events: c
 ### ADD Acceptance Criteria:
 - **AC-020:** When creating a time block for a baby member, the system shall offer "Kita / Daycare" and "Mittagsschlaf / Nap" as pre-filled templates alongside "Schule / School" and "Arbeit / Work".
 - **AC-021:** Time blocks shall be reorderable via drag-and-drop in the settings list view.
+- **AC-022:** Routine creation/edit form includes recurrence settings: frequency (daily/weekly/monthly), weekday checkboxes, interval, and time of day. DB columns: recurrence_type, recurrence_interval, scheduled_time.
 
 ### Subscription tier:
 - Time blocks: Free
