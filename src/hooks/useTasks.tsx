@@ -66,17 +66,34 @@ export function useTasks(filters?: { status?: string; assignee?: string; priorit
   });
 
   const completeTask = useMutation({
-    mutationFn: async (id: string) => {
-      const { data, error } = await supabase
-        .from("tasks")
-        .update({ status: "completed" as const, completed_at: new Date().toISOString() })
-        .eq("id", id)
-        .select()
-        .single();
-      if (error) throw error;
+    mutationFn: async (taskId: string) => {
+      const { data, error } = await supabase.functions.invoke("complete-task", {
+        body: { taskId, userId: user?.id },
+      });
+      if (error) {
+        // Fallback: direct update without gamification
+        const { data: fallback, error: fbErr } = await supabase
+          .from("tasks")
+          .update({ status: "completed" as const, completed_at: new Date().toISOString() })
+          .eq("id", taskId)
+          .select()
+          .single();
+        if (fbErr) throw fbErr;
+        return { task: fallback, gamification: null };
+      }
       return data;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["tasks"] }),
+    onSuccess: (data: any) => {
+      qc.invalidateQueries({ queryKey: ["tasks"] });
+      qc.invalidateQueries({ queryKey: ["level"] });
+      qc.invalidateQueries({ queryKey: ["streak"] });
+      qc.invalidateQueries({ queryKey: ["gold"] });
+      qc.invalidateQueries({ queryKey: ["user-badges"] });
+      if (data?.gamification) {
+        toast.success(`+${data.gamification.xpAwarded} XP, +${data.gamification.goldAwarded} Gold`);
+      }
+    },
+    onError: () => toast.error(t("common.error")),
   });
 
   return { ...query, tasks: query.data ?? [], createTask, updateTask, deleteTask, completeTask };
