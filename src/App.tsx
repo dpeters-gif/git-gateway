@@ -16,6 +16,7 @@ import ParentSettings from "@/pages/ParentSettings";
 import ChildQuests from "@/pages/ChildQuests";
 import ChildProgress from "@/pages/ChildProgress";
 import ChildRewards from "@/pages/ChildRewards";
+import OnboardingFlow from "@/pages/OnboardingFlow";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ function AuthenticatedApp() {
         {/* Child routes */}
         <Route path="/quests" element={<ChildQuests />} />
         <Route path="/progress" element={<ChildProgress />} />
+        <Route path="/child-rewards" element={<ChildRewards />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <FAB />
