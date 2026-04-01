@@ -221,6 +221,8 @@ export default function ParentCalendar() {
               onEventClick={event => { setSelectedItem(event); setShowDetail(true); }}
               onCellClick={handleCellClick}
               onTaskComplete={handleTaskComplete}
+              onTaskReschedule={handleTaskReschedule}
+              onEventReschedule={handleEventReschedule}
               conflicts={conflicts}
             />
           ) : (
