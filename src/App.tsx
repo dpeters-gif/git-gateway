@@ -41,6 +41,7 @@ function AuthenticatedApp() {
         <Route path="/quests" element={<ChildQuests />} />
         <Route path="/progress" element={<ChildProgress />} />
         <Route path="/child-rewards" element={<ChildRewards />} />
+        <Route path="/seed" element={<SeedPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <FAB />
