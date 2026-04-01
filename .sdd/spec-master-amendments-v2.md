@@ -54,6 +54,8 @@ ADD to every spec's acceptance criteria (if not already present):
 - **AC-GLOBAL-05:** All content sections shall use Framer Motion stagger slideUp entrance animations.
 - **AC-GLOBAL-06:** Pull-to-refresh shall be supported on all scrollable views.
 - **AC-GLOBAL-07:** This screen shall be responsive at 768px (tablet) and 375px (phone) with no horizontal overflow.
+- **AC-GLOBAL-08:** Task cards must display: assignee name (resolved from family_members), priority label text ("Hoch"/"Normal"/"Niedrig") alongside the color accent, and be fully tappable to open a detail/edit dialog.
+- **AC-GLOBAL-09:** Photo-required tasks must prompt for photo proof before allowing completion.
 
 ### 0.3 Subscription Tier Gates
 
@@ -114,8 +116,12 @@ quick-create. References Mobiscroll (removed).
 - **AC-027:** All calendar items clickable → detail popover (title, time, description, edit/delete).
 - **AC-028:** All calendar items draggable → reschedule (new day) or reassign (new person row). Optimistic update + undo toast.
 - **AC-029:** Empty cells tappable → quick-create popover with date + person pre-filled.
-- **AC-030:** Home dashboard includes: quick stats row (open tasks, completed, streak, gold), weekly summary card, task distribution chart, Pinnwand preview (3 notes), calendar preview.
+- **AC-030:** Home dashboard includes: quick stats row (open tasks, completed, streak, gold), weekly summary card, TODAY'S TASKS widget (today's open tasks with inline completion + assignee + priority dot), GROCERY LIST widget (top 5 unchecked items + add field + realtime sync), ACTIVE REWARDS & CHALLENGES widget (cards with progress bars + deadlines), task distribution chart, Pinnwand preview (3 notes).
 - **AC-031:** Quick stats row uses cards with large numbers (font-size-xxl, font-weight-extrabold) and labeled metrics.
+- **AC-032:** Week view uses Google Calendar-style layout: vertical time axis (06:00–22:00, 30-min slots), days as columns. All-day/no-time items in section ABOVE time grid. Timed items positioned vertically by start/end time, height proportional to duration.
+- **AC-033:** Time slot height = 40px per 30 min. Item top = (hour - 6) × 80 + (minute / 30) × 40 px. Min item height: 40px.
+- **AC-034:** Current time indicator: thin red horizontal line spanning all columns, updating every minute.
+- **AC-035:** Empty time slot tappable → quick-create popover with date + time pre-filled.
 
 ### ADD to Success Criteria:
 - Parent can create an event from the calendar in under 10 seconds (tap empty cell → type title → submit).
@@ -141,6 +147,7 @@ ADD: "Default icon for tasks: checkbox (CheckSquare). Default icon for events: c
 - **AC-014:** The FAB quick-create menu shall be accessible from EVERY page in the app, not just the calendar or tasks page.
 - **AC-015:** When creating a task, the default XP value shall be 10 (not 0 or empty).
 - **AC-016:** Task completion is possible directly from the task card (inline checkbox) without opening the detail view. Tapping the checkbox triggers the full dopamine loop.
+- **AC-017:** FAB menu items (Task, Event, Routine, Board Note) must each open their respective creation form when tapped. The menu opening alone is insufficient.
 
 ### Subscription tier: Free (core feature)
 
@@ -155,6 +162,7 @@ ADD: "Default icon for tasks: checkbox (CheckSquare). Default icon for events: c
 ### ADD Acceptance Criteria:
 - **AC-020:** When creating a time block for a baby member, the system shall offer "Kita / Daycare" and "Mittagsschlaf / Nap" as pre-filled templates alongside "Schule / School" and "Arbeit / Work".
 - **AC-021:** Time blocks shall be reorderable via drag-and-drop in the settings list view.
+- **AC-022:** Routine creation/edit form includes recurrence settings: frequency (daily/weekly/monthly), weekday checkboxes, interval, and time of day. DB columns: recurrence_type, recurrence_interval, scheduled_time.
 
 ### Subscription tier:
 - Time blocks: Free
@@ -168,7 +176,8 @@ ADD: "Default icon for tasks: checkbox (CheckSquare). Default icon for events: c
 
 ### ADD Acceptance Criteria:
 - **AC-023:** Challenges of type "boss_battle" shall display a boss creature SVG silhouette with a health bar. Each qualifying task completion reduces boss HP. When HP reaches 0: celebration animation + bonus XP for all contributors.
-- **AC-024:** Rewards can optionally be purchasable with Gold (parent sets Gold price alongside or instead of XP threshold). This creates a "Gold shop" experience for children.
+- **AC-024:** Rewards can optionally be purchasable with Gold (parent sets Gold price alongside or instead of XP threshold).
+- **AC-025:** Challenge and reward cards include edit buttons opening pre-filled edit forms. Both tables support optional image_url for card thumbnails.
 
 ### Subscription tier: Family tier (rewards + challenges are gamification)
 
@@ -202,6 +211,10 @@ ADD: "Default icon for tasks: checkbox (CheckSquare). Default icon for events: c
 - **AC-022:** Promotion: creates User + changes role + awards creature egg.
 - **AC-023:** Promotion preserves all calendar data.
 - **AC-024:** Member count checked against subscription tier limit before adding.
+- **AC-025:** Add member flow supports three paths: (a) Invite adult via email link, (b) Create child account with name + username + PIN, (c) Add baby with name only.
+- **AC-026:** Admin can remove any non-admin member. Confirmation dialog required. Removes family_members only — does NOT delete user account.
+- **AC-027:** Settings includes profile editing: name (editable), password change dialog, language toggle (de/en) updating profiles.locale and i18n.changeLanguage().
+- **AC-028:** Every visible string on Settings page wrapped in t() with entries in both de.json and en.json.
 
 ### Subscription tier: Free (up to 3 members), Family (up to 8), Family+ (up to 12)
 
@@ -320,6 +333,8 @@ ADD: "Default icon for tasks: checkbox (CheckSquare). Default icon for events: c
 ### ADD Acceptance Criteria:
 - **AC-050:** Board note creation animation: new note slides in from top with popIn. Delete: fadeOut + collapse.
 - **AC-051:** Board visible on both parent Home AND child My Day screens.
+- **AC-052:** Board note creation form includes image upload (Supabase Storage 'board-images'). Image displayed as thumbnail. Tap thumbnail for lightbox.
+- **AC-053:** Board notes fully CRUD: create, read, edit (author or admin), delete (author or admin with confirmation).
 
 ### Subscription tier: Free (5 notes), Family (unlimited)
 

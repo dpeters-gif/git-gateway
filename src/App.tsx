@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/layout/ProtectedRoute";
 import AppShell from "@/components/layout/AppShell";
-import FAB from "@/components/layout/FAB";
 import LoginPage from "@/components/auth/LoginPage";
 import SignupPage from "@/components/auth/SignupPage";
 import HomePage from "@/pages/HomePage";
@@ -54,7 +53,6 @@ function AuthenticatedApp() {
         <Route path="/seed" element={<SeedPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <FAB />
     </AppShell>
   );
 }

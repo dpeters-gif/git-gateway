@@ -246,6 +246,7 @@ export type Database = {
           end_date: string | null
           family_id: string
           id: string
+          image_url: string | null
           is_completed: boolean
           reward_xp: number
           start_date: string
@@ -263,6 +264,7 @@ export type Database = {
           end_date?: string | null
           family_id: string
           id?: string
+          image_url?: string | null
           is_completed?: boolean
           reward_xp?: number
           start_date?: string
@@ -280,6 +282,7 @@ export type Database = {
           end_date?: string | null
           family_id?: string
           id?: string
+          image_url?: string | null
           is_completed?: boolean
           reward_xp?: number
           start_date?: string
@@ -1013,6 +1016,7 @@ export type Database = {
           gold_price: number | null
           icon: string
           id: string
+          image_url: string | null
           is_active: boolean
           title: string
           updated_at: string
@@ -1026,6 +1030,7 @@ export type Database = {
           gold_price?: number | null
           icon?: string
           id?: string
+          image_url?: string | null
           is_active?: boolean
           title: string
           updated_at?: string
@@ -1039,6 +1044,7 @@ export type Database = {
           gold_price?: number | null
           icon?: string
           id?: string
+          image_url?: string | null
           is_active?: boolean
           title?: string
           updated_at?: string
@@ -1107,6 +1113,9 @@ export type Database = {
           id: string
           is_active: boolean
           photo_required: boolean
+          recurrence_interval: number
+          recurrence_type: string
+          scheduled_time: string | null
           title: string
           updated_at: string
           weekdays: number[]
@@ -1121,6 +1130,9 @@ export type Database = {
           id?: string
           is_active?: boolean
           photo_required?: boolean
+          recurrence_interval?: number
+          recurrence_type?: string
+          scheduled_time?: string | null
           title: string
           updated_at?: string
           weekdays?: number[]
@@ -1135,6 +1147,9 @@ export type Database = {
           id?: string
           is_active?: boolean
           photo_required?: boolean
+          recurrence_interval?: number
+          recurrence_type?: string
+          scheduled_time?: string | null
           title?: string
           updated_at?: string
           weekdays?: number[]

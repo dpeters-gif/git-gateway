@@ -48,6 +48,7 @@ This app lives on the kitchen iPad. Design for iPad FIRST.
 - Child nav: 4 items — My Day, Quests, Progress, Rewards
 - Page content: max-width 960px centered on desktop. Full width on tablet/phone with 24px side padding (mobile) or 32px (tablet).
 - Desktop sidebar: 240px expanded, 72px collapsed. Only at ≥1280px.
+- Navigation consistency: Bottom nav (mobile/tablet) and sidebar nav (desktop ≥1280px) must show IDENTICAL tabs: Home, Calendar, Tasks, Rewards, Settings. Additional pages (Shopping List, Care-Share) are accessed from Settings or dashboard widgets — they do NOT have their own nav tabs.
 
 ### FAB (Floating Action Button) — MANDATORY ON EVERY PAGE
 
@@ -91,7 +92,10 @@ The calendar is the core of the parent experience. It must feel alive, responsiv
 
 ### Week Matrix (tablet default, ≥768px)
 
-- Layout: family members as rows, days (Mon-Sun) as columns
+- Layout: vertical time axis (left, 06:00–22:00), days (Mon-Sun) as columns. Family member filtering via avatar chips above the grid.
+- Grid: `grid-template-columns: auto repeat(7, 1fr)` — time gutter (60px) + 7 fluid day columns
+- Calendar must fill available screen width responsively. On tablet (768px+), all 7 day columns visible without horizontal scroll. Column widths adapt proportionally.
+- Time gutter: 60px fixed width, hours 06:00–22:00, labels at each hour, subtle grid lines every 30 min
 - Today's column: highlighted with primary-light background
 - Time block bands: rendered BEHIND event/task cards (lower z-index)
 - Each cell is a droppable zone (drag-and-drop target)
