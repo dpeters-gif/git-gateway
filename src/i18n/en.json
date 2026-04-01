@@ -218,7 +218,17 @@
     "checked": "Checked",
     "clearChecked": "Clear checked",
     "clearConfirm": "Remove all checked items?",
-    "cleared": "Checked items cleared"
+    "cleared": "Checked items cleared",
+    "category": {
+      "dairy": "Dairy",
+      "produce": "Produce",
+      "meat": "Meat",
+      "bakery": "Bakery",
+      "drinks": "Drinks",
+      "frozen": "Frozen",
+      "household": "Household",
+      "other": "Other"
+    }
   },
   "flow": {
     "step": "Step {{current}} of {{total}}",

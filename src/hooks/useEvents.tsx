@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useFamily } from "./useFamily";
@@ -24,6 +25,23 @@ export function useEvents() {
     },
     enabled: !!familyId,
   });
+
+  // Realtime subscription
+  useEffect(() => {
+    if (!familyId) return;
+    const channel = supabase
+      .channel(`events-${familyId}`)
+      .on("postgres_changes", {
+        event: "*",
+        schema: "public",
+        table: "events",
+        filter: `family_id=eq.${familyId}`,
+      }, () => {
+        qc.invalidateQueries({ queryKey: ["events", familyId] });
+      })
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [familyId, qc]);
 
   const createEvent = useMutation({
     mutationFn: async (event: Omit<EventInsert, "family_id">) => {
