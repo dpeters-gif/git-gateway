@@ -208,17 +208,17 @@ builder-tool: Lovable
 
 - [ ] TASK-F07: Build Email-to-Calendar: family inbox address display in Settings, Edge Function `email-to-calendar` (webhook + Claude API), Posteingang section on Home (pending items, add/dismiss), one-tap event creation from extracted data. | spec: P-14 | type: ui+edge-function
 
-- [ ] TASK-F08: States audit: verify every screen has all 4 states (loading/empty/error/success). Add missing skeleton loaders, empty states, error states. | type: quality
+- [x] TASK-F08: States audit: verify every screen has all 4 states (loading/empty/error/success). Add missing skeleton loaders, empty states, error states. | type: quality
 
-- [ ] TASK-F09: i18n audit: verify every visible string is in t(). Complete en.json translation. Verify locale toggle in Settings works. | type: quality
+- [x] TASK-F09: i18n audit: verify every visible string is in t(). Complete en.json translation. Verify locale toggle in Settings works. | type: quality
 
-- [ ] TASK-F10: Animation audit: verify every state change has animation. Add missing entrance/exit animations. Verify dopamine loop timing. | type: quality
+- [x] TASK-F10: Animation audit: verify every state change has animation. Add missing entrance/exit animations. Verify dopamine loop timing. | type: quality
 
-- [ ] TASK-F11: Responsive audit: test every screen at 768px (tablet), 375px (phone), 1280px (desktop). Fix any overflow, touch target, or layout issues. | type: quality
+- [x] TASK-F11: Responsive audit: test every screen at 768px (tablet), 375px (phone), 1280px (desktop). Fix any overflow, touch target, or layout issues. | type: quality
 
-- [ ] TASK-F12: Security audit: verify all RLS policies, test cross-family access (must fail), test child accessing adult endpoints (must fail), verify points_ledger immutability. | type: security
+- [x] TASK-F12: Security audit: verify all RLS policies, test cross-family access (must fail), test child accessing adult endpoints (must fail), verify points_ledger immutability. | type: security
 
-- [ ] TASK-F13: Performance: verify LCP <2.5s on 4G for Home and My Day. Optimize Supabase queries (indexes, select columns). | type: performance
+- [x] TASK-F13: Performance: verify LCP <2.5s on 4G for Home and My Day. Optimize Supabase queries (indexes, select columns). | type: performance
 
 - [ ] TASK-F14: PWA: service worker with workbox (offline shell, asset caching), test install flow on iOS Safari + Android Chrome. | type: platform
 
