@@ -1,128 +1,50 @@
 
 
-# Plan: Fix All 12 Tech Debt Items
+# Plan: Add Drag & Drop to Calendar and Tasks
 
-## Overview
-Fix all identified spec violations and missing features, organized by severity. This is a large batch covering drag-and-drop, form migrations, pull-to-refresh, undo logic, month view, date pickers, realtime sync, i18n, desktop sidebar, swipe gestures, image lightbox, and the generate-routines edge function.
+## What
+Add `@dnd-kit` drag-and-drop to two locations:
+1. **WeekMatrix calendar** — drag tasks/events between cells to reschedule (change date and/or assignee)
+2. **ParentTasks list** — drag tasks to reorder by priority grouping
 
----
+## Technical Approach
 
-## Changes by Priority
+### 1. Calendar WeekMatrix — Drag to Reschedule
 
-### HIGH SEVERITY
+**`src/components/calendar/WeekMatrix.tsx`**
+- Wrap the `<table>` in a `DndContext` with `closestCenter` collision strategy
+- Each cell (`<td>`) becomes a **droppable** using `useDroppable` with an ID encoding `date|userId` (e.g. `"2026-04-03|abc-123"`)
+- Each `CalendarTaskCard` and `CalendarEventCard` becomes **draggable** using `useDraggable`
+- On `onDragEnd`: parse the droppable ID to extract new date + userId, then call `updateTask` or `updateEvent` mutation
+- Add a `DragOverlay` to show the card being dragged
+- Add new props: `onTaskReschedule(taskId, newDate, newAssignee)` and `onEventReschedule(eventId, newDate, newAssignee)`
 
-#### 1. Drag-and-Drop with @dnd-kit (3 locations)
-Packages already installed (`@dnd-kit/core`, `@dnd-kit/sortable`).
+**`src/components/calendar/CalendarTaskCard.tsx`**
+- Wrap in `useDraggable` from `@dnd-kit/core`
+- Add a subtle drag handle icon (GripVertical) visible on hover
+- Apply transform styles from `useDraggable`
 
-**a) Shopping List** — `src/pages/ShoppingList.tsx`
-- Wrap unchecked item groups in `DndContext` + `SortableContext`
-- Make `ShoppingItemRow` a sortable item with drag handle
-- Add `sort_order` column via migration, update `useShoppingList` to persist order on drag end
+**`src/components/calendar/CalendarEventCard.tsx`**
+- Same draggable treatment as CalendarTaskCard
 
-**b) Calendar** — `src/components/calendar/WeekMatrix.tsx`
-- Wrap the matrix in `DndContext` 
-- Make `CalendarTaskCard` and `CalendarEventCard` draggable
-- On drop to a different cell, call `updateTask`/`updateEvent` with new date/assignee
+**`src/pages/ParentCalendar.tsx`**
+- Add `handleTaskReschedule` and `handleEventReschedule` callbacks that call `updateTask.mutate` / `updateEvent.mutate` with new `due_date`/`assigned_to_user_id` or `start_at`/`assigned_to_user_ids`
+- Pass these as new props to `WeekMatrix`
 
-**c) Routine Steps in Flow Mode** — `src/components/routines/FlowMode.tsx`
-- Allow reordering of pending steps via `SortableContext`
-- On reorder, update local state (order within the flow session)
+### 2. Tasks List — Drag to Reorder
 
-**Database migration:** Add `sort_order INTEGER DEFAULT 0` to `shopping_items` table.
-
-#### 2. Migrate Forms to React Hook Form + Zod
-
-**a) `TaskCreateForm.tsx`**
-- Replace 10+ `useState` calls with `useForm` + `zodResolver`
-- Define `taskFormSchema` with Zod validation (title required, xp 0-100, etc.)
-- Use `FormField`, `FormItem`, `FormControl`, `FormMessage` from `@/components/ui/form`
-
-**b) `EventCreateForm.tsx`**
-- Same pattern: `useForm` + `zodResolver` with `eventFormSchema`
-- Validate end_time > start_time when not all-day
-
-#### 3. Pull-to-Refresh
-- Create a `PullToRefresh` wrapper component using touch events
-- Apply to `ParentCalendar`, `ParentTasks`, `ShoppingList`, `ParentHome`
-- On pull threshold (60px), call the page's `refetch` function
-- Show a spinner indicator during refresh
-
-### MEDIUM SEVERITY
-
-#### 4. Fix Undo on Task Completion
-- In `ParentCalendar.tsx` (line 187) and `ParentTasks.tsx` (line 102): replace `onClick: () => {}` with actual undo logic
-- Store the previous status before completion, call `updateTask.mutate({ id, status: 'open', completed_at: null })` on undo
-- Use a 5-second toast window
-
-#### 5. Month View for Calendar
-- Create `src/components/calendar/MonthGrid.tsx`
-- Mini calendar grid showing dots for days with events/tasks
-- Clicking a day switches to week view focused on that week
-- Wire into `ParentCalendar.tsx` viewMode toggle (already has week/month buttons)
-
-#### 6. Replace Native Date/Time Inputs with shadcn DatePicker
-- In `TaskCreateForm` and `EventCreateForm`: replace `<Input type="date">` with shadcn `Calendar` in a `Popover` (per useful context)
-- Replace `<Input type="time">` with a time select or keep native time (acceptable per spec)
-- Add `pointer-events-auto` to Calendar wrapper
-
-#### 7. Supabase Realtime on Calendar
-- In `useEvents.tsx`: add `useEffect` with Supabase channel subscription on `events` table, invalidate queries on change
-- Same pattern already used in `useShoppingList`
-
-### LOW SEVERITY
-
-#### 8. Shopping Category Labels to i18n
-- Add keys `shopping.category.dairy`, `shopping.category.produce`, etc. to `de.json` and `en.json`
-- Replace `CATEGORY_LABELS` object in `ShoppingList.tsx` with `t()` calls
-
-#### 9. Desktop Sidebar at ≥1280px
-- Create `src/components/layout/DesktopSidebar.tsx` using shadcn `Sidebar` component
-- Mirror nav items from `BottomNav.tsx`
-- Update `AppShell.tsx`: show sidebar at `xl:` breakpoint, hide bottom nav (already has `xl:hidden`)
-- Wrap in `SidebarProvider` at the `AppShell` level
-
-#### 10. Swipe Gestures on Mobile Day View
-- In `DayTabSelector.tsx` or `WeekMatrix` mobile section: add touch event handlers (`onTouchStart`, `onTouchEnd`)
-- Detect horizontal swipe > 50px threshold
-- Swipe left = next day, swipe right = previous day
-
-#### 11. Image Lightbox for Board Notes
-- In `FamilyBoard.tsx`: already has `lightboxUrl` state (line 36)
-- Add a fullscreen `Dialog` that shows the image when `lightboxUrl` is set
-- Wire board note images to `setLightboxUrl` on click
-
-#### 12. Generate-Routines Edge Function
-- Create `supabase/functions/generate-routines/index.ts`
-- Accept family_id + child age, call Lovable AI to suggest age-appropriate routines
-- Return structured routine suggestions (title, steps, target minutes)
-
----
-
-## Files to Create
-- `src/components/shared/PullToRefresh.tsx`
-- `src/components/calendar/MonthGrid.tsx`
-- `src/components/layout/DesktopSidebar.tsx`
-- `supabase/functions/generate-routines/index.ts`
+**`src/pages/ParentTasks.tsx`**
+- Wrap the task list in `DndContext` + `SortableContext` (vertical list strategy)
+- Each task card becomes a sortable item via `useSortable`
+- On drag end, reorder the local tasks array (visual reorder only — no DB `sort_order` needed since tasks are sorted by due_date)
+- Add a drag handle (GripVertical icon) to each task card
 
 ## Files to Modify
-- `src/pages/ShoppingList.tsx` — dnd-kit, i18n categories
-- `src/components/calendar/WeekMatrix.tsx` — dnd-kit, swipe
-- `src/components/calendar/TaskCreateForm.tsx` — RHF+Zod, date picker
-- `src/components/calendar/EventCreateForm.tsx` — RHF+Zod, date picker
-- `src/components/calendar/DayTabSelector.tsx` — swipe gestures
-- `src/components/routines/FlowMode.tsx` — sortable steps
-- `src/pages/ParentCalendar.tsx` — month view, pull-to-refresh, undo fix
-- `src/pages/ParentTasks.tsx` — pull-to-refresh, undo fix
-- `src/components/board/FamilyBoard.tsx` — lightbox dialog
-- `src/components/layout/AppShell.tsx` — desktop sidebar
-- `src/hooks/useEvents.tsx` — realtime subscription
-- `src/hooks/useShoppingList.tsx` — sort_order support
-- `src/i18n/de.json` — shopping category keys
-- `src/i18n/en.json` — shopping category keys
+- `src/components/calendar/WeekMatrix.tsx` — DndContext + droppable cells
+- `src/components/calendar/CalendarTaskCard.tsx` — useDraggable
+- `src/components/calendar/CalendarEventCard.tsx` — useDraggable  
+- `src/pages/ParentCalendar.tsx` — reschedule handlers
+- `src/pages/ParentTasks.tsx` — SortableContext + sortable items
 
-## Database Migration
-- `ALTER TABLE shopping_items ADD COLUMN sort_order INTEGER DEFAULT 0;`
-
-## Estimated Scope
-12 items across ~18 files, 1 migration, 1 new edge function.
+No database changes needed. The `@dnd-kit` packages are already installed.
 
