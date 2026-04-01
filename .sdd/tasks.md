@@ -198,13 +198,13 @@ builder-tool: Lovable
 
 - [ ] TASK-F02: Build Multi-Household: household switcher in app bar, link-child flow (username + PIN confirm), context switching, unified gamification across households. | spec: S-2 | type: ui+wiring
 
-- [ ] TASK-F03: Build Adult Member restrictions: same parent UI but restricted editing (own items only), hidden admin sections. API-level enforcement via RLS. | spec: A-1/A-2 | type: ui+rls
+- [x] TASK-F03: Build Adult Member restrictions: same parent UI but restricted editing (own items only), hidden admin sections. API-level enforcement via RLS. | spec: A-1/A-2 | type: ui+rls
 
-- [ ] TASK-F04: Build Care-Share: donut chart (recharts, warm palette), adult distribution, weekly/monthly toggle, adults-only access. | spec: P-7 | type: ui+wiring
+- [x] TASK-F04: Build Care-Share: donut chart (recharts, warm palette), adult distribution, weekly/monthly toggle, adults-only access. | spec: P-7 | type: ui+wiring
 
-- [ ] TASK-F05: Build Grandparent View: share link generation in Settings (token, label, expiry, member selection), public read-only page (simplified week matrix, no auth required, no gamification data). | spec: S-5 | type: ui+wiring
+- [x] TASK-F05: Build Grandparent View: share link generation in Settings (token, label, expiry, member selection), public read-only page (simplified week matrix, no auth required, no gamification data). | spec: S-5 | type: ui+wiring
 
-- [ ] TASK-F06: Build subscription management: plan comparison in Settings, upgrade flow (in-app purchase), upgrade prompts at feature gates (positive language, never interruptive), tier checking in hooks + RLS. | spec: M-1 | type: ui+wiring
+- [x] TASK-F06: Build subscription management: plan comparison in Settings, upgrade flow (in-app purchase), upgrade prompts at feature gates (positive language, never interruptive), tier checking in hooks + RLS. | spec: M-1 | type: ui+wiring
 
 - [ ] TASK-F07: Build Email-to-Calendar: family inbox address display in Settings, Edge Function `email-to-calendar` (webhook + Claude API), Posteingang section on Home (pending items, add/dismiss), one-tap event creation from extracted data. | spec: P-14 | type: ui+edge-function
 
