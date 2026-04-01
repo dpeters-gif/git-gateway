@@ -193,5 +193,75 @@
     "event": "Event",
     "routine": "Routine",
     "boardNote": "Note"
+  },
+  "board": {
+    "notePosted": "Note posted",
+    "noteDeleted": "Note deleted",
+    "deleteConfirm": "Delete this note?",
+    "text": "Message",
+    "textPlaceholder": "What's new?",
+    "image": "Image (optional)",
+    "addImage": "Choose image",
+    "imageTooLarge": "Image too large (max 5MB)",
+    "expiry": "Expiry date (optional)",
+    "post": "Post",
+    "viewAll": "View all",
+    "createNote": "Create note",
+    "emptyTitle": "No messages yet",
+    "emptyBody": "Write the first one!"
+  },
+  "shopping": {
+    "title": "Shopping List",
+    "addPlaceholder": "Add item…",
+    "emptyTitle": "All shopped! 🛒",
+    "emptyBody": "Add items using the field above.",
+    "checked": "Checked",
+    "clearChecked": "Clear checked",
+    "clearConfirm": "Remove all checked items?",
+    "cleared": "Checked items cleared"
+  },
+  "flow": {
+    "step": "Step {{current}} of {{total}}",
+    "stepDone": "Done ✓",
+    "done": "All done!",
+    "time": "Time: {{minutes}} min",
+    "underTime": "Under time! Awesome! 🚀",
+    "noStress": "No stress — just keep going",
+    "exitConfirm": "Cancel routine? Your progress will be saved.",
+    "error": "Connection issue — try again",
+    "noSteps": "No steps remaining"
+  },
+  "nudge": {
+    "title": "Reminders",
+    "created": "Reminder created",
+    "deleted": "Reminder deleted",
+    "emptyTitle": "No reminders",
+    "emptyBody": "Create reminders for children.",
+    "create": "Create reminder",
+    "child": "Child",
+    "times": "Times",
+    "addTime": "Add time",
+    "quietHours": "Quiet hours",
+    "parentAlert": "Parent alert"
+  },
+  "photo": {
+    "title": "Proof Photo",
+    "tooLarge": "Photo too large (max 5MB)",
+    "uploadError": "Photo could not be uploaded",
+    "retake": "Retake",
+    "use": "Use",
+    "capture": "Take photo",
+    "instruction": "Take photo or choose from gallery"
+  },
+  "recap": {
+    "title": "Your Week",
+    "yourWeek": "Your Week",
+    "tasksCompleted": "tasks completed",
+    "vsLastWeek": "vs. last week",
+    "tasks": "tasks"
+  },
+  "suggestions": {
+    "title": "Suggestions",
+    "show": "Show suggestions"
   }
 }
