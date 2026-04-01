@@ -68,12 +68,12 @@ export default function NotificationMenu() {
       </PopoverTrigger>
       <PopoverContent className="w-80 p-0" align="end">
         <div className="p-3 border-b border-border">
-          <h3 className="font-semibold text-sm">Benachrichtigungen</h3>
+          <h3 className="font-semibold text-sm">{t("notifications.title")}</h3>
         </div>
         <ScrollArea className="max-h-80">
           {notifications.length === 0 ? (
             <div className="p-6 text-center text-sm text-muted-foreground">
-              Keine Benachrichtigungen
+              {t("notifications.empty")}
             </div>
           ) : (
             notifications.map((n) => (

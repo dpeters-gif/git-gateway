@@ -1,4 +1,3 @@
-import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { staggerContainer, slideUp } from "@/lib/animations";
@@ -6,15 +5,14 @@ import { useAuth } from "@/hooks/useAuth";
 import { useFamily } from "@/hooks/useFamily";
 import { useTasks } from "@/hooks/useTasks";
 import { useEvents } from "@/hooks/useEvents";
-import { useGamification } from "@/hooks/useGamification";
 import SkeletonLoader from "@/components/shared/SkeletonLoader";
 import EmptyState from "@/components/shared/EmptyState";
-import { ClipboardList, Calendar, CheckCircle2, Flame, Coins, Users, StickyNote } from "lucide-react";
+import { ClipboardList, Calendar, CheckCircle2, Users, StickyNote } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 export default function ParentHome() {
   const { t } = useTranslation();
-  const { profile, user } = useAuth();
+  const { profile } = useAuth();
   const { members, isLoading: famLoading } = useFamily();
   const { tasks, isLoading: tasksLoading } = useTasks();
   const { events, isLoading: eventsLoading } = useEvents();
@@ -27,7 +25,6 @@ export default function ParentHome() {
     return t.completed_at.startsWith(new Date().toISOString().split("T")[0]);
   });
 
-  // Task distribution by member
   const distribution = members.map(m => ({
     name: m.name,
     value: tasks.filter(t => t.assigned_to_user_id === m.user_id).length,
@@ -46,18 +43,16 @@ export default function ParentHome() {
         <SkeletonLoader type="card" count={3} />
       ) : (
         <>
-          {/* Stats row */}
           <motion.div variants={slideUp} className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <StatCard icon={ClipboardList} label={t("home.openTasks")} value={openTasks.length} color="text-primary" />
             <StatCard icon={CheckCircle2} label={t("home.completedToday")} value={completedToday.length} color="text-success" />
-            <StatCard icon={Calendar} label="Events" value={events.length} color="text-info" />
-            <StatCard icon={Users} label="Mitglieder" value={members.length} color="text-secondary" />
+            <StatCard icon={Calendar} label={t("home.events")} value={events.length} color="text-info" />
+            <StatCard icon={Users} label={t("home.members")} value={members.length} color="text-secondary" />
           </motion.div>
 
-          {/* Task distribution */}
           {distribution.length > 0 && (
             <motion.div variants={slideUp} className="bg-card rounded-lg p-5 border border-border">
-              <h2 className="text-sm font-semibold text-foreground mb-3">Aufgabenverteilung</h2>
+              <h2 className="text-sm font-semibold text-foreground mb-3">{t("home.taskDistribution")}</h2>
               <div className="flex items-center gap-6">
                 <ResponsiveContainer width={120} height={120}>
                   <PieChart>
@@ -82,13 +77,12 @@ export default function ParentHome() {
             </motion.div>
           )}
 
-          {/* Pinnwand preview */}
           <motion.div variants={slideUp} className="bg-card rounded-lg p-5 border border-border">
             <div className="flex items-center gap-2 mb-3">
               <StickyNote className="w-4 h-4 text-accent" />
               <h2 className="text-sm font-semibold text-foreground">{t("home.familyBoard")}</h2>
             </div>
-            <p className="text-xs text-muted-foreground">Noch keine Notizen. Erstelle eine über das + Menü.</p>
+            <p className="text-xs text-muted-foreground">{t("home.boardEmpty")}</p>
           </motion.div>
 
           {tasks.length === 0 && events.length === 0 && (

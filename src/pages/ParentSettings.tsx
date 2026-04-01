@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { staggerContainer, slideUp } from "@/lib/animations";
@@ -14,19 +14,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MEMBER_LIMITS } from "@/lib/constants";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  Settings, Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield
+  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield
 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function ParentSettings() {
   const { t } = useTranslation();
-  const { profile, user } = useAuth();
-  const { members, familyId, family, isAdmin, isLoading: famLoading } = useFamily();
+  const { members, familyId, isAdmin, isLoading: famLoading } = useFamily();
   const { timeBlocks, createTimeBlock, deleteTimeBlock, isLoading: blocksLoading } = useTimeBlocks();
   const { routines, createRoutine, deleteRoutine, isLoading: routinesLoading } = useRoutines();
   const { tier } = useSubscription();
@@ -44,12 +43,11 @@ export default function ParentSettings() {
       ) : (
         <Tabs defaultValue="family" className="w-full">
           <TabsList className="w-full">
-            <TabsTrigger value="family" className="flex-1 gap-1"><Users className="w-4 h-4" /> Familie</TabsTrigger>
-            <TabsTrigger value="timeblocks" className="flex-1 gap-1"><Clock className="w-4 h-4" /> Zeiten</TabsTrigger>
-            <TabsTrigger value="routines" className="flex-1 gap-1"><RotateCcw className="w-4 h-4" /> Routinen</TabsTrigger>
+            <TabsTrigger value="family" className="flex-1 gap-1"><Users className="w-4 h-4" /> {t("settings.familyTab")}</TabsTrigger>
+            <TabsTrigger value="timeblocks" className="flex-1 gap-1"><Clock className="w-4 h-4" /> {t("settings.timeBlocksTab")}</TabsTrigger>
+            <TabsTrigger value="routines" className="flex-1 gap-1"><RotateCcw className="w-4 h-4" /> {t("settings.routinesTab")}</TabsTrigger>
           </TabsList>
 
-          {/* Family Management */}
           <TabsContent value="family" className="space-y-4 mt-4">
             <FamilyManagement
               members={members}
@@ -59,7 +57,6 @@ export default function ParentSettings() {
             />
           </TabsContent>
 
-          {/* Time Blocks */}
           <TabsContent value="timeblocks" className="space-y-4 mt-4">
             <TimeBlockManagement
               timeBlocks={timeBlocks}
@@ -69,7 +66,6 @@ export default function ParentSettings() {
             />
           </TabsContent>
 
-          {/* Routines */}
           <TabsContent value="routines" className="space-y-4 mt-4">
             <RoutineManagement
               routines={routines}
@@ -85,6 +81,7 @@ export default function ParentSettings() {
 }
 
 function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
+  const { t } = useTranslation();
   const [showAdd, setShowAdd] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState<"adult" | "child" | "baby">("child");
@@ -92,7 +89,7 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
   const handleAdd = async () => {
     if (!name.trim() || !familyId) return;
     if (members.length >= memberLimit) {
-      toast.error(`Maximale Mitgliederzahl (${memberLimit}) erreicht`);
+      toast.error(t("settings.memberLimitReached", { limit: memberLimit }));
       return;
     }
     const colors = ["#4E6E5D", "#C67B5C", "#D4943A", "#5B8A9B", "#7C4DFF", "#FF6B35"];
@@ -102,9 +99,9 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
       role,
       color: colors[members.length % colors.length],
     });
-    if (error) toast.error("Fehler beim Hinzufügen");
+    if (error) toast.error(t("settings.addError"));
     else {
-      toast.success(`${name} hinzugefügt`);
+      toast.success(t("settings.memberAdded", { name: name.trim() }));
       setName("");
       setShowAdd(false);
     }
@@ -113,9 +110,11 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground">Mitglieder ({members.length}/{memberLimit})</h2>
+        <h2 className="text-sm font-semibold text-foreground">
+          {t("settings.members")} ({members.length}/{memberLimit})
+        </h2>
         <Button size="sm" variant="outline" onClick={() => setShowAdd(true)} className="gap-1">
-          <Plus className="w-3 h-3" /> Hinzufügen
+          <Plus className="w-3 h-3" /> {t("settings.addMember")}
         </Button>
       </div>
 
@@ -130,7 +129,7 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
               {m.role === "adult" && <UserCheck className="w-3 h-3 text-primary" />}
               {m.role === "child" && <User className="w-3 h-3 text-accent" />}
               {m.role === "baby" && <Baby className="w-3 h-3 text-secondary" />}
-              <span className="text-[10px] text-muted-foreground capitalize">{m.role}</span>
+              <span className="text-[10px] text-muted-foreground capitalize">{t(`settings.role${m.role.charAt(0).toUpperCase() + m.role.slice(1)}`)}</span>
               {m.is_admin && <Shield className="w-3 h-3 text-primary ml-1" />}
             </div>
           </div>
@@ -139,24 +138,24 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
 
       <Dialog open={showAdd} onOpenChange={setShowAdd}>
         <DialogContent className="max-w-sm">
-          <DialogHeader><DialogTitle>Mitglied hinzufügen</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{t("settings.addMemberTitle")}</DialogTitle></DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label>Name</Label>
-              <Input value={name} onChange={e => setName(e.target.value)} placeholder="Name" />
+              <Label>{t("common.name")}</Label>
+              <Input value={name} onChange={e => setName(e.target.value)} placeholder={t("common.name")} />
             </div>
             <div>
-              <Label>Rolle</Label>
+              <Label>{t("settings.role")}</Label>
               <Select value={role} onValueChange={v => setRole(v as any)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="adult">Erwachsene/r</SelectItem>
-                  <SelectItem value="child">Kind</SelectItem>
-                  <SelectItem value="baby">Baby</SelectItem>
+                  <SelectItem value="adult">{t("settings.roleAdult")}</SelectItem>
+                  <SelectItem value="child">{t("settings.roleChild")}</SelectItem>
+                  <SelectItem value="baby">{t("settings.roleBaby")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={handleAdd} className="w-full" disabled={!name.trim()}>Hinzufügen</Button>
+            <Button onClick={handleAdd} className="w-full" disabled={!name.trim()}>{t("settings.addMember")}</Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -165,6 +164,7 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
 }
 
 function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock }: any) {
+  const { t } = useTranslation();
   const [showAdd, setShowAdd] = useState(false);
   const [label, setLabel] = useState("");
   const [type, setType] = useState<"school" | "work" | "nap" | "unavailable">("school");
@@ -179,14 +179,14 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground">Zeitblöcke</h2>
+        <h2 className="text-sm font-semibold text-foreground">{t("settings.timeBlocks")}</h2>
         <Button size="sm" variant="outline" onClick={() => setShowAdd(true)} className="gap-1">
-          <Plus className="w-3 h-3" /> Hinzufügen
+          <Plus className="w-3 h-3" /> {t("settings.addMember")}
         </Button>
       </div>
 
       {timeBlocks.length === 0 && (
-        <EmptyState icon={Clock} title="Keine Zeitblöcke" body="Füge Schule, Arbeit oder andere Zeiten hinzu." />
+        <EmptyState icon={Clock} title={t("settings.timeBlockEmpty")} body={t("settings.timeBlockEmptyBody")} />
       )}
 
       {timeBlocks.map((block: any) => (
@@ -203,28 +203,28 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
 
       <Dialog open={showAdd} onOpenChange={setShowAdd}>
         <DialogContent className="max-w-sm">
-          <DialogHeader><DialogTitle>Zeitblock erstellen</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{t("settings.createTimeBlock")}</DialogTitle></DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label>Bezeichnung</Label>
-              <Input value={label} onChange={e => setLabel(e.target.value)} placeholder="z.B. Schule" />
+              <Label>{t("settings.blockLabel")}</Label>
+              <Input value={label} onChange={e => setLabel(e.target.value)} placeholder={t("settings.blockLabel")} />
             </div>
             <div>
-              <Label>Typ</Label>
+              <Label>{t("settings.blockType")}</Label>
               <Select value={type} onValueChange={v => setType(v as any)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="school">Schule</SelectItem>
-                  <SelectItem value="work">Arbeit</SelectItem>
-                  <SelectItem value="nap">Schlaf/Kita</SelectItem>
-                  <SelectItem value="unavailable">Nicht verfügbar</SelectItem>
+                  <SelectItem value="school">{t("settings.blockTypeSchool")}</SelectItem>
+                  <SelectItem value="work">{t("settings.blockTypeWork")}</SelectItem>
+                  <SelectItem value="nap">{t("settings.blockTypeNap")}</SelectItem>
+                  <SelectItem value="unavailable">{t("settings.blockTypeUnavailable")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label>Person</Label>
+              <Label>{t("settings.blockPerson")}</Label>
               <Select value={userId} onValueChange={setUserId}>
-                <SelectTrigger><SelectValue placeholder="Wählen…" /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder={t("settings.selectPlaceholder")} /></SelectTrigger>
                 <SelectContent>
                   {members.map((m: any) => (
                     <SelectItem key={m.id} value={m.user_id ?? m.id}>{m.name}</SelectItem>
@@ -233,11 +233,11 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
               </Select>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <div><Label>Von</Label><Input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} /></div>
-              <div><Label>Bis</Label><Input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} /></div>
+              <div><Label>{t("settings.blockFrom")}</Label><Input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} /></div>
+              <div><Label>{t("settings.blockTo")}</Label><Input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} /></div>
             </div>
             <div>
-              <Label>Wochentage</Label>
+              <Label>{t("settings.blockWeekdays")}</Label>
               <div className="flex gap-1 mt-1">
                 {dayLabels.map((d, i) => (
                   <button
@@ -262,7 +262,7 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
               }}
               className="w-full"
             >
-              Erstellen
+              {t("common.create")}
             </Button>
           </div>
         </DialogContent>
@@ -272,6 +272,7 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
 }
 
 function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine }: any) {
+  const { t } = useTranslation();
   const [showAdd, setShowAdd] = useState(false);
   const [title, setTitle] = useState("");
   const [assignee, setAssignee] = useState("");
@@ -280,14 +281,14 @@ function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground">Routinen</h2>
+        <h2 className="text-sm font-semibold text-foreground">{t("settings.routines")}</h2>
         <Button size="sm" variant="outline" onClick={() => setShowAdd(true)} className="gap-1">
-          <Plus className="w-3 h-3" /> Hinzufügen
+          <Plus className="w-3 h-3" /> {t("settings.addMember")}
         </Button>
       </div>
 
       {routines.length === 0 && (
-        <EmptyState icon={RotateCcw} title="Keine Routinen" body="Erstelle eine Morgen- oder Abendroutine." />
+        <EmptyState icon={RotateCcw} title={t("settings.routineEmpty")} body={t("settings.routineEmptyBody")} />
       )}
 
       {routines.map((r: any) => (
@@ -304,16 +305,16 @@ function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine
 
       <Dialog open={showAdd} onOpenChange={setShowAdd}>
         <DialogContent className="max-w-sm">
-          <DialogHeader><DialogTitle>Routine erstellen</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{t("settings.createRoutine")}</DialogTitle></DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label>Titel</Label>
-              <Input value={title} onChange={e => setTitle(e.target.value)} placeholder="z.B. Morgenroutine" />
+              <Label>{t("task.title")}</Label>
+              <Input value={title} onChange={e => setTitle(e.target.value)} placeholder={t("settings.createRoutine")} />
             </div>
             <div>
-              <Label>Zugewiesen an</Label>
+              <Label>{t("settings.routineAssignee")}</Label>
               <Select value={assignee} onValueChange={setAssignee}>
-                <SelectTrigger><SelectValue placeholder="Wählen…" /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder={t("settings.selectPlaceholder")} /></SelectTrigger>
                 <SelectContent>
                   {members.map((m: any) => (
                     <SelectItem key={m.id} value={m.user_id ?? m.id}>{m.name}</SelectItem>
@@ -322,7 +323,7 @@ function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine
               </Select>
             </div>
             <div className="flex items-center gap-3">
-              <Label htmlFor="flowMode">Flow-Modus</Label>
+              <Label htmlFor="flowMode">{t("settings.routineFlowMode")}</Label>
               <Switch id="flowMode" checked={flowMode} onCheckedChange={setFlowMode} />
             </div>
             <Button
@@ -334,7 +335,7 @@ function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine
               className="w-full"
               disabled={!title.trim()}
             >
-              Erstellen
+              {t("common.create")}
             </Button>
           </div>
         </DialogContent>
