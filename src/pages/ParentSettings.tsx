@@ -47,6 +47,7 @@ export default function ParentSettings() {
             <TabsTrigger value="family" className="flex-1 gap-1"><Users className="w-4 h-4" /> {t("settings.familyTab")}</TabsTrigger>
             <TabsTrigger value="timeblocks" className="flex-1 gap-1"><Clock className="w-4 h-4" /> {t("settings.timeBlocksTab")}</TabsTrigger>
             <TabsTrigger value="routines" className="flex-1 gap-1"><RotateCcw className="w-4 h-4" /> {t("settings.routinesTab")}</TabsTrigger>
+            <TabsTrigger value="nudges" className="flex-1 gap-1"><Bell className="w-4 h-4" /> {t("settings.nudgesTab", "Nudges")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="family" className="space-y-4 mt-4">
