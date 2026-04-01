@@ -180,10 +180,10 @@ export default function TaskCreateForm({ open, onOpenChange, onSubmit, defaultDa
         <FormField control={form.control} name="assigned_to_user_id" render={({ field }) => (
           <FormItem>
             <FormLabel>{t("task.assignee")}</FormLabel>
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value || "__none__"} onValueChange={v => field.onChange(v === "__none__" ? "" : v)}>
               <FormControl><SelectTrigger><SelectValue placeholder="Niemand" /></SelectTrigger></FormControl>
               <SelectContent>
-                <SelectItem value="">Niemand</SelectItem>
+                <SelectItem value="__none__">Niemand</SelectItem>
                 {members.map(m => (
                   <SelectItem key={m.id} value={m.user_id ?? m.id}>{m.name}</SelectItem>
                 ))}
