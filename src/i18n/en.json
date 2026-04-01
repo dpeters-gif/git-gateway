@@ -55,6 +55,13 @@
     "members": "Members",
     "taskDistribution": "Task distribution",
     "boardEmpty": "No notes yet. Create one via the + menu.",
+    "todaysTasks": "Today's tasks",
+    "noTasksToday": "No tasks today ✓",
+    "allTasks": "All tasks →",
+    "groceryList": "Grocery list",
+    "toList": "To list →",
+    "rewardsAndChallenges": "Rewards & Challenges",
+    "viewAll": "View all →",
     "empty": {
       "title": "Nothing planned yet",
       "body": "Create your first task or event.",
@@ -139,6 +146,10 @@
     "familyTab": "Family",
     "timeBlocksTab": "Time Blocks",
     "routinesTab": "Routines",
+    "nudgesTab": "Nudges",
+    "sharingTab": "Sharing",
+    "subscriptionTab": "Plan",
+    "profileTab": "Profile",
     "members": "Members",
     "memberCount": "{{current}}/{{max}}",
     "addMember": "Add",
@@ -150,6 +161,15 @@
     "roleAdult": "Adult",
     "roleChild": "Child",
     "roleBaby": "Baby",
+    "inviteAdult": "Invite adult",
+    "addChild": "Add child",
+    "addBaby": "Add baby",
+    "removeMember": "Remove member",
+    "removeConfirm": "Do you really want to remove {{name}} from the family?",
+    "memberRemoved": "{{name}} removed",
+    "childUsername": "Username",
+    "childPin": "PIN (4 digits)",
+    "childCreated": "Child created! Credentials: {{username}} / {{pin}}",
     "timeBlocks": "Time blocks",
     "timeBlockEmpty": "No time blocks",
     "timeBlockEmptyBody": "Add school, work, or other times.",
@@ -171,8 +191,25 @@
     "createRoutine": "Create routine",
     "routineAssignee": "Assigned to",
     "routineFlowMode": "Flow mode",
+    "routineFrequency": "Frequency",
+    "routineDaily": "Daily",
+    "routineWeekly": "Weekly",
+    "routineMonthly": "Monthly",
+    "routineInterval": "Every",
+    "routineIntervalWeeks": "weeks",
+    "routineTime": "Time of day",
     "soundEnabled": "Sound enabled",
-    "soundVolume": "Volume"
+    "soundVolume": "Volume",
+    "editProfile": "Edit profile",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "passwordChanged": "Password changed",
+    "passwordMismatch": "Passwords don't match",
+    "language": "Language",
+    "notifications": "Notifications",
+    "profileSaved": "Profile saved"
   },
   "rewards": {
     "title": "Rewards",
@@ -236,8 +273,10 @@
     "done": "All done!",
     "time": "Time: {{minutes}} min",
     "underTime": "Under time! Awesome! 🚀",
+    "underTimeBonus": "+25% XP Bonus!",
     "noStress": "No stress — just keep going",
     "exitConfirm": "Cancel routine? Your progress will be saved.",
+    "exitYes": "Yes, exit",
     "error": "Connection issue — try again",
     "noSteps": "No steps remaining"
   },
@@ -346,19 +385,6 @@
     "upcoming": "Coming soon",
     "received": "Received"
   },
-  "flow": {
-    "step": "Step {{current}} of {{total}}",
-    "stepDone": "Done ✓",
-    "done": "All done!",
-    "time": "Time: {{minutes}} min",
-    "underTime": "Under time! Awesome! 🚀",
-    "underTimeBonus": "+25% XP Bonus!",
-    "noStress": "No stress — just keep going",
-    "exitConfirm": "Cancel routine? Your progress will be saved.",
-    "exitYes": "Yes, exit",
-    "error": "Connection issue — try again",
-    "noSteps": "No steps remaining"
-  },
   "careShare": {
     "title": "Care-Share",
     "subtitle": "Task distribution among adults",
@@ -426,9 +452,5 @@
   "upgrade": {
     "unlockFeature": "Unlock this feature with {{tier}}",
     "upgradeNow": "Upgrade now"
-  },
-  "settings": {
-    "sharingTab": "Sharing",
-    "subscriptionTab": "Plan"
   }
 }

@@ -55,6 +55,13 @@
     "members": "Mitglieder",
     "taskDistribution": "Aufgabenverteilung",
     "boardEmpty": "Noch keine Notizen. Erstelle eine über das + Menü.",
+    "todaysTasks": "Aufgaben heute",
+    "noTasksToday": "Keine Aufgaben heute ✓",
+    "allTasks": "Alle Aufgaben →",
+    "groceryList": "Einkaufsliste",
+    "toList": "Zur Liste →",
+    "rewardsAndChallenges": "Belohnungen & Challenges",
+    "viewAll": "Alle anzeigen →",
     "empty": {
       "title": "Noch nichts geplant",
       "body": "Erstelle deine erste Aufgabe oder dein erstes Event.",
@@ -139,6 +146,10 @@
     "familyTab": "Familie",
     "timeBlocksTab": "Zeiten",
     "routinesTab": "Routinen",
+    "nudgesTab": "Nudges",
+    "sharingTab": "Teilen",
+    "subscriptionTab": "Abo",
+    "profileTab": "Profil",
     "members": "Mitglieder",
     "memberCount": "{{current}}/{{max}}",
     "addMember": "Hinzufügen",
@@ -150,6 +161,15 @@
     "roleAdult": "Erwachsene/r",
     "roleChild": "Kind",
     "roleBaby": "Baby",
+    "inviteAdult": "Erwachsenen einladen",
+    "addChild": "Kind hinzufügen",
+    "addBaby": "Baby hinzufügen",
+    "removeMember": "Mitglied entfernen",
+    "removeConfirm": "Möchtest du {{name}} wirklich aus der Familie entfernen?",
+    "memberRemoved": "{{name}} entfernt",
+    "childUsername": "Benutzername",
+    "childPin": "PIN (4 Ziffern)",
+    "childCreated": "Kind erstellt! Zugangsdaten: {{username}} / {{pin}}",
     "timeBlocks": "Zeitblöcke",
     "timeBlockEmpty": "Keine Zeitblöcke",
     "timeBlockEmptyBody": "Füge Schule, Arbeit oder andere Zeiten hinzu.",
@@ -171,8 +191,25 @@
     "createRoutine": "Routine erstellen",
     "routineAssignee": "Zugewiesen an",
     "routineFlowMode": "Flow-Modus",
+    "routineFrequency": "Häufigkeit",
+    "routineDaily": "Täglich",
+    "routineWeekly": "Wöchentlich",
+    "routineMonthly": "Monatlich",
+    "routineInterval": "Alle",
+    "routineIntervalWeeks": "Wochen",
+    "routineTime": "Uhrzeit",
     "soundEnabled": "Ton aktiviert",
-    "soundVolume": "Lautstärke"
+    "soundVolume": "Lautstärke",
+    "editProfile": "Profil bearbeiten",
+    "changePassword": "Passwort ändern",
+    "currentPassword": "Aktuelles Passwort",
+    "newPassword": "Neues Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "passwordChanged": "Passwort geändert",
+    "passwordMismatch": "Passwörter stimmen nicht überein",
+    "language": "Sprache",
+    "notifications": "Benachrichtigungen",
+    "profileSaved": "Profil gespeichert"
   },
   "rewards": {
     "title": "Belohnungen",
@@ -415,9 +452,5 @@
   "upgrade": {
     "unlockFeature": "Schalte dieses Feature frei mit {{tier}}",
     "upgradeNow": "Jetzt upgraden"
-  },
-  "settings": {
-    "sharingTab": "Teilen",
-    "subscriptionTab": "Abo"
   }
 }
