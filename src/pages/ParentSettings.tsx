@@ -348,8 +348,8 @@ function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine
               <Select value={assignee} onValueChange={setAssignee}>
                 <SelectTrigger><SelectValue placeholder={t("settings.selectPlaceholder")} /></SelectTrigger>
                 <SelectContent>
-                  {members.map((m: any) => (
-                    <SelectItem key={m.id} value={m.user_id ?? m.id}>{m.name}</SelectItem>
+                  {members.filter((m: any) => m.user_id || m.id).map((m: any) => (
+                    <SelectItem key={m.id} value={m.user_id || m.id}>{m.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
