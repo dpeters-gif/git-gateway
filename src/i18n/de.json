@@ -11,7 +11,13 @@
     "close": "Schließen",
     "undo": "Rückgängig",
     "search": "Suchen",
-    "noData": "Noch keine Daten"
+    "noData": "Noch keine Daten",
+    "confirm": "Bestätigen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "all": "Alle",
+    "today": "Heute",
+    "name": "Name"
   },
   "auth": {
     "login": "Anmelden",
@@ -23,7 +29,11 @@
     "pin": "PIN",
     "adultTab": "Erwachsene",
     "childTab": "Kinder",
-    "forgotPassword": "Passwort vergessen?"
+    "forgotPassword": "Passwort vergessen?",
+    "signupSuccess": "Registrierung erfolgreich! Bitte bestätige deine E-Mail.",
+    "loginError": "Anmeldung fehlgeschlagen",
+    "noAccount": "Noch kein Konto?",
+    "hasAccount": "Bereits ein Konto?"
   },
   "nav": {
     "home": "Startseite",
@@ -41,6 +51,10 @@
     "completedToday": "Heute erledigt",
     "weeklyOverview": "Wochenübersicht",
     "familyBoard": "Pinnwand",
+    "events": "Events",
+    "members": "Mitglieder",
+    "taskDistribution": "Aufgabenverteilung",
+    "boardEmpty": "Noch keine Notizen. Erstelle eine über das + Menü.",
     "empty": {
       "title": "Noch nichts geplant",
       "body": "Erstelle deine erste Aufgabe oder dein erstes Event.",
@@ -54,6 +68,7 @@
     "streakBroken": "Streak starten!",
     "levelLabel": "Level {{level}}",
     "xpProgress": "{{current}} / {{target}} XP",
+    "todayQuests": "Heutige Quests",
     "quest": {
       "complete": "Quest geschafft!"
     },
@@ -80,7 +95,14 @@
     "assignee": "Zugewiesen an",
     "xpValue": "XP-Wert",
     "completed": "Erledigt",
-    "open": "Offen"
+    "open": "Offen",
+    "startTime": "Startzeit",
+    "endTime": "Endzeit",
+    "icon": "Symbol",
+    "photoRequired": "Foto erforderlich",
+    "filterAll": "Alle",
+    "filterOpen": "Offen",
+    "filterCompleted": "Erledigt"
   },
   "event": {
     "create": "Event erstellen",
@@ -90,15 +112,81 @@
     "startTime": "Startzeit",
     "endTime": "Endzeit",
     "allDay": "Ganztägig",
-    "description": "Beschreibung"
+    "description": "Beschreibung",
+    "icon": "Symbol"
+  },
+  "calendar": {
+    "weekView": "Woche",
+    "monthView": "Monat",
+    "calendarWeek": "KW {{week}}",
+    "quickCreate": "Schnell erstellen",
+    "newTask": "Neue Aufgabe",
+    "newEvent": "Neues Event",
+    "conflict": "Zeitkonflikt"
   },
   "gamification": {
     "xpAwarded": "+{{amount}} XP",
     "goldAwarded": "+{{amount}} 🪙",
-    "levelUp": "Level {{level}} erreicht!",
+    "levelUp": "Level {{level}} erreicht! 🎉",
     "streakDay": "Tag {{count}} 🔥",
     "newBadge": "Neues Abzeichen!",
-    "treasureFound": "Schatzkiste gefunden!"
+    "treasureFound": "Schatzkiste gefunden!",
+    "streakProtected": "Serie geschützt! ❄️",
+    "firstQuestBonus": "Tagesstart-Bonus! 1.5× XP",
+    "keepGoing": "Weiter so!"
+  },
+  "settings": {
+    "familyTab": "Familie",
+    "timeBlocksTab": "Zeiten",
+    "routinesTab": "Routinen",
+    "members": "Mitglieder",
+    "memberCount": "{{current}}/{{max}}",
+    "addMember": "Hinzufügen",
+    "addMemberTitle": "Mitglied hinzufügen",
+    "memberLimitReached": "Maximale Mitgliederzahl ({{limit}}) erreicht",
+    "memberAdded": "{{name}} hinzugefügt",
+    "addError": "Fehler beim Hinzufügen",
+    "role": "Rolle",
+    "roleAdult": "Erwachsene/r",
+    "roleChild": "Kind",
+    "roleBaby": "Baby",
+    "timeBlocks": "Zeitblöcke",
+    "timeBlockEmpty": "Keine Zeitblöcke",
+    "timeBlockEmptyBody": "Füge Schule, Arbeit oder andere Zeiten hinzu.",
+    "createTimeBlock": "Zeitblock erstellen",
+    "blockLabel": "Bezeichnung",
+    "blockType": "Typ",
+    "blockTypeSchool": "Schule",
+    "blockTypeWork": "Arbeit",
+    "blockTypeNap": "Schlaf/Kita",
+    "blockTypeUnavailable": "Nicht verfügbar",
+    "blockPerson": "Person",
+    "blockFrom": "Von",
+    "blockTo": "Bis",
+    "blockWeekdays": "Wochentage",
+    "selectPlaceholder": "Wählen…",
+    "routines": "Routinen",
+    "routineEmpty": "Keine Routinen",
+    "routineEmptyBody": "Erstelle eine Morgen- oder Abendroutine.",
+    "createRoutine": "Routine erstellen",
+    "routineAssignee": "Zugewiesen an",
+    "routineFlowMode": "Flow-Modus",
+    "soundEnabled": "Ton aktiviert",
+    "soundVolume": "Lautstärke"
+  },
+  "rewards": {
+    "title": "Belohnungen",
+    "create": "Belohnung erstellen",
+    "goldPrice": "Goldpreis",
+    "xpThreshold": "XP-Schwelle",
+    "active": "Aktiv",
+    "fulfill": "Einlösen",
+    "empty": "Noch keine Belohnungen",
+    "emptyBody": "Erstelle Belohnungen für die Kinder."
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "empty": "Keine Benachrichtigungen"
   },
   "fab": {
     "task": "Aufgabe",
