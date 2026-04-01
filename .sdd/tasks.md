@@ -220,9 +220,9 @@ builder-tool: Lovable
 
 - [x] TASK-F13: Performance: verify LCP <2.5s on 4G for Home and My Day. Optimize Supabase queries (indexes, select columns). | type: performance
 
-- [ ] TASK-F14: PWA: service worker with workbox (offline shell, asset caching), test install flow on iOS Safari + Android Chrome. | type: platform
+- [x] TASK-F14: PWA: service worker with workbox (offline shell, asset caching), test install flow on iOS Safari + Android Chrome. | type: platform
 
-- [ ] TASK-F15: **FINAL HANDOVER** — All 27 journeys functional, all states handled, all animations working, responsive at all breakpoints, i18n complete, security verified, performance within targets. App ready for user testing. | type: verification
+- [x] TASK-F15: **FINAL HANDOVER** — All 27 journeys functional, all states handled, all animations working, responsive at all breakpoints, i18n complete, security verified, performance within targets. App ready for user testing. | type: verification
 
 ---
 

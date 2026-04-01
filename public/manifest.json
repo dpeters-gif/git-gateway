@@ -6,5 +6,24 @@
   "display": "standalone",
   "theme_color": "#4E6E5D",
   "background_color": "#FBF7F0",
-  "icons": []
+  "orientation": "portrait-primary",
+  "categories": ["lifestyle", "productivity"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }
