@@ -53,11 +53,11 @@ export default function ParentTasks() {
           </SelectContent>
         </Select>
         <Select value={memberFilter} onValueChange={setMemberFilter}>
-          <SelectTrigger className="w-32"><SelectValue placeholder="Alle Mitglieder" /></SelectTrigger>
+          <SelectTrigger className="w-32"><SelectValue placeholder={t("common.all")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Alle</SelectItem>
-            {members.map(m => (
-              <SelectItem key={m.id} value={m.user_id ?? m.id}>{m.name}</SelectItem>
+            <SelectItem value="all">{t("common.all")}</SelectItem>
+            {members.filter(m => m.user_id || m.id).map(m => (
+              <SelectItem key={m.id} value={m.user_id || m.id}>{m.name}</SelectItem>
             ))}
           </SelectContent>
         </Select>
