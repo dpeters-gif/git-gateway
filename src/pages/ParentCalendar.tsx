@@ -105,12 +105,13 @@ export default function ParentCalendar() {
   }, [createTask, selectedDate, selectedAssignee, selectedTime, user]);
 
   const handleQuickEvent = useCallback((title: string) => {
+    const timeStr = selectedTime ?? "09:00";
     createEvent.mutate({
-      title, start_at: selectedDate ? `${selectedDate}T09:00:00` : new Date().toISOString(),
+      title, start_at: selectedDate ? `${selectedDate}T${timeStr}:00` : new Date().toISOString(),
       assigned_to_user_ids: selectedAssignee ? [selectedAssignee] : [], created_by_user_id: user?.id ?? null,
     });
     setShowQuickCreate(false);
-  }, [createEvent, selectedDate, selectedAssignee, user]);
+  }, [createEvent, selectedDate, selectedAssignee, selectedTime, user]);
 
   const handleTaskComplete = useCallback((taskId: string) => {
     completeTask.mutate(taskId);
