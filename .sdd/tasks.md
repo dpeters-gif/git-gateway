@@ -88,61 +88,61 @@ builder-tool: Lovable
 
 ### Wave 1: Parent Screens
 
-- [ ] TASK-C01: Build WeekMatrix component: family members as rows, days (Mon-Sun) as columns. Today highlighted (primary-light bg). Time block bands rendered BEHIND cards (lower z-index). Baby members shown with pacifier avatar. Responsive: full matrix ≥768px, day tabs <768px. | spec: P-1, design-constraints §3 | type: ui
+- [x] TASK-C01: Build WeekMatrix component: family members as rows, days (Mon-Sun) as columns. Today highlighted (primary-light bg). Time block bands rendered BEHIND cards (lower z-index). Baby members shown with pacifier avatar. Responsive: full matrix ≥768px, day tabs <768px. | spec: P-1, design-constraints §3 | type: ui
 
-- [ ] TASK-C02: Build calendar item components: CalendarEventCard (info-blue accent, time range, assignee avatar), CalendarTaskCard (priority accent, XP chip, checkbox inline, assignee avatar, strikethrough when complete). Both clickable → detail popover. Both draggable (dnd-kit). | spec: P-1, design-constraints §2, §3 | type: ui
+- [x] TASK-C02: Build calendar item components: CalendarEventCard (info-blue accent, time range, assignee avatar), CalendarTaskCard (priority accent, XP chip, checkbox inline, assignee avatar, strikethrough when complete). Both clickable → detail popover. Both draggable (dnd-kit). | spec: P-1, design-constraints §2, §3 | type: ui
 
-- [ ] TASK-C03: Build TimeBlockBand component: colored background band (school=info, work=primary, nap=secondary, unavailable=gray). Renders behind calendar items. | spec: P-1, design-tokens §1 | type: ui
+- [x] TASK-C03: Build TimeBlockBand component: colored background band (school=info, work=primary, nap=secondary, unavailable=gray). Renders behind calendar items. | spec: P-1, design-tokens §1 | type: ui
 
-- [ ] TASK-C04: Build DayTabSelector + DayView (phone <768px): horizontal swipeable day tabs, single-column view, swipe gestures for day navigation. | spec: P-1 | type: ui
+- [x] TASK-C04: Build DayTabSelector + DayView (phone <768px): horizontal swipeable day tabs, single-column view, swipe gestures for day navigation. | spec: P-1 | type: ui
 
-- [ ] TASK-C05: Build calendar drag-and-drop: DndContext wrapping calendar, items draggable to new day (reschedule) or new person row (reassign). DragOverlay shows cloned item. On drop: optimistic update + undo toast (5s). | spec: P-2, design-constraints §3 | type: ui
+- [x] TASK-C05: Build calendar drag-and-drop: DndContext wrapping calendar, items draggable to new day (reschedule) or new person row (reassign). DragOverlay shows cloned item. On drop: optimistic update + undo toast (5s). | spec: P-2, design-constraints §3 | type: ui
 
-- [ ] TASK-C06: Build QuickCreatePopover: triggered by tapping empty calendar cell. Title input (auto-focus), type toggle (Task/Event), submit. Pre-fills date + person from clicked cell. | spec: P-2, design-constraints §3 | type: ui
+- [x] TASK-C06: Build QuickCreatePopover: triggered by tapping empty calendar cell. Title input (auto-focus), type toggle (Task/Event), submit. Pre-fills date + person from clicked cell. | spec: P-2, design-constraints §3 | type: ui
 
-- [ ] TASK-C07: Build ItemDetailPopover: shown on item click. Title, full time range, description, assignee, action buttons (Edit, Delete, Complete for tasks). Edit opens full form. Delete shows confirmation + undo toast. | spec: P-2 | type: ui
+- [x] TASK-C07: Build ItemDetailPopover: shown on item click. Title, full time range, description, assignee, action buttons (Edit, Delete, Complete for tasks). Edit opens full form. Delete shows confirmation + undo toast. | spec: P-2 | type: ui
 
-- [ ] TASK-C08: Build conflict detection: scan calendar items for time overlaps per person. Red dot (8px) indicator at overlap point. Tap reveals popover with both conflicting items. | spec: P-1 amendment AC-026 | type: ui
+- [x] TASK-C08: Build conflict detection: scan calendar items for time overlaps per person. Red dot (8px) indicator at overlap point. Tap reveals popover with both conflicting items. | spec: P-1 amendment AC-026 | type: ui
 
-- [ ] TASK-C09: Build EventCreateForm: dialog (≥768px) or bottom sheet (<768px). Fields: title*, icon picker (default: Calendar), date picker, time pickers, all-day toggle, description, assign to member(s). Pre-fill from calendar cell click. | spec: P-2 | type: ui
+- [x] TASK-C09: Build EventCreateForm: dialog (≥768px) or bottom sheet (<768px). Fields: title*, icon picker (default: Calendar), date picker, time pickers, all-day toggle, description, assign to member(s). Pre-fill from calendar cell click. | spec: P-2 | type: ui
 
-- [ ] TASK-C10: Build TaskCreateForm: dialog/bottom sheet. Fields: title*, icon picker (default: CheckSquare NOT heart), due date, start/end time, priority select, XP value (default: 10), assignee, description, photo required toggle, challenge link (if challenges exist). | spec: P-2, amendment AC-012 | type: ui
+- [x] TASK-C10: Build TaskCreateForm: dialog/bottom sheet. Fields: title*, icon picker (default: CheckSquare NOT heart), due date, start/end time, priority select, XP value (default: 10), assignee, description, photo required toggle, challenge link (if challenges exist). | spec: P-2, amendment AC-012 | type: ui
 
-- [ ] TASK-C11: Build IconPicker: grid of Lucide icons in bottom sheet. Search/filter. Selected icon shown next to title field. | spec: P-2 | type: ui
+- [x] TASK-C11: Build IconPicker: grid of Lucide icons in bottom sheet. Search/filter. Selected icon shown next to title field. | spec: P-2 | type: ui
 
-- [ ] TASK-C12: Build parent Home page: quick stats row (open tasks, completed, streak, gold — large numbers), member filter chips, weekly summary card, task distribution donut (recharts), Pinnwand preview (3 notes), calendar preview (compact week matrix). Wire to Supabase queries. All 4 states. Stagger entrance animations. | spec: P-1, P-13, design-constraints §7 | type: ui+wiring
+- [x] TASK-C12: Build parent Home page: quick stats row (open tasks, completed, streak, gold — large numbers), member filter chips, weekly summary card, task distribution donut (recharts), Pinnwand preview (3 notes), calendar preview (compact week matrix). Wire to Supabase queries. All 4 states. Stagger entrance animations. | spec: P-1, P-13, design-constraints §7 | type: ui+wiring
 
-- [ ] TASK-C13: Build parent Calendar page: view mode toggle (Day/Week/Month), WeekMatrix as default, member filter, all calendar interactions (click, drag, quick-create, conflict dots). Wire to Supabase. | spec: P-1, P-2 | type: ui+wiring
+- [x] TASK-C13: Build parent Calendar page: view mode toggle (Day/Week/Month), WeekMatrix as default, member filter, all calendar interactions (click, drag, quick-create, conflict dots). Wire to Supabase. | spec: P-1, P-2 | type: ui+wiring
 
-- [ ] TASK-C14: Build parent Tasks page: list of all tasks with filters (open/completed/all, by member, by priority). Task cards with inline completion checkbox. Create via FAB. | spec: P-2 | type: ui+wiring
+- [x] TASK-C14: Build parent Tasks page: list of all tasks with filters (open/completed/all, by member, by priority). Task cards with inline completion checkbox. Create via FAB. | spec: P-2 | type: ui+wiring
 
-- [ ] TASK-C15: Build time block + routine management: list view in Settings, create/edit forms, day+time selection, routine with task steps (reorderable via drag), flow mode toggle. | spec: P-3, P-8 | type: ui+wiring
+- [x] TASK-C15: Build time block + routine management: list view in Settings, create/edit forms, day+time selection, routine with task steps (reorderable via drag), flow mode toggle. | spec: P-3, P-8 | type: ui+wiring
 
-- [ ] TASK-C16: Build family management in Settings: member list (adults, children, babies), add member (3 role options), edit member, promote baby→child (via Edge Function), invite adult, child permissions toggles. Subscription member limit check. | spec: P-5, amendment | type: ui+wiring
+- [x] TASK-C16: Build family management in Settings: member list (adults, children, babies), add member (3 role options), edit member, promote baby→child (via Edge Function), invite adult, child permissions toggles. Subscription member limit check. | spec: P-5, amendment | type: ui+wiring
 
-- [ ] TASK-C17: Create Edge Function `promote-baby`: creates User, updates role, creates permissions, awards creature egg. | spec: P-5 amendment, api-contracts §2 | type: edge-function
+- [x] TASK-C17: Create Edge Function `promote-baby`: creates User, updates role, creates permissions, awards creature egg. | spec: P-5 amendment, api-contracts §2 | type: edge-function
 
-- [ ] TASK-C18: **HANDOVER TEST — Sprint 1 Parent** — Weekly overview loads with data, calendar items clickable + draggable, quick-create works, events/tasks CRUD complete, time blocks render as bands, baby members visible, conflict dots shown, FAB on every page, all 4 states handled, responsive at 768px + 375px, skeleton loaders on all async. | type: verification
+- [x] TASK-C18: **HANDOVER TEST — Sprint 1 Parent** — Weekly overview loads with data, calendar items clickable + draggable, quick-create works, events/tasks CRUD complete, time blocks render as bands, baby members visible, conflict dots shown, FAB on every page, all 4 states handled, responsive at 768px + 375px, skeleton loaders on all async. | type: verification
 
 ### Wave 2: Child UI + Basic Gamification
 
-- [ ] TASK-C19: Build child My Day page: personalized greeting (name + date + quest count), streak card (flame icon + count, glow when active, dim when 0), quest list (today's tasks as quest cards with XP badges + large 48px checkboxes), XP/level section (circular badge + progress bar + fraction text), challenge preview card, reward preview card, companion creature display, board note preview. All with stagger slideUp entrance. Honey background. | spec: C-1 | type: ui
+- [x] TASK-C19: Build child My Day page: personalized greeting (name + date + quest count), streak card (flame icon + count, glow when active, dim when 0), quest list (today's tasks as quest cards with XP badges + large 48px checkboxes), XP/level section (circular badge + progress bar + fraction text), challenge preview card, reward preview card, companion creature display, board note preview. All with stagger slideUp entrance. Honey background. | spec: C-1 | type: ui
 
-- [ ] TASK-C20: Create Edge Function `complete-task`: FULL gamification transaction (XP + Gold + drops + streak + creature + badges + challenge). See api-contracts §2 for complete logic. This is the most complex Edge Function. | spec: C-2, S-3-ENHANCED, api-contracts §2 | type: edge-function
+- [x] TASK-C20: Create Edge Function `complete-task`: FULL gamification transaction (XP + Gold + drops + streak + creature + badges + challenge). See api-contracts §2 for complete logic. This is the most complex Edge Function. | spec: C-2, S-3-ENHANCED, api-contracts §2 | type: edge-function
 
-- [ ] TASK-C21: Build dopamine loop animation sequence: triggered on task completion response. Choreographed per design-tokens §8 timing (T+0ms through T+1200ms). Haptic → sound → card pulse → XP/Gold popIn → streak check → XP bar fill → drop chance → level-up check → card strikethrough. Queue animations sequentially, never overlap. | spec: C-2, S-3-ENHANCED, design-tokens §8 | type: ui
+- [x] TASK-C21: Build dopamine loop animation sequence: triggered on task completion response. Choreographed per design-tokens §8 timing (T+0ms through T+1200ms). Haptic → sound → card pulse → XP/Gold popIn → streak check → XP bar fill → drop chance → level-up check → card strikethrough. Queue animations sequentially, never overlap. | spec: C-2, S-3-ENHANCED, design-tokens §8 | type: ui
 
-- [ ] TASK-C22: Build level-up celebration overlay: full-screen, bounceIn level number, confetti particles, playLevelUp() sound. Auto-dismiss after 3s or tap to dismiss. | spec: C-2 | type: ui
+- [x] TASK-C22: Build level-up celebration overlay: full-screen, bounceIn level number, confetti particles, playLevelUp() sound. Auto-dismiss after 3s or tap to dismiss. | spec: C-2 | type: ui
 
-- [ ] TASK-C23: Build child Progress page: large level badge (80px, bounceIn), streak history (30-day calendar heat map), badge collection (grid, earned=glow, unearned=gray silhouette, tap=detail), family leaderboard (weekly/monthly tabs, position change arrows, current child highlighted, never "last place" framing). | spec: C-3 | type: ui
+- [x] TASK-C23: Build child Progress page: large level badge (80px, bounceIn), streak history (30-day calendar heat map), badge collection (grid, earned=glow, unearned=gray silhouette, tap=detail), family leaderboard (weekly/monthly tabs, position change arrows, current child highlighted, never "last place" framing). | spec: C-3 | type: ui
 
-- [ ] TASK-C24: Build child Quests page: full quest list (all assigned tasks, sorted: today first, then upcoming), quest cards with completion checkbox, filter by status. | spec: C-1 | type: ui
+- [x] TASK-C24: Build child Quests page: full quest list (all assigned tasks, sorted: today first, then upcoming), quest cards with completion checkbox, filter by status. | spec: C-1 | type: ui
 
-- [ ] TASK-C25: Build child Rewards page: available rewards (XP threshold met), upcoming rewards (progress shown), reward history. | spec: P-4 (child view) | type: ui
+- [x] TASK-C25: Build child Rewards page: available rewards (XP threshold met), upcoming rewards (progress shown), reward history. | spec: P-4 (child view) | type: ui
 
-- [ ] TASK-C26: Wire all child pages to Supabase. Use complete-task Edge Function for completions. | type: wiring
+- [x] TASK-C26: Wire all child pages to Supabase. Use complete-task Edge Function for completions. | type: wiring
 
-- [ ] TASK-C27: **HANDOVER TEST — Sprint 1 Child** — Child login works (username+PIN), My Day loads with quest data, task completion triggers full dopamine loop (sound + animation + XP + Gold), streak updates, level-up celebration fires, progress page shows badges + leaderboard, responsive at 768px + 375px. | type: verification
+- [x] TASK-C27: **HANDOVER TEST — Sprint 1 Child** — Child login works (username+PIN), My Day loads with quest data, task completion triggers full dopamine loop (sound + animation + XP + Gold), streak updates, level-up celebration fires, progress page shows badges + leaderboard, responsive at 768px + 375px. | type: verification
 
 ---
 
