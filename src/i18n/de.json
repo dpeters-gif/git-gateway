@@ -218,7 +218,17 @@
     "checked": "Erledigt",
     "clearChecked": "Erledigte löschen",
     "clearConfirm": "Alle erledigten Einträge löschen?",
-    "cleared": "Erledigte gelöscht"
+    "cleared": "Erledigte gelöscht",
+    "category": {
+      "dairy": "Milchprodukte",
+      "produce": "Obst & Gemüse",
+      "meat": "Fleisch & Wurst",
+      "bakery": "Backwaren",
+      "drinks": "Getränke",
+      "frozen": "Tiefkühl",
+      "household": "Haushalt",
+      "other": "Sonstiges"
+    }
   },
   "flow": {
     "step": "Schritt {{current}} von {{total}}",
