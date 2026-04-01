@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { staggerContainer, slideUp } from "@/lib/animations";
 import { useAuth } from "@/hooks/useAuth";
@@ -19,8 +20,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MEMBER_LIMITS } from "@/lib/constants";
 import { supabase } from "@/integrations/supabase/client";
 import NudgeConfig from "@/components/nudges/NudgeConfig";
+import GrandparentLinks from "@/components/settings/GrandparentLinks";
+import SubscriptionManagement from "@/components/subscription/SubscriptionManagement";
 import {
-  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield, Bell
+  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield, Bell, CreditCard, Link2
 } from "lucide-react";
 import { toast } from "sonner";
 
