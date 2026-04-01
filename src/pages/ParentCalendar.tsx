@@ -192,16 +192,14 @@ export default function ParentCalendar() {
       </motion.div>
 
       {/* Quick Create Popover wired to cell clicks */}
-      {showQuickCreate && (
-        <QuickCreatePopover
-          open={showQuickCreate}
-          onOpenChange={setShowQuickCreate}
-          onQuickTask={handleQuickTask}
-          onQuickEvent={handleQuickEvent}
-          onFullTask={() => { setShowQuickCreate(false); setShowTaskForm(true); }}
-          onFullEvent={() => { setShowQuickCreate(false); setShowEventForm(true); }}
-        />
-      )}
+      <QuickCreatePopover
+        open={showQuickCreate}
+        onOpenChange={setShowQuickCreate}
+        onCreateTask={handleQuickTask}
+        onCreateEvent={handleQuickEvent}
+      >
+        <span />
+      </QuickCreatePopover>
 
       <TaskCreateForm
         open={showTaskForm}
