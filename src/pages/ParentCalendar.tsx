@@ -28,7 +28,7 @@ export default function ParentCalendar() {
   const { user } = useAuth();
   const { familyId } = useFamily();
   const { tasks, isLoading: tasksLoading, isError: tasksError, refetch: refetchTasks, createTask, updateTask, completeTask } = useTasks();
-  const { events, isLoading: eventsLoading, isError: eventsError, refetch: refetchEvents, createEvent } = useEvents();
+  const { events, isLoading: eventsLoading, isError: eventsError, refetch: refetchEvents, createEvent, updateEvent } = useEvents();
   const { timeBlocks, isLoading: blocksLoading } = useTimeBlocks();
 
   const [weekOffset, setWeekOffset] = useState(0);
@@ -122,6 +122,22 @@ export default function ParentCalendar() {
     });
   }, [completeTask, updateTask, t]);
 
+  const handleTaskReschedule = useCallback((taskId: string, newDate: string, newAssignee: string | null) => {
+    updateTask.mutate({ id: taskId, due_date: newDate, assigned_to_user_id: newAssignee });
+    toast.success(t("task.rescheduled", "Verschoben"));
+  }, [updateTask, t]);
+
+  const handleEventReschedule = useCallback((eventId: string, newDate: string, newAssignee: string | null) => {
+    const ev = events.find(e => e.id === eventId);
+    if (!ev) return;
+    const oldDate = format(new Date(ev.start_at), "yyyy-MM-dd");
+    const oldTime = format(new Date(ev.start_at), "HH:mm:ss");
+    const newStartAt = `${newDate}T${oldTime}`;
+    const newAssignees = newAssignee ? [newAssignee] : ev.assigned_to_user_ids;
+    updateEvent.mutate({ id: eventId, start_at: newStartAt, assigned_to_user_ids: newAssignees });
+    toast.success(t("task.rescheduled", "Verschoben"));
+  }, [updateEvent, events, t]);
+
   const handleMonthDayClick = useCallback((date: Date) => {
     const weekStartForDay = startOfWeek(date, { weekStartsOn: 1 });
     const base = startOfWeek(new Date(), { weekStartsOn: 1 });
@@ -205,6 +221,8 @@ export default function ParentCalendar() {
               onEventClick={event => { setSelectedItem(event); setShowDetail(true); }}
               onCellClick={handleCellClick}
               onTaskComplete={handleTaskComplete}
+              onTaskReschedule={handleTaskReschedule}
+              onEventReschedule={handleEventReschedule}
               conflicts={conflicts}
             />
           ) : (
