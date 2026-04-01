@@ -47,6 +47,7 @@ export default function ParentCalendar() {
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [showEventForm, setShowEventForm] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | undefined>();
+  const [selectedTime, setSelectedTime] = useState<string | undefined>();
   const [selectedAssignee, setSelectedAssignee] = useState<string | undefined>();
   const [selectedItem, setSelectedItem] = useState<Task | Event | null>(null);
   const [showDetail, setShowDetail] = useState(false);
