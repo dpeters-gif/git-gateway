@@ -211,6 +211,10 @@ ADD: "Default icon for tasks: checkbox (CheckSquare). Default icon for events: c
 - **AC-022:** Promotion: creates User + changes role + awards creature egg.
 - **AC-023:** Promotion preserves all calendar data.
 - **AC-024:** Member count checked against subscription tier limit before adding.
+- **AC-025:** Add member flow supports three paths: (a) Invite adult via email link, (b) Create child account with name + username + PIN, (c) Add baby with name only.
+- **AC-026:** Admin can remove any non-admin member. Confirmation dialog required. Removes family_members only — does NOT delete user account.
+- **AC-027:** Settings includes profile editing: name (editable), password change dialog, language toggle (de/en) updating profiles.locale and i18n.changeLanguage().
+- **AC-028:** Every visible string on Settings page wrapped in t() with entries in both de.json and en.json.
 
 ### Subscription tier: Free (up to 3 members), Family (up to 8), Family+ (up to 12)
 
