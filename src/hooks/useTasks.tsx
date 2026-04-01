@@ -12,6 +12,7 @@ export type TaskUpdate = TablesUpdate<"tasks">;
 
 export function useTasks(filters?: { status?: string; assignee?: string; priority?: string }) {
   const { familyId } = useFamily();
+  const { user } = useAuth();
   const { t } = useTranslation();
   const qc = useQueryClient();
 
