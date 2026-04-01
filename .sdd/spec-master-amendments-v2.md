@@ -116,8 +116,12 @@ quick-create. References Mobiscroll (removed).
 - **AC-027:** All calendar items clickable → detail popover (title, time, description, edit/delete).
 - **AC-028:** All calendar items draggable → reschedule (new day) or reassign (new person row). Optimistic update + undo toast.
 - **AC-029:** Empty cells tappable → quick-create popover with date + person pre-filled.
-- **AC-030:** Home dashboard includes: quick stats row (open tasks, completed, streak, gold), weekly summary card, task distribution chart, Pinnwand preview (3 notes), calendar preview.
+- **AC-030:** Home dashboard includes: quick stats row (open tasks, completed, streak, gold), weekly summary card, TODAY'S TASKS widget (today's open tasks with inline completion + assignee + priority dot), GROCERY LIST widget (top 5 unchecked items + add field + realtime sync), ACTIVE REWARDS & CHALLENGES widget (cards with progress bars + deadlines), task distribution chart, Pinnwand preview (3 notes).
 - **AC-031:** Quick stats row uses cards with large numbers (font-size-xxl, font-weight-extrabold) and labeled metrics.
+- **AC-032:** Week view uses Google Calendar-style layout: vertical time axis (06:00–22:00, 30-min slots), days as columns. All-day/no-time items in section ABOVE time grid. Timed items positioned vertically by start/end time, height proportional to duration.
+- **AC-033:** Time slot height = 40px per 30 min. Item top = (hour - 6) × 80 + (minute / 30) × 40 px. Min item height: 40px.
+- **AC-034:** Current time indicator: thin red horizontal line spanning all columns, updating every minute.
+- **AC-035:** Empty time slot tappable → quick-create popover with date + time pre-filled.
 
 ### ADD to Success Criteria:
 - Parent can create an event from the calendar in under 10 seconds (tap empty cell → type title → submit).
