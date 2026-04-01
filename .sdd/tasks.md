@@ -148,27 +148,27 @@ builder-tool: Lovable
 
 ## Phase D: Sprint 2 — Gamification Deep + Onboarding (Waves 3-4)
 
-- [ ] TASK-D01: Create Edge Function `spend-gold`: atomic balance check + deduction + item award. | spec: S-3-ENHANCED §2.1, api-contracts §2 | type: edge-function
+- [x] TASK-D01: Create Edge Function `spend-gold`: atomic balance check + deduction + item award. | spec: S-3-ENHANCED §2.1, api-contracts §2 | type: edge-function
 
-- [ ] TASK-D02: Build Gold Shop: list of purchasable items (streak freezes, avatar items). Gold balance display. Purchase confirmation dialog. Insufficient gold message. | spec: S-3-ENHANCED §2.1 | type: ui
+- [x] TASK-D02: Build Gold Shop: list of purchasable items (streak freezes, avatar items). Gold balance display. Purchase confirmation dialog. Insufficient gold message. | spec: S-3-ENHANCED §2.1 | type: ui
 
-- [ ] TASK-D03: Build drop event display: treasure chest bounceIn animation after task completion (20% chance). Chest opens → item reveal popIn. Drop types: bonus XP, bonus Gold, streak freeze, avatar item, creature food. | spec: S-3-ENHANCED §2.2 | type: ui
+- [x] TASK-D03: Build drop event display: treasure chest bounceIn animation after task completion (20% chance). Chest opens → item reveal popIn. Drop types: bonus XP, bonus Gold, streak freeze, avatar item, creature food. | spec: S-3-ENHANCED §2.2 | type: ui
 
-- [ ] TASK-D04: Build streak freeze system: freeze icon in streak card when freeze available. Auto-activate when streak would break. Purchase in Gold Shop (10 Gold). Freeze crystal animation. | spec: S-3-ENHANCED §2.3 | type: ui
+- [x] TASK-D04: Build streak freeze system: freeze icon in streak card when freeze available. Auto-activate when streak would break. Purchase in Gold Shop (10 Gold). Freeze crystal animation. | spec: S-3-ENHANCED §2.3 | type: ui
 
-- [ ] TASK-D05: Build challenge detail + boss battle view: progress bar, contributor list, boss creature SVG silhouette, HP bar, attack animation on task contribution, boss defeat celebration. | spec: C-4, S-3-ENHANCED §2.6 | type: ui
+- [x] TASK-D05: Build challenge detail + boss battle view: progress bar, contributor list, boss creature SVG silhouette, HP bar, attack animation on task contribution, boss defeat celebration. | spec: C-4, S-3-ENHANCED §2.6 | type: ui
 
-- [ ] TASK-D06: Build parent Rewards page: create/edit rewards (XP threshold + optional Gold price), create/edit challenges (individual/family, boss battle type), fulfill rewards, view challenge progress. | spec: P-4 | type: ui+wiring
+- [x] TASK-D06: Build parent Rewards page: create/edit rewards (XP threshold + optional Gold price), create/edit challenges (individual/family, boss battle type), fulfill rewards, view challenge progress. | spec: P-4 | type: ui+wiring
 
-- [ ] TASK-D07: Build companion creature display: 3 growth stages (egg → baby → juvenile → adult), feeding animation (heart float), evolution animation, creature visible on My Day. SVG placeholder creatures (6 types, geometric style). | spec: S-3-ENHANCED §2.7, C-6 | type: ui
+- [x] TASK-D07: Build companion creature display: 3 growth stages (egg → baby → juvenile → adult), feeding animation (heart float), evolution animation, creature visible on My Day. SVG placeholder creatures (6 types, geometric style). | spec: S-3-ENHANCED §2.7, C-6 | type: ui
 
-- [ ] TASK-D08: Build avatar editor: category tabs, item grid, preview, locked items with level/badge requirements shown. Purchase with Gold. Avatar displayed in app bar + nav + leaderboard. | spec: C-6 | type: ui
+- [x] TASK-D08: Build avatar editor: category tabs, item grid, preview, locked items with level/badge requirements shown. Purchase with Gold. Avatar displayed in app bar + nav + leaderboard. | spec: C-6 | type: ui
 
-- [ ] TASK-D09: **HANDOVER TEST — Gamification** — Gold economy works (earn + spend), drops trigger randomly, streak freezes activate, boss battles track HP, creatures grow, avatar items purchasable, all animations fire correctly. | type: verification
+- [x] TASK-D09: **HANDOVER TEST — Gamification** — Gold economy works (earn + spend), drops trigger randomly, streak freezes activate, boss battles track HP, creatures grow, avatar items purchasable, all animations fire correctly. | type: verification
 
-- [ ] TASK-D10: Build onboarding flow (6 steps): Welcome → Family name → Members (child + baby options) → School/daycare times → First task (with suggestions) → Complete (creature egg + calendar preview). Each step on one screen, slideInRight transitions, skip options on optional steps. Resume on re-login. | spec: S-1, amendments | type: ui+wiring
+- [x] TASK-D10: Build onboarding flow (6 steps): Welcome → Family name → Members (child + baby options) → School/daycare times → First task (with suggestions) → Complete (creature egg + calendar preview). Each step on one screen, slideInRight transitions, skip options on optional steps. Resume on re-login. | spec: S-1, amendments | type: ui+wiring
 
-- [ ] TASK-D11: **HANDOVER TEST — Onboarding** — New user completes flow in <5 min, baby creation works, calendar populates, creature egg appears, resume works after abandon. | type: verification
+- [x] TASK-D11: **HANDOVER TEST — Onboarding** — New user completes flow in <5 min, baby creation works, calendar populates, creature egg appears, resume works after abandon. | type: verification
 
 ---
 
