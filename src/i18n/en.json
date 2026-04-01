@@ -263,5 +263,90 @@
   "suggestions": {
     "title": "Suggestions",
     "show": "Show suggestions"
+  },
+  "onboarding": {
+    "welcome": "Welcome to Familienzentrale!",
+    "welcomeSub": "Set up your family in a few steps.",
+    "familyName": "What's your family name?",
+    "familyPlaceholder": "e.g. The Smiths",
+    "whoJoins": "Who belongs to the family?",
+    "youAdded": "You're already added as a parent.",
+    "schoolTimes": "School or daycare times?",
+    "yesSchool": "Yes, enter school times",
+    "firstTask": "First task?",
+    "orSuggestion": "Or pick a suggestion.",
+    "taskPlaceholder": "Enter a task…",
+    "allReady": "All set!",
+    "summary": "{{family}} will be set up with {{count}} members.",
+    "firstTaskLabel": "First task",
+    "creatureEgg": "Children get a companion egg that grows with them! 🐣",
+    "defaultFamily": "My Family",
+    "parentDefault": "Parent",
+    "school": "School",
+    "createError": "Family creation failed",
+    "success": "Family created! 🎉",
+    "letsGo": "Let's go",
+    "createFamily": "Create family",
+    "suggestion1": "Tidy room",
+    "suggestion2": "Brush teeth",
+    "suggestion3": "Pack school bag",
+    "suggestion4": "Set the table",
+    "suggestion5": "Do homework",
+    "suggestion6": "Make bed"
+  },
+  "shop": {
+    "title": "Gold Shop",
+    "streakFreeze": "Streak Freeze",
+    "freezeMax": "Max {{max}}",
+    "freezeAvailable": "{{count}}× Streak Freeze available",
+    "purchased": "{{name}} purchased!",
+    "purchaseFailed": "Purchase failed"
+  },
+  "avatar": {
+    "equippedCount": "{{count}} items equipped",
+    "unequipped": "Item unequipped",
+    "purchased": "{{name}} purchased!"
+  },
+  "drop": {
+    "bonusGold": "Bonus Gold!",
+    "xpBoost": "2× XP Boost!",
+    "streakFreeze": "Streak Freeze!",
+    "mysteryEgg": "Mystery Egg!",
+    "avatarItem": "Avatar Item!",
+    "reward": "Reward!"
+  },
+  "boss": {
+    "defeated": "Boss defeated! 🎉"
+  },
+  "challenges": {
+    "title": "Challenges",
+    "create": "Create challenge",
+    "created": "Challenge created",
+    "empty": "No challenges yet",
+    "emptyBody": "Create a challenge for the family.",
+    "type": "Type",
+    "individual": "Individual",
+    "family": "Family",
+    "bossBattle": "Boss Battle",
+    "target": "Target"
+  },
+  "childRewards": {
+    "emptyBody": "Complete quests and collect gold!",
+    "available": "Available",
+    "upcoming": "Coming soon",
+    "received": "Received"
+  },
+  "flow": {
+    "step": "Step {{current}} of {{total}}",
+    "stepDone": "Done ✓",
+    "done": "All done!",
+    "time": "Time: {{minutes}} min",
+    "underTime": "Under time! Awesome! 🚀",
+    "underTimeBonus": "+25% XP Bonus!",
+    "noStress": "No stress — just keep going",
+    "exitConfirm": "Cancel routine? Your progress will be saved.",
+    "exitYes": "Yes, exit",
+    "error": "Connection issue — try again",
+    "noSteps": "No steps remaining"
   }
 }

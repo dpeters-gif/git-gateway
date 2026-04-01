@@ -6,6 +6,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const MAX_STREAK_FREEZES = 2;
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
@@ -23,6 +25,22 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
+
+    // Check streak freeze limit before proceeding
+    if (itemType === "streak_freeze") {
+      const { count } = await supabaseAdmin
+        .from("streak_freezes")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", userId)
+        .eq("is_used", false);
+
+      if ((count ?? 0) >= MAX_STREAK_FREEZES) {
+        return new Response(JSON.stringify({ error: { code: "FREEZE_LIMIT", message: `Maximum ${MAX_STREAK_FREEZES} streak freezes allowed.` } }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
 
     // 1. Calculate gold balance
     const { data: balance } = await supabaseAdmin.rpc("get_gold_balance", { p_user_id: userId });
