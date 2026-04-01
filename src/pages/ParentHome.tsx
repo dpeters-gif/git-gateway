@@ -9,6 +9,9 @@ import SkeletonLoader from "@/components/shared/SkeletonLoader";
 import EmptyState from "@/components/shared/EmptyState";
 import FamilyBoard from "@/components/board/FamilyBoard";
 import { WeeklyRecapCard } from "@/components/recap/WeeklyRecap";
+import TodaysTasksWidget from "@/components/dashboard/TodaysTasksWidget";
+import GroceryWidget from "@/components/dashboard/GroceryWidget";
+import RewardsChallengesWidget from "@/components/dashboard/RewardsChallengesWidget";
 import { ClipboardList, Calendar, CheckCircle2, Users } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
