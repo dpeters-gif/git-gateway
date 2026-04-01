@@ -18,8 +18,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MEMBER_LIMITS } from "@/lib/constants";
 import { supabase } from "@/integrations/supabase/client";
+import NudgeConfig from "@/components/nudges/NudgeConfig";
 import {
-  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield
+  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield, Bell
 } from "lucide-react";
 import { toast } from "sonner";
 
