@@ -54,6 +54,8 @@ ADD to every spec's acceptance criteria (if not already present):
 - **AC-GLOBAL-05:** All content sections shall use Framer Motion stagger slideUp entrance animations.
 - **AC-GLOBAL-06:** Pull-to-refresh shall be supported on all scrollable views.
 - **AC-GLOBAL-07:** This screen shall be responsive at 768px (tablet) and 375px (phone) with no horizontal overflow.
+- **AC-GLOBAL-08:** Task cards must display: assignee name (resolved from family_members), priority label text ("Hoch"/"Normal"/"Niedrig") alongside the color accent, and be fully tappable to open a detail/edit dialog.
+- **AC-GLOBAL-09:** Photo-required tasks must prompt for photo proof before allowing completion.
 
 ### 0.3 Subscription Tier Gates
 
