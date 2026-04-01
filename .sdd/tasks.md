@@ -174,21 +174,21 @@ builder-tool: Lovable
 
 ## Phase E: Sprint 3 — Full Feature Set (Waves 5-7)
 
-- [ ] TASK-E01: Build Family Board: section on Home (3 recent notes + add button), full view (scrollable, all notes), note creation (text + image upload to Supabase Storage + expiry date), delete (author or admin), image lightbox. Board visible on child My Day too. | spec: P-13 | type: ui+wiring
+- [x] TASK-E01: Build Family Board: section on Home (3 recent notes + add button), full view (scrollable, all notes), note creation (text + image upload to Supabase Storage + expiry date), delete (author or admin), image lightbox. Board visible on child My Day too. | spec: P-13 | type: ui+wiring
 
-- [ ] TASK-E02: Build Shopping List: sticky add field with auto-complete from history, items with category icons (auto-categorized), grouped by category with headers, check/uncheck with slide animation, clear checked, drag-to-reorder. Supabase Realtime for instant cross-device sync. | spec: P-11, amendments | type: ui+wiring
+- [x] TASK-E02: Build Shopping List: sticky add field with auto-complete from history, items with category icons (auto-categorized), grouped by category with headers, check/uncheck with slide animation, clear checked, drag-to-reorder. Supabase Realtime for instant cross-device sync. | spec: P-11, amendments | type: ui+wiring
 
-- [ ] TASK-E03: Build Routine Flow Mode: full-screen single-step view, countdown timer, progress bar, step-complete sound (playFlowStep), XP per step, completion summary (total XP, time, under-time bonus). Accessible from routine detail + child My Day. | spec: P-8 | type: ui+wiring
+- [x] TASK-E03: Build Routine Flow Mode: full-screen single-step view, countdown timer, progress bar, step-complete sound (playFlowStep), XP per step, completion summary (total XP, time, under-time bonus). Accessible from routine detail + child My Day. | spec: P-8 | type: ui+wiring
 
-- [ ] TASK-E04: Build Smart Nudge system: Edge Function `evaluate-nudges` (scheduled), nudge config UI in Settings (per-child times, enable/disable, parent alert toggle, quiet hours). Push notification support for Family+ tier. | spec: P-9, amendments | type: ui+edge-function
+- [x] TASK-E04: Build Smart Nudge system: Edge Function `evaluate-nudges` (scheduled), nudge config UI in Settings (per-child times, enable/disable, parent alert toggle, quiet hours). Push notification support for Family+ tier. | spec: P-9, amendments | type: ui+edge-function
 
-- [ ] TASK-E05: Build Photo Proof: camera capture UI (Capacitor camera or file input fallback), upload to Supabase Storage, photo required toggle on task/routine forms, photo display in task detail with lightbox. | spec: C-5 | type: ui+wiring
+- [x] TASK-E05: Build Photo Proof: camera capture UI (Capacitor camera or file input fallback), upload to Supabase Storage, photo required toggle on task/routine forms, photo display in task detail with lightbox. | spec: C-5 | type: ui+wiring
 
-- [ ] TASK-E06: Build Weekly Recap: Edge Function `weekly-recap` (Monday generation), recap card on Home, full detail view (per-member stats, streak status, badges, challenge progress, week-over-week comparison), child mini-recap on My Day. Share button → generates summary image. | spec: P-10, amendments | type: ui+edge-function
+- [x] TASK-E06: Build Weekly Recap: Edge Function `weekly-recap` (Monday generation), recap card on Home, full detail view (per-member stats, streak status, badges, challenge progress, week-over-week comparison), child mini-recap on My Day. Share button → generates summary image. | spec: P-10, amendments | type: ui+edge-function
 
-- [ ] TASK-E07: Build AI Task Suggestions: Edge Function `ai-suggestions` (Claude API call), suggestion chips in TaskCreateForm (3 suggestions, shimmer loading, tap to pre-fill), contextual reasons. Privacy: anonymized data only. | spec: P-12 | type: ui+edge-function
+- [x] TASK-E07: Build AI Task Suggestions: Edge Function `ai-suggestions` (Claude API call), suggestion chips in TaskCreateForm (3 suggestions, shimmer loading, tap to pre-fill), contextual reasons. Privacy: anonymized data only. | spec: P-12 | type: ui+edge-function
 
-- [ ] TASK-E08: **HANDOVER TEST — Full Features** — Board, shopping list (realtime sync), flow mode, nudges, photo proof, recap, AI suggestions all functional. | type: verification
+- [x] TASK-E08: **HANDOVER TEST — Full Features** — Board, shopping list (realtime sync), flow mode, nudges, photo proof, recap, AI suggestions all functional. | type: verification
 
 ---
 
