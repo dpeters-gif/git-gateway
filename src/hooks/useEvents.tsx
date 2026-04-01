@@ -29,8 +29,9 @@ export function useEvents() {
   // Realtime subscription
   useEffect(() => {
     if (!familyId) return;
+    const channelName = `events-${familyId}-${Date.now()}`;
     const channel = supabase
-      .channel(`events-${familyId}`)
+      .channel(channelName)
       .on("postgres_changes", {
         event: "*",
         schema: "public",
