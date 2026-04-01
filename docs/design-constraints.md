@@ -48,6 +48,7 @@ This app lives on the kitchen iPad. Design for iPad FIRST.
 - Child nav: 4 items — My Day, Quests, Progress, Rewards
 - Page content: max-width 960px centered on desktop. Full width on tablet/phone with 24px side padding (mobile) or 32px (tablet).
 - Desktop sidebar: 240px expanded, 72px collapsed. Only at ≥1280px.
+- Navigation consistency: Bottom nav (mobile/tablet) and sidebar nav (desktop ≥1280px) must show IDENTICAL tabs: Home, Calendar, Tasks, Rewards, Settings. Additional pages (Shopping List, Care-Share) are accessed from Settings or dashboard widgets — they do NOT have their own nav tabs.
 
 ### FAB (Floating Action Button) — MANDATORY ON EVERY PAGE
 
