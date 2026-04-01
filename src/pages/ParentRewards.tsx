@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { staggerContainer, slideUp } from "@/lib/animations";
@@ -11,7 +11,6 @@ import EmptyState from "@/components/shared/EmptyState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Gift, Plus, Sparkles, Coins, Swords, Trash2 } from "lucide-react";
@@ -48,15 +47,21 @@ export default function ParentRewards() {
       const { error } = await supabase.from("rewards").insert({ ...r, family_id: familyId! });
       if (error) throw error;
     },
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["rewards"] }); toast.success("Belohnung erstellt"); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["rewards"] }); toast.success(t("rewards.created", "Belohnung erstellt")); },
   });
 
   const createChallenge = useMutation({
     mutationFn: async (c: any) => {
-      const { error } = await supabase.from("challenges").insert({ ...c, family_id: familyId! });
+      const payload: any = { ...c, family_id: familyId! };
+      // Auto-calculate boss_hp for boss_battle type
+      if (c.type === "boss_battle") {
+        payload.boss_hp = c.target_count * 10;
+        payload.boss_current_hp = c.target_count * 10;
+      }
+      const { error } = await supabase.from("challenges").insert(payload);
       if (error) throw error;
     },
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["challenges"] }); toast.success("Challenge erstellt"); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["challenges"] }); toast.success(t("challenges.created", "Challenge erstellt")); },
   });
 
   const deleteReward = useMutation({
@@ -76,7 +81,7 @@ export default function ParentRewards() {
       <motion.div variants={slideUp} className="flex items-center justify-between">
         <h1 className="text-xl font-extrabold text-foreground">{t("nav.rewards")}</h1>
         <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
-          <Plus className="w-3 h-3" /> {tab === "rewards" ? "Belohnung" : "Challenge"}
+          <Plus className="w-3 h-3" /> {tab === "rewards" ? t("rewards.create") : t("challenges.create", "Challenge")}
         </Button>
       </motion.div>
 
@@ -87,7 +92,7 @@ export default function ParentRewards() {
             tab === "rewards" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
           }`}
         >
-          <Gift className="w-3 h-3 inline mr-1" /> Belohnungen
+          <Gift className="w-3 h-3 inline mr-1" /> {t("rewards.title")}
         </button>
         <button
           onClick={() => setTab("challenges")}
@@ -95,7 +100,7 @@ export default function ParentRewards() {
             tab === "challenges" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
           }`}
         >
-          <Swords className="w-3 h-3 inline mr-1" /> Challenges
+          <Swords className="w-3 h-3 inline mr-1" /> {t("challenges.title", "Challenges")}
         </button>
       </motion.div>
 
@@ -103,7 +108,7 @@ export default function ParentRewards() {
         <SkeletonLoader type="list" count={3} />
       ) : tab === "rewards" ? (
         rewards.length === 0 ? (
-          <EmptyState icon={Gift} title="Noch keine Belohnungen" body="Erstelle die erste Belohnung für deine Kinder." ctaLabel="Belohnung erstellen" onCta={() => setShowCreate(true)} />
+          <EmptyState icon={Gift} title={t("rewards.empty")} body={t("rewards.emptyBody")} ctaLabel={t("rewards.create")} onCta={() => setShowCreate(true)} />
         ) : (
           <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-2">
             {rewards.map((r: any) => (
@@ -122,14 +127,18 @@ export default function ParentRewards() {
         )
       ) : (
         challenges.length === 0 ? (
-          <EmptyState icon={Swords} title="Noch keine Challenges" body="Erstelle eine Challenge für die Familie." ctaLabel="Challenge erstellen" onCta={() => setShowCreate(true)} />
+          <EmptyState icon={Swords} title={t("challenges.empty", "Noch keine Challenges")} body={t("challenges.emptyBody", "Erstelle eine Challenge für die Familie.")} ctaLabel={t("challenges.create", "Challenge erstellen")} onCta={() => setShowCreate(true)} />
         ) : (
           <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-2">
             {challenges.map((c: any) => (
               <motion.div key={c.id} variants={slideUp} className="bg-card rounded-lg p-4 border border-border flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-semibold text-foreground">{c.title}</h3>
-                  <div className="text-xs text-muted-foreground mt-0.5">{c.type} · Ziel: {c.target_count}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">
+                    {c.type === "boss_battle" ? t("challenges.bossBattle", "Boss-Kampf") : c.type === "individual" ? t("challenges.individual", "Individuell") : t("challenges.family", "Familie")}
+                    {" · "}{t("challenges.target", "Ziel")}: {c.target_count}
+                    {c.boss_hp && ` · HP: ${c.boss_hp}`}
+                  </div>
                 </div>
                 <Button size="icon" variant="ghost" onClick={() => deleteChallenge.mutate(c.id)}><Trash2 className="w-4 h-4 text-muted-foreground" /></Button>
               </motion.div>
@@ -151,6 +160,7 @@ export default function ParentRewards() {
 }
 
 function RewardChallengeDialog({ open, onOpenChange, tab, members, onCreateReward, onCreateChallenge }: any) {
+  const { t } = useTranslation();
   const [title, setTitle] = useState("");
   const [xpThreshold, setXpThreshold] = useState(100);
   const [goldPrice, setGoldPrice] = useState(0);
@@ -171,31 +181,36 @@ function RewardChallengeDialog({ open, onOpenChange, tab, members, onCreateRewar
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm">
-        <DialogHeader><DialogTitle>{tab === "rewards" ? "Belohnung erstellen" : "Challenge erstellen"}</DialogTitle></DialogHeader>
+        <DialogHeader>
+          <DialogTitle>{tab === "rewards" ? t("rewards.create") : t("challenges.create", "Challenge erstellen")}</DialogTitle>
+        </DialogHeader>
         <div className="space-y-4">
-          <div><Label>Titel</Label><Input value={title} onChange={e => setTitle(e.target.value)} placeholder="Titel" /></div>
+          <div><Label>{t("task.title")}</Label><Input value={title} onChange={e => setTitle(e.target.value)} placeholder={t("task.title")} /></div>
           {tab === "rewards" ? (
             <>
-              <div><Label>XP-Schwelle</Label><Input type="number" value={xpThreshold} onChange={e => setXpThreshold(Number(e.target.value))} /></div>
-              <div><Label>Gold-Preis (optional)</Label><Input type="number" value={goldPrice} onChange={e => setGoldPrice(Number(e.target.value))} /></div>
+              <div><Label>{t("rewards.xpThreshold")}</Label><Input type="number" value={xpThreshold} onChange={e => setXpThreshold(Number(e.target.value))} /></div>
+              <div><Label>{t("rewards.goldPrice")}</Label><Input type="number" value={goldPrice} onChange={e => setGoldPrice(Number(e.target.value))} /></div>
             </>
           ) : (
             <>
               <div>
-                <Label>Typ</Label>
+                <Label>{t("challenges.type", "Typ")}</Label>
                 <Select value={challengeType} onValueChange={v => setChallengeType(v as any)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="individual">Individuell</SelectItem>
-                    <SelectItem value="family">Familie</SelectItem>
-                    <SelectItem value="boss_battle">Boss-Kampf</SelectItem>
+                    <SelectItem value="individual">{t("challenges.individual", "Individuell")}</SelectItem>
+                    <SelectItem value="family">{t("challenges.family", "Familie")}</SelectItem>
+                    <SelectItem value="boss_battle">{t("challenges.bossBattle", "Boss-Kampf")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div><Label>Ziel-Anzahl</Label><Input type="number" value={targetCount} onChange={e => setTargetCount(Number(e.target.value))} /></div>
+              <div><Label>{t("challenges.target", "Ziel-Anzahl")}</Label><Input type="number" value={targetCount} onChange={e => setTargetCount(Number(e.target.value))} /></div>
+              {challengeType === "boss_battle" && (
+                <p className="text-xs text-muted-foreground">Boss HP = {targetCount * 10}</p>
+              )}
             </>
           )}
-          <Button onClick={handleSubmit} className="w-full" disabled={!title.trim()}>Erstellen</Button>
+          <Button onClick={handleSubmit} className="w-full" disabled={!title.trim()}>{t("common.create")}</Button>
         </div>
       </DialogContent>
     </Dialog>

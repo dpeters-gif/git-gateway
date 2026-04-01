@@ -36,6 +36,9 @@ export const DROP_CHANCE = 0.2;
 // Streak freeze cost in gold
 export const STREAK_FREEZE_COST = 10;
 
+// Max streak freezes a user can hold
+export const MAX_STREAK_FREEZES = 2;
+
 // Subscription tiers
 export const TIERS = {
   FREE: "free",

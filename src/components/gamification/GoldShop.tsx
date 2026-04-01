@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
-import { staggerContainer, slideUp, popIn } from "@/lib/animations";
+import { motion } from "framer-motion";
+import { staggerContainer, slideUp } from "@/lib/animations";
 import { useAuth } from "@/hooks/useAuth";
 import { useGamification } from "@/hooks/useGamification";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { STREAK_FREEZE_COST } from "@/lib/constants";
+import { STREAK_FREEZE_COST, MAX_STREAK_FREEZES } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Coins, Snowflake, Shirt, ShoppingBag, Lock, Check } from "lucide-react";
+import { Coins, Snowflake, Shirt, ShoppingBag, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { playGoldDrop } from "@/services/soundEngine";
 
@@ -69,14 +69,18 @@ export default function GoldShop() {
     enabled: !!user,
   });
 
+  const freezeAtMax = freezeCount >= MAX_STREAK_FREEZES;
+
   const shopItems: ShopItem[] = [
     {
       id: "streak_freeze",
-      name: "Streak Freeze",
+      name: t("shop.streakFreeze", "Streak Freeze"),
       icon: <Snowflake className="w-6 h-6 text-info" />,
       price: STREAK_FREEZE_COST,
       type: "streak_freeze",
       description: t("gamification.streakProtected"),
+      locked: freezeAtMax,
+      lockReason: freezeAtMax ? t("shop.freezeMax", "Max {{max}}", { max: MAX_STREAK_FREEZES }) : undefined,
     },
     ...avatarItems
       .filter(item => !ownedItems.includes(item.id))
@@ -108,16 +112,16 @@ export default function GoldShop() {
         },
       });
       if (error || !data?.success) {
-        toast.error(data?.error?.message ?? "Kauf fehlgeschlagen");
+        toast.error(data?.error?.message ?? t("shop.purchaseFailed", "Kauf fehlgeschlagen"));
       } else {
         playGoldDrop();
-        toast.success(`${item.name} gekauft!`);
+        toast.success(t("shop.purchased", "{{name}} gekauft!", { name: item.name }));
         queryClient.invalidateQueries({ queryKey: ["gamification"] });
         queryClient.invalidateQueries({ queryKey: ["owned-avatar-items"] });
         queryClient.invalidateQueries({ queryKey: ["streak-freezes"] });
       }
     } catch {
-      toast.error("Kauf fehlgeschlagen");
+      toast.error(t("shop.purchaseFailed", "Kauf fehlgeschlagen"));
     }
     setPurchasing(false);
     setConfirmItem(null);
@@ -129,7 +133,7 @@ export default function GoldShop() {
       <motion.div variants={slideUp} className="bg-card rounded-xl p-4 border border-border flex items-center justify-between">
         <div className="flex items-center gap-2">
           <ShoppingBag className="w-5 h-5 text-accent" />
-          <h2 className="text-sm font-semibold text-foreground">Gold Shop</h2>
+          <h2 className="text-sm font-semibold text-foreground">{t("shop.title", "Gold Shop")}</h2>
         </div>
         <div className="flex items-center gap-1.5 bg-accent-light px-3 py-1.5 rounded-full">
           <Coins className="w-4 h-4 text-gold" />
@@ -141,7 +145,9 @@ export default function GoldShop() {
       {freezeCount > 0 && (
         <motion.div variants={slideUp} className="bg-info-light rounded-lg p-3 flex items-center gap-2">
           <Snowflake className="w-4 h-4 text-info" />
-          <span className="text-xs text-info font-medium">{freezeCount}× Streak Freeze verfügbar</span>
+          <span className="text-xs text-info font-medium">
+            {t("shop.freezeAvailable", "{{count}}× Streak Freeze verfügbar", { count: freezeCount })}
+          </span>
         </motion.div>
       )}
 
@@ -187,7 +193,9 @@ export default function GoldShop() {
             <span className="text-xl font-extrabold text-accent">{confirmItem?.price}</span>
           </div>
           {gold < (confirmItem?.price ?? 0) && (
-            <p className="text-xs text-error text-center">Nicht genug Gold ({gold}/{confirmItem?.price})</p>
+            <p className="text-xs text-error text-center">
+              {t("gamification.insufficientGold", "Nicht genug Gold")} ({gold}/{confirmItem?.price})
+            </p>
           )}
           <DialogFooter>
             <Button variant="outline" onClick={() => setConfirmItem(null)}>{t("common.cancel")}</Button>

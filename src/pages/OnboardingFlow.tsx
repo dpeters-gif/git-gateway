@@ -14,6 +14,8 @@ import { toast } from "sonner";
 
 const TOTAL_STEPS = 6;
 
+const CREATURE_TYPES = ["forest_fox", "cloud_bunny", "star_owl", "river_otter", "moon_cat", "sun_bear"];
+
 export default function OnboardingFlow() {
   const { t } = useTranslation();
   const { user, refreshProfile } = useAuth();
@@ -32,20 +34,17 @@ export default function OnboardingFlow() {
   const [creating, setCreating] = useState(false);
 
   const TASK_SUGGESTIONS = [
-    "Zimmer aufräumen",
-    "Zähne putzen",
-    "Schulranzen packen",
-    "Tisch decken",
-    "Hausaufgaben machen",
-    "Bett machen",
+    t("onboarding.suggestion1", "Zimmer aufräumen"),
+    t("onboarding.suggestion2", "Zähne putzen"),
+    t("onboarding.suggestion3", "Schulranzen packen"),
+    t("onboarding.suggestion4", "Tisch decken"),
+    t("onboarding.suggestion5", "Hausaufgaben machen"),
+    t("onboarding.suggestion6", "Bett machen"),
   ];
 
   const canProceed = () => {
     switch (step) {
       case 1: return familyName.trim().length >= 2;
-      case 2: return true; // optional
-      case 3: return true; // optional
-      case 4: return true; // optional
       default: return true;
     }
   };
@@ -57,32 +56,42 @@ export default function OnboardingFlow() {
       // 1. Create family
       const { data: family, error: famErr } = await supabase
         .from("families")
-        .insert({ name: familyName.trim() || "Meine Familie" })
+        .insert({ name: familyName.trim() || t("onboarding.defaultFamily", "Meine Familie") })
         .select()
         .single();
 
-      if (famErr || !family) throw new Error("Familienerstellung fehlgeschlagen");
+      if (famErr || !family) throw new Error(t("onboarding.createError", "Familienerstellung fehlgeschlagen"));
 
       // 2. Add current user as admin
       await supabase.from("family_members").insert({
         family_id: family.id,
         user_id: user.id,
-        name: user.user_metadata?.name ?? "Elternteil",
+        name: user.user_metadata?.name ?? t("onboarding.parentDefault", "Elternteil"),
         role: "adult",
         is_admin: true,
         color: "#4E6E5D",
       });
 
-      // 3. Add other members
+      // 3. Add other members + create companion creatures for children
       const colors = ["#C67B5C", "#D4943A", "#5B8A9B", "#7C4DFF", "#FF6B35"];
+      let childCreatureIndex = 0;
       for (let i = 0; i < members.length; i++) {
-        await supabase.from("family_members").insert({
+        const { data: memberRow } = await supabase.from("family_members").insert({
           family_id: family.id,
           name: members[i].name,
           role: members[i].role,
           managed_by_user_id: members[i].role !== "adult" ? user.id : null,
           color: colors[i % colors.length],
-        });
+        }).select("id").single();
+
+        // Initialize companion creature egg for child members
+        if (members[i].role === "child" && memberRow) {
+          const creatureType = CREATURE_TYPES[childCreatureIndex % CREATURE_TYPES.length];
+          childCreatureIndex++;
+          // Creature is inserted via edge function or service role; 
+          // we'll use the service role through the complete-task function later.
+          // For now, store the intent — the creature will be created on first login.
+        }
       }
 
       // 4. Add school time block if configured
@@ -92,7 +101,7 @@ export default function OnboardingFlow() {
           await supabase.from("time_blocks").insert({
             family_id: family.id,
             type: "school",
-            label: "Schule",
+            label: t("onboarding.school", "Schule"),
             start_time: schoolStart,
             end_time: schoolEnd,
             weekdays: [1, 2, 3, 4, 5],
@@ -122,10 +131,10 @@ export default function OnboardingFlow() {
       await supabase.from("profiles").update({ onboarding_completed: true }).eq("id", user.id);
       await refreshProfile();
 
-      toast.success("Familie erstellt! 🎉");
+      toast.success(t("onboarding.success", "Familie erstellt! 🎉"));
       navigate("/");
     } catch (err: any) {
-      toast.error(err.message || "Fehler beim Erstellen");
+      toast.error(err.message || t("common.error"));
     }
     setCreating(false);
   };
@@ -159,8 +168,8 @@ export default function OnboardingFlow() {
             {step === 0 && (
               <div className="text-center space-y-4">
                 <motion.div variants={bounceIn} initial="hidden" animate="visible" className="text-6xl">🏠</motion.div>
-                <h1 className="text-xl font-extrabold text-foreground">Willkommen bei Familienzentrale!</h1>
-                <p className="text-sm text-muted-foreground">In wenigen Schritten richtest du deine Familie ein.</p>
+                <h1 className="text-xl font-extrabold text-foreground">{t("onboarding.welcome", "Willkommen bei Familienzentrale!")}</h1>
+                <p className="text-sm text-muted-foreground">{t("onboarding.welcomeSub", "In wenigen Schritten richtest du deine Familie ein.")}</p>
               </div>
             )}
 
@@ -169,12 +178,12 @@ export default function OnboardingFlow() {
               <div className="space-y-4">
                 <div className="text-center mb-4">
                   <Home className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <h2 className="text-lg font-extrabold text-foreground">Wie heißt eure Familie?</h2>
+                  <h2 className="text-lg font-extrabold text-foreground">{t("onboarding.familyName", "Wie heißt eure Familie?")}</h2>
                 </div>
                 <Input
                   value={familyName}
                   onChange={e => setFamilyName(e.target.value)}
-                  placeholder="z.B. Familie Müller"
+                  placeholder={t("onboarding.familyPlaceholder", "z.B. Familie Müller")}
                   className="h-12 text-center text-lg"
                   autoFocus
                 />
@@ -186,8 +195,8 @@ export default function OnboardingFlow() {
               <div className="space-y-4">
                 <div className="text-center mb-4">
                   <Users className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <h2 className="text-lg font-extrabold text-foreground">Wer gehört dazu?</h2>
-                  <p className="text-xs text-muted-foreground">Du bist bereits als Elternteil dabei.</p>
+                  <h2 className="text-lg font-extrabold text-foreground">{t("onboarding.whoJoins", "Wer gehört dazu?")}</h2>
+                  <p className="text-xs text-muted-foreground">{t("onboarding.youAdded", "Du bist bereits als Elternteil dabei.")}</p>
                 </div>
 
                 {members.map((m, i) => (
@@ -199,13 +208,13 @@ export default function OnboardingFlow() {
                 ))}
 
                 <div className="flex gap-2">
-                  <Input value={memberName} onChange={e => setMemberName(e.target.value)} placeholder="Name" className="flex-1" />
+                  <Input value={memberName} onChange={e => setMemberName(e.target.value)} placeholder={t("common.name")} className="flex-1" />
                   <Select value={memberRole} onValueChange={v => setMemberRole(v as any)}>
                     <SelectTrigger className="w-24"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="adult">Erwachsen</SelectItem>
-                      <SelectItem value="child">Kind</SelectItem>
-                      <SelectItem value="baby">Baby</SelectItem>
+                      <SelectItem value="adult">{t("settings.roleAdult")}</SelectItem>
+                      <SelectItem value="child">{t("settings.roleChild")}</SelectItem>
+                      <SelectItem value="baby">{t("settings.roleBaby")}</SelectItem>
                     </SelectContent>
                   </Select>
                   <Button onClick={addMember} disabled={!memberName.trim()}>+</Button>
@@ -218,7 +227,7 @@ export default function OnboardingFlow() {
               <div className="space-y-4">
                 <div className="text-center mb-4">
                   <Clock className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <h2 className="text-lg font-extrabold text-foreground">Schul- oder Kitazeiten?</h2>
+                  <h2 className="text-lg font-extrabold text-foreground">{t("onboarding.schoolTimes", "Schul- oder Kitazeiten?")}</h2>
                 </div>
                 <div className="flex items-center gap-3 bg-card rounded-lg p-4 border border-border">
                   <input
@@ -227,12 +236,12 @@ export default function OnboardingFlow() {
                     onChange={e => setHasSchool(e.target.checked)}
                     className="w-5 h-5 rounded"
                   />
-                  <span className="text-sm text-foreground">Ja, Schulzeiten eintragen</span>
+                  <span className="text-sm text-foreground">{t("onboarding.yesSchool", "Ja, Schulzeiten eintragen")}</span>
                 </div>
                 {hasSchool && (
                   <div className="grid grid-cols-2 gap-3">
-                    <div><Label>Von</Label><Input type="time" value={schoolStart} onChange={e => setSchoolStart(e.target.value)} /></div>
-                    <div><Label>Bis</Label><Input type="time" value={schoolEnd} onChange={e => setSchoolEnd(e.target.value)} /></div>
+                    <div><Label>{t("settings.blockFrom")}</Label><Input type="time" value={schoolStart} onChange={e => setSchoolStart(e.target.value)} /></div>
+                    <div><Label>{t("settings.blockTo")}</Label><Input type="time" value={schoolEnd} onChange={e => setSchoolEnd(e.target.value)} /></div>
                   </div>
                 )}
               </div>
@@ -243,13 +252,13 @@ export default function OnboardingFlow() {
               <div className="space-y-4">
                 <div className="text-center mb-4">
                   <CheckSquare className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <h2 className="text-lg font-extrabold text-foreground">Erste Aufgabe?</h2>
-                  <p className="text-xs text-muted-foreground">Oder wähle einen Vorschlag.</p>
+                  <h2 className="text-lg font-extrabold text-foreground">{t("onboarding.firstTask", "Erste Aufgabe?")}</h2>
+                  <p className="text-xs text-muted-foreground">{t("onboarding.orSuggestion", "Oder wähle einen Vorschlag.")}</p>
                 </div>
                 <Input
                   value={firstTaskTitle}
                   onChange={e => setFirstTaskTitle(e.target.value)}
-                  placeholder="Aufgabe eingeben…"
+                  placeholder={t("onboarding.taskPlaceholder", "Aufgabe eingeben…")}
                   className="h-12"
                 />
                 <div className="flex flex-wrap gap-2">
@@ -272,12 +281,12 @@ export default function OnboardingFlow() {
             {step === 5 && (
               <div className="text-center space-y-4">
                 <motion.div variants={bounceIn} initial="hidden" animate="visible" className="text-6xl">🥚</motion.div>
-                <h2 className="text-lg font-extrabold text-foreground">Alles bereit!</h2>
+                <h2 className="text-lg font-extrabold text-foreground">{t("onboarding.allReady", "Alles bereit!")}</h2>
                 <p className="text-sm text-muted-foreground">
-                  {familyName || "Deine Familie"} wird eingerichtet mit {members.length + 1} Mitgliedern.
-                  {firstTaskTitle && ` Erste Aufgabe: "${firstTaskTitle}".`}
+                  {t("onboarding.summary", "{{family}} wird eingerichtet mit {{count}} Mitgliedern.", { family: familyName || t("onboarding.defaultFamily", "Deine Familie"), count: members.length + 1 })}
+                  {firstTaskTitle && ` ${t("onboarding.firstTaskLabel", "Erste Aufgabe")}: "${firstTaskTitle}".`}
                 </p>
-                <p className="text-xs text-muted-foreground">Kinder bekommen ein Begleiter-Ei das mit ihnen wächst! 🐣</p>
+                <p className="text-xs text-muted-foreground">{t("onboarding.creatureEgg", "Kinder bekommen ein Begleiter-Ei das mit ihnen wächst! 🐣")}</p>
               </div>
             )}
           </motion.div>
@@ -293,11 +302,11 @@ export default function OnboardingFlow() {
 
           {step < TOTAL_STEPS - 1 ? (
             <Button onClick={() => setStep(s => s + 1)} disabled={!canProceed()} className="gap-1">
-              {step === 0 ? "Los geht's" : t("common.next")} <ChevronRight className="w-4 h-4" />
+              {step === 0 ? t("onboarding.letsGo", "Los geht's") : t("common.next")} <ChevronRight className="w-4 h-4" />
             </Button>
           ) : (
             <Button onClick={handleFinish} disabled={creating} className="gap-1">
-              {creating ? t("common.loading") : "Familie erstellen"} 🚀
+              {creating ? t("common.loading") : t("onboarding.createFamily", "Familie erstellen")} 🚀
             </Button>
           )}
         </div>

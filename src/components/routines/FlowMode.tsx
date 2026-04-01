@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Play, CheckCircle2, Clock, Sparkles, ArrowLeft } from "lucide-react";
 import { playFlowStep, playFlowDone } from "@/services/soundEngine";
+import { toast } from "sonner";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Task = Tables<"tasks">;
@@ -24,7 +25,6 @@ interface FlowModeProps {
 export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProps) {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [totalXp, setTotalXp] = useState(0);
   const [elapsed, setElapsed] = useState(0);
@@ -32,7 +32,6 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
   const [error, setError] = useState(false);
   const [startTime] = useState(Date.now());
 
-  // Skip already completed tasks
   const pendingTasks = tasks.filter(t => t.status !== "completed" && !completed.has(t.id));
   const allTasks = tasks;
   const totalSteps = allTasks.length;
@@ -52,6 +51,10 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
 
   const currentTask = pendingTasks[0];
 
+  const underTime = isComplete && elapsed < targetSeconds;
+  // +25% XP bonus when finishing under time
+  const bonusMultiplier = underTime ? 1.25 : 1;
+
   const handleComplete = useCallback(async () => {
     if (!currentTask) return;
     setError(false);
@@ -65,7 +68,6 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
       setCompleted(prev => new Set(prev).add(currentTask.id));
       playFlowStep();
 
-      // Check if all done
       if (completedCount + 1 >= totalSteps) {
         setIsComplete(true);
         playFlowDone();
@@ -77,12 +79,20 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
 
   const handleExit = () => {
     if (!isComplete && completed.size > 0) {
-      if (!confirm(t("flow.exitConfirm", "Routine abbrechen? Dein Fortschritt wird gespeichert."))) return;
+      // Use undo toast instead of confirm()
+      toast(t("flow.exitConfirm"), {
+        action: {
+          label: t("flow.exitYes", "Ja, beenden"),
+          onClick: () => onClose(),
+        },
+        duration: 5000,
+      });
+      return;
     }
     onClose();
   };
 
-  const underTime = isComplete && elapsed < targetSeconds;
+  const displayXp = underTime ? Math.round(totalXp * bonusMultiplier) : totalXp;
 
   return (
     <Dialog open={open} onOpenChange={() => handleExit()}>
@@ -104,9 +114,17 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
           {/* Progress bar */}
           <div className="mb-2">
             <Progress value={(completedCount / totalSteps) * 100} className="h-3 bg-xp-light" />
-            <p className="text-xs text-muted-foreground mt-1 text-center">
-              {t("flow.step", "Schritt {{current}} von {{total}}", { current: completedCount + (isComplete ? 0 : 1), total: totalSteps })}
-            </p>
+            <div className="flex items-center justify-between mt-1">
+              <p className="text-xs text-muted-foreground">
+                {t("flow.step", { current: completedCount + (isComplete ? 0 : 1), total: totalSteps })}
+              </p>
+              {/* Show XP per step */}
+              {currentTask && !isComplete && (
+                <p className="text-xs text-xp font-medium">
+                  +{currentTask.xp_value} XP
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Content area */}
@@ -121,20 +139,19 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
                   className="text-center space-y-4"
                 >
                   <motion.div variants={bounceIn} initial="hidden" animate="visible" className="text-6xl">🎉</motion.div>
-                  <h1 className="text-2xl font-extrabold text-foreground">
-                    {t("flow.done", "Geschafft!")}
-                  </h1>
+                  <h1 className="text-2xl font-extrabold text-foreground">{t("flow.done")}</h1>
                   <div className="flex items-center justify-center gap-2">
                     <Sparkles className="w-5 h-5 text-xp" />
-                    <span className="text-lg font-bold text-xp">{totalXp} XP</span>
+                    <span className="text-lg font-bold text-xp">{displayXp} XP</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    {t("flow.time", "Zeit: {{minutes}} Min", { minutes: Math.ceil(elapsed / 60) })}
+                    {t("flow.time", { minutes: Math.ceil(elapsed / 60) })}
                   </p>
                   {underTime && (
-                    <motion.p variants={popIn} initial="hidden" animate="visible" className="text-sm font-bold text-success">
-                      {t("flow.underTime", "Unter der Zeit! Mega! 🚀")}
-                    </motion.p>
+                    <motion.div variants={popIn} initial="hidden" animate="visible" className="space-y-1">
+                      <p className="text-sm font-bold text-success">{t("flow.underTime")}</p>
+                      <p className="text-xs text-success/80">{t("flow.underTimeBonus", "+25% XP Bonus!")}</p>
+                    </motion.div>
                   )}
                   <Button onClick={onClose} className="mt-4 h-14 px-8 text-base">
                     {t("common.back")}
@@ -157,28 +174,24 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
                     <p className="text-sm text-muted-foreground">{currentTask.description}</p>
                   )}
                   {error && (
-                    <p className="text-xs text-error">
-                      {t("flow.error", "Verbindungsproblem — nochmal versuchen")}
-                    </p>
+                    <p className="text-xs text-error">{t("flow.error")}</p>
                   )}
                   <Button
                     onClick={handleComplete}
                     className="h-14 w-full text-base bg-child-accent hover:bg-child-accent/90 text-white"
                   >
-                    {error ? t("common.retry") : t("flow.stepDone", "Fertig ✓")}
+                    {error ? t("common.retry") : t("flow.stepDone")}
                   </Button>
                 </motion.div>
               ) : (
-                <p className="text-muted-foreground">{t("flow.noSteps", "Keine Schritte übrig")}</p>
+                <p className="text-muted-foreground">{t("flow.noSteps")}</p>
               )}
             </AnimatePresence>
           </div>
 
           {/* Timer expired message */}
           {remaining === 0 && !isComplete && (
-            <p className="text-xs text-center text-muted-foreground pb-2">
-              {t("flow.noStress", "Kein Stress — mach einfach weiter")}
-            </p>
+            <p className="text-xs text-center text-muted-foreground pb-2">{t("flow.noStress")}</p>
           )}
         </div>
       </DialogContent>
