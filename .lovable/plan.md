@@ -1,50 +1,63 @@
 
 
-# Plan: Add Drag & Drop to Calendar and Tasks
+# Plan: Google Calendar-Style Week View Overhaul
 
-## What
-Add `@dnd-kit` drag-and-drop to two locations:
-1. **WeekMatrix calendar** — drag tasks/events between cells to reschedule (change date and/or assignee)
-2. **ParentTasks list** — drag tasks to reorder by priority grouping
+## What Changes
+Replace the current WeekMatrix (members-as-rows, days-as-columns table) with a vertical time-axis week view: hours 06:00–22:00 on the left, Mon–Sun as columns, items positioned by start/end time.
 
-## Technical Approach
+## Layout Structure
+```text
+┌─────────────────────────────────────────────────┐
+│ ALL DAY  │ [Birthday] │         │ [Holiday]  │  │
+├──────────────────────────────────────────────────┤
+│ 06:00    │            │         │            │  │
+│ 07:00    │ ░░School░░ │         │            │  │
+│ 08:00    │            │         │            │  │
+│ 09:00    │            │ [Arzt]  │            │  │
+│ ...      │            │         │            │  │
+│ 15:00    │            │ [Fußball│            │  │
+│ 22:00    │            │         │            │  │
+└─────────────────────────────────────────────────┘
+```
 
-### 1. Calendar WeekMatrix — Drag to Reschedule
+## Files to Change
 
-**`src/components/calendar/WeekMatrix.tsx`**
-- Wrap the `<table>` in a `DndContext` with `closestCenter` collision strategy
-- Each cell (`<td>`) becomes a **droppable** using `useDroppable` with an ID encoding `date|userId` (e.g. `"2026-04-03|abc-123"`)
-- Each `CalendarTaskCard` and `CalendarEventCard` becomes **draggable** using `useDraggable`
-- On `onDragEnd`: parse the droppable ID to extract new date + userId, then call `updateTask` or `updateEvent` mutation
-- Add a `DragOverlay` to show the card being dragged
-- Add new props: `onTaskReschedule(taskId, newDate, newAssignee)` and `onEventReschedule(eventId, newDate, newAssignee)`
+### 1. Rewrite `src/components/calendar/WeekMatrix.tsx`
+- Replace `<table>` with CSS grid: `grid-template-columns: 60px repeat(7, 1fr)`
+- **All-day section** at top: items with `is_all_day` or no `start_time` render as horizontal pills
+- **Time grid**: 32 rows (06:00–22:00, 30-min slots), each slot 40px tall. Hour labels in left gutter
+- **Timed items**: absolutely positioned within day columns. `top = (hour - 6) * 80 + (minute / 30) * 40`px, `height = durationMinutes / 30 * 40`px (min 40px)
+- **Time blocks**: same positioning but lower z-index, semi-transparent background bands
+- **Current time indicator**: red 2px horizontal line at current time, spanning all columns, updated every minute
+- **Today's column**: subtle `bg-primary/5` highlight
+- **Conflict dots**: 8px red dot where items overlap for same person
+- **Empty slot click**: clicking an empty area triggers `onCellClick` with date + time pre-filled
+- **Drag & drop**: keep DndContext + droppable cells, but droppable zones are now day columns (each column is a single droppable). On drop, calculate new time from Y offset
+- **Mobile (<768px)**: single day view with same time axis, day tabs for navigation (reuse DayTabSelector)
 
-**`src/components/calendar/CalendarTaskCard.tsx`**
-- Wrap in `useDraggable` from `@dnd-kit/core`
-- Add a subtle drag handle icon (GripVertical) visible on hover
-- Apply transform styles from `useDraggable`
+### 2. Update `src/components/calendar/TimeBlockBand.tsx`
+- Change from inline card to absolutely-positioned semi-transparent band
+- Accept `slotHeight` prop, calculate `top` and `height` from `start_time`/`end_time`
 
-**`src/components/calendar/CalendarEventCard.tsx`**
-- Same draggable treatment as CalendarTaskCard
+### 3. Update `src/components/calendar/CalendarTaskCard.tsx` and `CalendarEventCard.tsx`
+- Add optional `style` prop for absolute positioning (top/height)
+- Keep existing drag handle and click behavior
 
-**`src/pages/ParentCalendar.tsx`**
-- Add `handleTaskReschedule` and `handleEventReschedule` callbacks that call `updateTask.mutate` / `updateEvent.mutate` with new `due_date`/`assigned_to_user_id` or `start_at`/`assigned_to_user_ids`
-- Pass these as new props to `WeekMatrix`
+### 4. Update `src/pages/ParentCalendar.tsx`
+- Pass `selectedTime` to QuickCreatePopover when clicking empty time slot
+- Update `handleQuickTask`/`handleQuickEvent` to include `start_time`/`end_time`
 
-### 2. Tasks List — Drag to Reorder
+### 5. Update `src/components/calendar/QuickCreatePopover.tsx`
+- Accept optional `defaultTime` prop
+- Pre-fill time field when provided
 
-**`src/pages/ParentTasks.tsx`**
-- Wrap the task list in `DndContext` + `SortableContext` (vertical list strategy)
-- Each task card becomes a sortable item via `useSortable`
-- On drag end, reorder the local tasks array (visual reorder only — no DB `sort_order` needed since tasks are sorted by due_date)
-- Add a drag handle (GripVertical icon) to each task card
+## No database changes needed.
 
-## Files to Modify
-- `src/components/calendar/WeekMatrix.tsx` — DndContext + droppable cells
-- `src/components/calendar/CalendarTaskCard.tsx` — useDraggable
-- `src/components/calendar/CalendarEventCard.tsx` — useDraggable  
-- `src/pages/ParentCalendar.tsx` — reschedule handlers
-- `src/pages/ParentTasks.tsx` — SortableContext + sortable items
-
-No database changes needed. The `@dnd-kit` packages are already installed.
+## Technical Details
+- Slot height constant: `SLOT_HEIGHT = 40` (px per 30 min)
+- Start hour: 6, end hour: 22 → 32 slots
+- Position formula: `top = ((hour - 6) * 2 + Math.floor(minute / 30)) * SLOT_HEIGHT`
+- Height formula: `height = Math.max(SLOT_HEIGHT, (durationMinutes / 30) * SLOT_HEIGHT)`
+- Current time line: `useEffect` with `setInterval(60000)` updating a state variable
+- Grid is scrollable vertically with the container auto-scrolling to ~08:00 on mount
 
