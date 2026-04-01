@@ -120,7 +120,7 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
                   animate="visible"
                   className="text-center space-y-4"
                 >
-                  <motion.div variants={confetti} className="text-6xl">🎉</motion.div>
+                  <motion.div variants={bounceIn} initial="hidden" animate="visible" className="text-6xl">🎉</motion.div>
                   <h1 className="text-2xl font-extrabold text-foreground">
                     {t("flow.done", "Geschafft!")}
                   </h1>
