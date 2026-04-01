@@ -9,6 +9,9 @@ import SkeletonLoader from "@/components/shared/SkeletonLoader";
 import EmptyState from "@/components/shared/EmptyState";
 import FamilyBoard from "@/components/board/FamilyBoard";
 import { WeeklyRecapCard } from "@/components/recap/WeeklyRecap";
+import TodaysTasksWidget from "@/components/dashboard/TodaysTasksWidget";
+import GroceryWidget from "@/components/dashboard/GroceryWidget";
+import RewardsChallengesWidget from "@/components/dashboard/RewardsChallengesWidget";
 import { ClipboardList, Calendar, CheckCircle2, Users } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
@@ -53,6 +56,21 @@ export default function ParentHome() {
             <StatCard icon={CheckCircle2} label={t("home.completedToday")} value={completedToday.length} color="text-success" />
             <StatCard icon={Calendar} label={t("home.events")} value={events.length} color="text-info" />
             <StatCard icon={Users} label={t("home.members")} value={members.length} color="text-secondary" />
+          </motion.div>
+
+          {/* Today's Tasks Widget */}
+          <motion.div variants={slideUp}>
+            <TodaysTasksWidget />
+          </motion.div>
+
+          {/* Grocery Widget */}
+          <motion.div variants={slideUp}>
+            <GroceryWidget />
+          </motion.div>
+
+          {/* Rewards & Challenges Widget */}
+          <motion.div variants={slideUp}>
+            <RewardsChallengesWidget />
           </motion.div>
 
           {distribution.length > 0 && (

@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MEMBER_LIMITS } from "@/lib/constants";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,9 +23,11 @@ import NudgeConfig from "@/components/nudges/NudgeConfig";
 import GrandparentLinks from "@/components/settings/GrandparentLinks";
 import SubscriptionManagement from "@/components/subscription/SubscriptionManagement";
 import {
-  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield, Bell, CreditCard, Link2
+  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield, Bell, CreditCard, Link2, UserPlus, Key, Globe
 } from "lucide-react";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import i18n from "@/i18n";
 
 export default function ParentSettings() {
   const { t } = useTranslation();
@@ -35,10 +37,9 @@ export default function ParentSettings() {
   const { tier } = useSubscription();
 
   const [searchParams] = useSearchParams();
-  const defaultTab = searchParams.get("tab") || "family";
+  const defaultTab = searchParams.get("tab") || "profile";
   const isLoading = famLoading || blocksLoading || routinesLoading;
 
-  // Non-admin adults: hide admin-only tabs
   const showAdminTabs = isAdmin;
 
   return (
@@ -52,17 +53,22 @@ export default function ParentSettings() {
       ) : (
         <Tabs defaultValue={defaultTab} className="w-full">
           <TabsList className="w-full flex-wrap h-auto gap-1">
+            <TabsTrigger value="profile" className="flex-1 gap-1"><User className="w-4 h-4" /> {t("settings.profileTab")}</TabsTrigger>
             <TabsTrigger value="family" className="flex-1 gap-1"><Users className="w-4 h-4" /> {t("settings.familyTab")}</TabsTrigger>
             {showAdminTabs && (
               <>
                 <TabsTrigger value="timeblocks" className="flex-1 gap-1"><Clock className="w-4 h-4" /> {t("settings.timeBlocksTab")}</TabsTrigger>
                 <TabsTrigger value="routines" className="flex-1 gap-1"><RotateCcw className="w-4 h-4" /> {t("settings.routinesTab")}</TabsTrigger>
-                <TabsTrigger value="nudges" className="flex-1 gap-1"><Bell className="w-4 h-4" /> {t("settings.nudgesTab", "Nudges")}</TabsTrigger>
-                <TabsTrigger value="sharing" className="flex-1 gap-1"><Link2 className="w-4 h-4" /> {t("settings.sharingTab", "Teilen")}</TabsTrigger>
+                <TabsTrigger value="nudges" className="flex-1 gap-1"><Bell className="w-4 h-4" /> {t("settings.nudgesTab")}</TabsTrigger>
+                <TabsTrigger value="sharing" className="flex-1 gap-1"><Link2 className="w-4 h-4" /> {t("settings.sharingTab")}</TabsTrigger>
               </>
             )}
-            <TabsTrigger value="subscription" className="flex-1 gap-1"><CreditCard className="w-4 h-4" /> {t("settings.subscriptionTab", "Abo")}</TabsTrigger>
+            <TabsTrigger value="subscription" className="flex-1 gap-1"><CreditCard className="w-4 h-4" /> {t("settings.subscriptionTab")}</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="profile" className="space-y-4 mt-4">
+            <ProfileSection />
+          </TabsContent>
 
           <TabsContent value="family" className="space-y-4 mt-4">
             <FamilyManagement
@@ -112,32 +118,176 @@ export default function ParentSettings() {
   );
 }
 
+/* ── Profile Section ────────────────────────── */
+
+function ProfileSection() {
+  const { t } = useTranslation();
+  const { user, profile } = useAuth();
+  const qc = useQueryClient();
+  const [name, setName] = useState(profile?.name ?? "");
+  const [saving, setSaving] = useState(false);
+  const [showPwDialog, setShowPwDialog] = useState(false);
+  const [newPw, setNewPw] = useState("");
+  const [confirmPw, setConfirmPw] = useState("");
+  const currentLocale = profile?.locale ?? "de";
+
+  const handleSaveName = async () => {
+    if (!name.trim()) return;
+    setSaving(true);
+    const { error } = await supabase.from("profiles").update({ name: name.trim() }).eq("id", user!.id);
+    setSaving(false);
+    if (error) toast.error(t("common.error"));
+    else {
+      toast.success(t("settings.profileSaved"));
+      qc.invalidateQueries({ queryKey: ["profile"] });
+    }
+  };
+
+  const handleChangePassword = async () => {
+    if (newPw !== confirmPw) { toast.error(t("settings.passwordMismatch")); return; }
+    if (newPw.length < 6) { toast.error("Min 6 characters"); return; }
+    const { error } = await supabase.auth.updateUser({ password: newPw });
+    if (error) toast.error(error.message);
+    else {
+      toast.success(t("settings.passwordChanged"));
+      setShowPwDialog(false);
+      setNewPw("");
+      setConfirmPw("");
+    }
+  };
+
+  const handleLanguage = async (locale: string) => {
+    await supabase.from("profiles").update({ locale }).eq("id", user!.id);
+    i18n.changeLanguage(locale);
+    qc.invalidateQueries({ queryKey: ["profile"] });
+  };
+
+  return (
+    <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-4">
+      <motion.div variants={slideUp} className="bg-card rounded-lg p-4 border border-border space-y-4">
+        <h2 className="text-sm font-semibold text-foreground">{t("settings.editProfile")}</h2>
+        <div>
+          <Label>{t("common.name")}</Label>
+          <div className="flex gap-2 mt-1">
+            <Input value={name} onChange={e => setName(e.target.value)} />
+            <Button onClick={handleSaveName} disabled={saving || name.trim() === profile?.name} size="sm">
+              {t("common.save")}
+            </Button>
+          </div>
+        </div>
+        <div>
+          <Label>{t("auth.email")}</Label>
+          <Input value={user?.email ?? ""} disabled className="mt-1 opacity-60" />
+        </div>
+        <Button variant="outline" onClick={() => setShowPwDialog(true)} className="gap-1">
+          <Key className="w-3.5 h-3.5" /> {t("settings.changePassword")}
+        </Button>
+      </motion.div>
+
+      <motion.div variants={slideUp} className="bg-card rounded-lg p-4 border border-border space-y-3">
+        <div className="flex items-center gap-2">
+          <Globe className="w-4 h-4 text-muted-foreground" />
+          <h2 className="text-sm font-semibold text-foreground">{t("settings.language")}</h2>
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant={currentLocale === "de" ? "default" : "outline"}
+            size="sm"
+            onClick={() => handleLanguage("de")}
+          >
+            Deutsch
+          </Button>
+          <Button
+            variant={currentLocale === "en" ? "default" : "outline"}
+            size="sm"
+            onClick={() => handleLanguage("en")}
+          >
+            English
+          </Button>
+        </div>
+      </motion.div>
+
+      <Dialog open={showPwDialog} onOpenChange={setShowPwDialog}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader><DialogTitle>{t("settings.changePassword")}</DialogTitle></DialogHeader>
+          <div className="space-y-3">
+            <div>
+              <Label>{t("settings.newPassword")}</Label>
+              <Input type="password" value={newPw} onChange={e => setNewPw(e.target.value)} />
+            </div>
+            <div>
+              <Label>{t("settings.confirmPassword")}</Label>
+              <Input type="password" value={confirmPw} onChange={e => setConfirmPw(e.target.value)} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleChangePassword} disabled={!newPw || !confirmPw}>{t("common.save")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </motion.div>
+  );
+}
+
+/* ── Family Management ────────────────────────── */
+
 function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
   const { t } = useTranslation();
-  const [showAdd, setShowAdd] = useState(false);
-  const [name, setName] = useState("");
-  const [role, setRole] = useState<"adult" | "child" | "baby">("child");
+  const { user } = useAuth();
+  const qc = useQueryClient();
+  const [showInvite, setShowInvite] = useState(false);
+  const [showAddChild, setShowAddChild] = useState(false);
+  const [showAddBaby, setShowAddBaby] = useState(false);
+  const [removeTarget, setRemoveTarget] = useState<any>(null);
 
-  const handleAdd = async () => {
-    if (!name.trim() || !familyId) return;
-    if (members.length >= memberLimit) {
-      toast.error(t("settings.memberLimitReached", { limit: memberLimit }));
-      return;
-    }
+  // Invite adult
+  const [inviteToken, setInviteToken] = useState("");
+  const handleInvite = async () => {
+    const { data, error } = await supabase
+      .from("family_invites")
+      .insert({ family_id: familyId, created_by: user!.id })
+      .select()
+      .single();
+    if (error) { toast.error(t("common.error")); return; }
+    const link = `${window.location.origin}/signup?invite=${data.token}`;
+    setInviteToken(link);
+    try { await navigator.clipboard.writeText(link); toast.success(t("grandparent.linkCopied")); } catch {}
+  };
+
+  // Add baby
+  const [babyName, setBabyName] = useState("");
+  const handleAddBaby = async () => {
+    if (!babyName.trim()) return;
     const colors = ["#4E6E5D", "#C67B5C", "#D4943A", "#5B8A9B", "#7C4DFF", "#FF6B35"];
     const { error } = await supabase.from("family_members").insert({
       family_id: familyId,
-      name: name.trim(),
-      role,
+      name: babyName.trim(),
+      role: "baby",
+      managed_by_user_id: user!.id,
       color: colors[members.length % colors.length],
     });
     if (error) toast.error(t("settings.addError"));
     else {
-      toast.success(t("settings.memberAdded", { name: name.trim() }));
-      setName("");
-      setShowAdd(false);
+      toast.success(t("settings.memberAdded", { name: babyName.trim() }));
+      setBabyName("");
+      setShowAddBaby(false);
+      qc.invalidateQueries({ queryKey: ["family-members"] });
     }
   };
+
+  // Remove member
+  const handleRemove = async () => {
+    if (!removeTarget) return;
+    const { error } = await supabase.from("family_members").delete().eq("id", removeTarget.id);
+    if (error) toast.error(t("common.error"));
+    else {
+      toast.success(t("settings.memberRemoved", { name: removeTarget.name }));
+      qc.invalidateQueries({ queryKey: ["family-members"] });
+    }
+    setRemoveTarget(null);
+  };
+
+  const canRemove = (m: any) => isAdmin && m.user_id !== user?.id && !m.is_admin;
 
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
@@ -145,10 +295,21 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
         <h2 className="text-sm font-semibold text-foreground">
           {t("settings.members")} ({members.length}/{memberLimit})
         </h2>
-        <Button size="sm" variant="outline" onClick={() => setShowAdd(true)} className="gap-1">
-          <Plus className="w-3 h-3" /> {t("settings.addMember")}
-        </Button>
       </div>
+
+      {isAdmin && (
+        <div className="flex flex-wrap gap-2">
+          <Button size="sm" variant="outline" onClick={() => setShowInvite(true)} className="gap-1">
+            <UserPlus className="w-3 h-3" /> {t("settings.inviteAdult")}
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => setShowAddChild(true)} className="gap-1">
+            <User className="w-3 h-3" /> {t("settings.addChild")}
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => setShowAddBaby(true)} className="gap-1">
+            <Baby className="w-3 h-3" /> {t("settings.addBaby")}
+          </Button>
+        </div>
+      )}
 
       {members.map((m: any) => (
         <motion.div key={m.id} variants={slideUp} className="bg-card rounded-lg p-4 border border-border flex items-center gap-3">
@@ -165,35 +326,159 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
               {m.is_admin && <Shield className="w-3 h-3 text-primary ml-1" />}
             </div>
           </div>
+          {canRemove(m) && (
+            <Button size="icon" variant="ghost" onClick={() => setRemoveTarget(m)}>
+              <Trash2 className="w-4 h-4 text-muted-foreground" />
+            </Button>
+          )}
         </motion.div>
       ))}
 
-      <Dialog open={showAdd} onOpenChange={setShowAdd}>
+      {/* Invite Adult Dialog */}
+      <Dialog open={showInvite} onOpenChange={v => { setShowInvite(v); if (!v) setInviteToken(""); }}>
         <DialogContent className="max-w-sm">
-          <DialogHeader><DialogTitle>{t("settings.addMemberTitle")}</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{t("settings.inviteAdult")}</DialogTitle></DialogHeader>
+          {inviteToken ? (
+            <div className="space-y-3">
+              <p className="text-xs text-muted-foreground">{t("grandparent.linkCopied")}</p>
+              <Input value={inviteToken} readOnly className="text-xs" onClick={e => (e.target as HTMLInputElement).select()} />
+              <Button variant="outline" className="w-full" onClick={() => { navigator.clipboard.writeText(inviteToken); toast.success(t("grandparent.linkCopied")); }}>
+                {t("grandparent.linkCopied")}
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                Generate a shareable invite link for another adult to join your family.
+              </p>
+              <Button onClick={handleInvite} className="w-full">{t("settings.inviteAdult")}</Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Child Dialog */}
+      <AddChildDialog open={showAddChild} onOpenChange={setShowAddChild} familyId={familyId} membersCount={members.length} />
+
+      {/* Add Baby Dialog */}
+      <Dialog open={showAddBaby} onOpenChange={setShowAddBaby}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader><DialogTitle>{t("settings.addBaby")}</DialogTitle></DialogHeader>
           <div className="space-y-4">
             <div>
               <Label>{t("common.name")}</Label>
-              <Input value={name} onChange={e => setName(e.target.value)} placeholder={t("common.name")} />
+              <Input value={babyName} onChange={e => setBabyName(e.target.value)} placeholder={t("common.name")} />
             </div>
-            <div>
-              <Label>{t("settings.role")}</Label>
-              <Select value={role} onValueChange={v => setRole(v as any)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="adult">{t("settings.roleAdult")}</SelectItem>
-                  <SelectItem value="child">{t("settings.roleChild")}</SelectItem>
-                  <SelectItem value="baby">{t("settings.roleBaby")}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <Button onClick={handleAdd} className="w-full" disabled={!name.trim()}>{t("settings.addMember")}</Button>
+            <Button onClick={handleAddBaby} className="w-full" disabled={!babyName.trim()}>{t("settings.addBaby")}</Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Remove Confirmation */}
+      <Dialog open={!!removeTarget} onOpenChange={() => setRemoveTarget(null)}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>{t("settings.removeMember")}</DialogTitle>
+            <DialogDescription>
+              {t("settings.removeConfirm", { name: removeTarget?.name })}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRemoveTarget(null)}>{t("common.cancel")}</Button>
+            <Button variant="destructive" onClick={handleRemove}>{t("common.delete")}</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </motion.div>
   );
 }
+
+/* ── Add Child Dialog ────────────────────────── */
+
+function AddChildDialog({ open, onOpenChange, familyId, membersCount }: { open: boolean; onOpenChange: (v: boolean) => void; familyId: string | null; membersCount: number }) {
+  const { t } = useTranslation();
+  const { user } = useAuth();
+  const qc = useQueryClient();
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [pin, setPin] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
+
+  const handleCreate = async () => {
+    if (!name.trim() || !username.trim() || pin.length !== 4) return;
+    setLoading(true);
+    try {
+      // Call child-auth edge function to create the child account
+      const { data, error } = await supabase.functions.invoke("child-auth", {
+        body: {
+          action: "create",
+          familyId,
+          name: name.trim(),
+          username: username.trim().toLowerCase(),
+          pin,
+          managedBy: user!.id,
+        },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      setResult(t("settings.childCreated", { username: username.trim(), pin }));
+      qc.invalidateQueries({ queryKey: ["family-members"] });
+    } catch (err: any) {
+      toast.error(err.message || t("common.error"));
+    }
+    setLoading(false);
+  };
+
+  const handleClose = (v: boolean) => {
+    if (!v) {
+      setName(""); setUsername(""); setPin(""); setResult(null);
+    }
+    onOpenChange(v);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={handleClose}>
+      <DialogContent className="max-w-sm">
+        <DialogHeader><DialogTitle>{t("settings.addChild")}</DialogTitle></DialogHeader>
+        {result ? (
+          <div className="space-y-3">
+            <p className="text-sm text-foreground">{result}</p>
+            <Button className="w-full" onClick={() => handleClose(false)}>{t("common.close")}</Button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div>
+              <Label>{t("common.name")}</Label>
+              <Input value={name} onChange={e => setName(e.target.value)} placeholder="Max" />
+            </div>
+            <div>
+              <Label>{t("settings.childUsername")}</Label>
+              <Input value={username} onChange={e => setUsername(e.target.value)} placeholder="max123" />
+            </div>
+            <div>
+              <Label>{t("settings.childPin")}</Label>
+              <Input
+                type="text"
+                inputMode="numeric"
+                maxLength={4}
+                value={pin}
+                onChange={e => setPin(e.target.value.replace(/\D/g, "").slice(0, 4))}
+                placeholder="1234"
+              />
+            </div>
+            <Button onClick={handleCreate} className="w-full" disabled={loading || !name.trim() || !username.trim() || pin.length !== 4}>
+              {loading ? t("common.loading") : t("settings.addChild")}
+            </Button>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+/* ── Time Block Management ────────────────────────── */
 
 function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock }: any) {
   const { t } = useTranslation();
@@ -213,7 +498,7 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold text-foreground">{t("settings.timeBlocks")}</h2>
         <Button size="sm" variant="outline" onClick={() => setShowAdd(true)} className="gap-1">
-          <Plus className="w-3 h-3" /> {t("settings.addMember")}
+          <Plus className="w-3 h-3" /> {t("common.create")}
         </Button>
       </div>
 
@@ -303,19 +588,28 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
   );
 }
 
+/* ── Routine Management ────────────────────────── */
+
 function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine }: any) {
   const { t } = useTranslation();
   const [showAdd, setShowAdd] = useState(false);
   const [title, setTitle] = useState("");
   const [assignee, setAssignee] = useState("");
   const [flowMode, setFlowMode] = useState(false);
+  const [recurrenceType, setRecurrenceType] = useState("weekly");
+  const [recurrenceInterval, setRecurrenceInterval] = useState(1);
+  const [scheduledTime, setScheduledTime] = useState("");
+  const [weekdays, setWeekdays] = useState<number[]>([1, 2, 3, 4, 5]);
+
+  const dayLabels = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+  const dayValues = [1, 2, 3, 4, 5, 6, 7];
 
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold text-foreground">{t("settings.routines")}</h2>
         <Button size="sm" variant="outline" onClick={() => setShowAdd(true)} className="gap-1">
-          <Plus className="w-3 h-3" /> {t("settings.addMember")}
+          <Plus className="w-3 h-3" /> {t("common.create")}
         </Button>
       </div>
 
@@ -327,7 +621,11 @@ function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine
         <motion.div key={r.id} variants={slideUp} className="bg-card rounded-lg p-3 border border-border flex items-center justify-between">
           <div>
             <span className="text-sm font-medium text-foreground">{r.title}</span>
-            {r.flow_mode && <span className="text-[10px] bg-accent-light text-accent px-1.5 py-0.5 rounded-full ml-2">Flow</span>}
+            <div className="flex items-center gap-2 mt-0.5">
+              {r.flow_mode && <span className="text-[10px] bg-accent/10 text-accent px-1.5 py-0.5 rounded-full">Flow</span>}
+              {r.scheduled_time && <span className="text-[10px] text-muted-foreground">{r.scheduled_time?.slice(0, 5)}</span>}
+              <span className="text-[10px] text-muted-foreground capitalize">{r.recurrence_type}</span>
+            </div>
           </div>
           <Button size="icon" variant="ghost" onClick={() => onDeleteRoutine(r.id)}>
             <Trash2 className="w-4 h-4 text-muted-foreground" />
@@ -354,13 +652,64 @@ function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine
                 </SelectContent>
               </Select>
             </div>
+            <div>
+              <Label>{t("settings.routineFrequency")}</Label>
+              <Select value={recurrenceType} onValueChange={setRecurrenceType}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="daily">{t("settings.routineDaily")}</SelectItem>
+                  <SelectItem value="weekly">{t("settings.routineWeekly")}</SelectItem>
+                  <SelectItem value="monthly">{t("settings.routineMonthly")}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {recurrenceType === "weekly" && (
+              <>
+                <div>
+                  <Label>{t("settings.blockWeekdays")}</Label>
+                  <div className="flex gap-1 mt-1">
+                    {dayLabels.map((d, i) => (
+                      <button
+                        key={d}
+                        type="button"
+                        onClick={() => setWeekdays(prev =>
+                          prev.includes(dayValues[i]) ? prev.filter(x => x !== dayValues[i]) : [...prev, dayValues[i]]
+                        )}
+                        className={`px-2 py-1 rounded text-xs font-medium ${
+                          weekdays.includes(dayValues[i]) ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                        }`}
+                      >
+                        {d}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Label>{t("settings.routineInterval")}</Label>
+                  <Input type="number" min={1} max={12} value={recurrenceInterval} onChange={e => setRecurrenceInterval(Number(e.target.value))} className="w-16" />
+                  <span className="text-xs text-muted-foreground">{t("settings.routineIntervalWeeks")}</span>
+                </div>
+              </>
+            )}
+            <div>
+              <Label>{t("settings.routineTime")}</Label>
+              <Input type="time" value={scheduledTime} onChange={e => setScheduledTime(e.target.value)} />
+            </div>
             <div className="flex items-center gap-3">
               <Label htmlFor="flowMode">{t("settings.routineFlowMode")}</Label>
               <Switch id="flowMode" checked={flowMode} onCheckedChange={setFlowMode} />
             </div>
             <Button
               onClick={() => {
-                onCreateRoutine({ title, assigned_to_user_id: assignee || null, flow_mode: flowMode });
+                onCreateRoutine({
+                  title,
+                  assigned_to_user_id: assignee || null,
+                  flow_mode: flowMode,
+                  recurrence_type: recurrenceType,
+                  recurrence_interval: recurrenceInterval,
+                  scheduled_time: scheduledTime || null,
+                  weekdays,
+                });
                 setShowAdd(false);
                 setTitle("");
               }}
