@@ -11,7 +11,13 @@
     "close": "Close",
     "undo": "Undo",
     "search": "Search",
-    "noData": "No data yet"
+    "noData": "No data yet",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "all": "All",
+    "today": "Today",
+    "name": "Name"
   },
   "auth": {
     "login": "Log in",
@@ -23,7 +29,11 @@
     "pin": "PIN",
     "adultTab": "Adults",
     "childTab": "Children",
-    "forgotPassword": "Forgot password?"
+    "forgotPassword": "Forgot password?",
+    "signupSuccess": "Sign up successful! Please verify your email.",
+    "loginError": "Login failed",
+    "noAccount": "No account yet?",
+    "hasAccount": "Already have an account?"
   },
   "nav": {
     "home": "Home",
@@ -41,6 +51,10 @@
     "completedToday": "Completed today",
     "weeklyOverview": "Weekly overview",
     "familyBoard": "Family Board",
+    "events": "Events",
+    "members": "Members",
+    "taskDistribution": "Task distribution",
+    "boardEmpty": "No notes yet. Create one via the + menu.",
     "empty": {
       "title": "Nothing planned yet",
       "body": "Create your first task or event.",
@@ -54,6 +68,7 @@
     "streakBroken": "Start a streak!",
     "levelLabel": "Level {{level}}",
     "xpProgress": "{{current}} / {{target}} XP",
+    "todayQuests": "Today's Quests",
     "quest": {
       "complete": "Quest complete!"
     },
@@ -80,7 +95,14 @@
     "assignee": "Assigned to",
     "xpValue": "XP value",
     "completed": "Completed",
-    "open": "Open"
+    "open": "Open",
+    "startTime": "Start time",
+    "endTime": "End time",
+    "icon": "Icon",
+    "photoRequired": "Photo required",
+    "filterAll": "All",
+    "filterOpen": "Open",
+    "filterCompleted": "Completed"
   },
   "event": {
     "create": "Create event",
@@ -90,15 +112,81 @@
     "startTime": "Start time",
     "endTime": "End time",
     "allDay": "All day",
-    "description": "Description"
+    "description": "Description",
+    "icon": "Icon"
+  },
+  "calendar": {
+    "weekView": "Week",
+    "monthView": "Month",
+    "calendarWeek": "CW {{week}}",
+    "quickCreate": "Quick create",
+    "newTask": "New task",
+    "newEvent": "New event",
+    "conflict": "Time conflict"
   },
   "gamification": {
     "xpAwarded": "+{{amount}} XP",
     "goldAwarded": "+{{amount}} 🪙",
-    "levelUp": "Level {{level}} reached!",
+    "levelUp": "Level {{level}} reached! 🎉",
     "streakDay": "Day {{count}} 🔥",
     "newBadge": "New badge!",
-    "treasureFound": "Treasure chest found!"
+    "treasureFound": "Treasure chest found!",
+    "streakProtected": "Streak protected! ❄️",
+    "firstQuestBonus": "Daily start bonus! 1.5× XP",
+    "keepGoing": "Keep going!"
+  },
+  "settings": {
+    "familyTab": "Family",
+    "timeBlocksTab": "Time Blocks",
+    "routinesTab": "Routines",
+    "members": "Members",
+    "memberCount": "{{current}}/{{max}}",
+    "addMember": "Add",
+    "addMemberTitle": "Add member",
+    "memberLimitReached": "Maximum member count ({{limit}}) reached",
+    "memberAdded": "{{name}} added",
+    "addError": "Error adding member",
+    "role": "Role",
+    "roleAdult": "Adult",
+    "roleChild": "Child",
+    "roleBaby": "Baby",
+    "timeBlocks": "Time blocks",
+    "timeBlockEmpty": "No time blocks",
+    "timeBlockEmptyBody": "Add school, work, or other times.",
+    "createTimeBlock": "Create time block",
+    "blockLabel": "Label",
+    "blockType": "Type",
+    "blockTypeSchool": "School",
+    "blockTypeWork": "Work",
+    "blockTypeNap": "Nap/Daycare",
+    "blockTypeUnavailable": "Unavailable",
+    "blockPerson": "Person",
+    "blockFrom": "From",
+    "blockTo": "To",
+    "blockWeekdays": "Weekdays",
+    "selectPlaceholder": "Select…",
+    "routines": "Routines",
+    "routineEmpty": "No routines",
+    "routineEmptyBody": "Create a morning or evening routine.",
+    "createRoutine": "Create routine",
+    "routineAssignee": "Assigned to",
+    "routineFlowMode": "Flow mode",
+    "soundEnabled": "Sound enabled",
+    "soundVolume": "Volume"
+  },
+  "rewards": {
+    "title": "Rewards",
+    "create": "Create reward",
+    "goldPrice": "Gold price",
+    "xpThreshold": "XP threshold",
+    "active": "Active",
+    "fulfill": "Redeem",
+    "empty": "No rewards yet",
+    "emptyBody": "Create rewards for the children."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications"
   },
   "fab": {
     "task": "Task",

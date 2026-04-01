@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { staggerContainer, slideUp, flame, popIn, bounceIn, glow, pulse, float } from "@/lib/animations";
+import { staggerContainer, slideUp, flame, popIn, bounceIn } from "@/lib/animations";
 import { useAuth } from "@/hooks/useAuth";
 import { useGamification } from "@/hooks/useGamification";
 import { useTasks } from "@/hooks/useTasks";
-import { useFamily } from "@/hooks/useFamily";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import SkeletonLoader from "@/components/shared/SkeletonLoader";
@@ -13,21 +12,22 @@ import EmptyState from "@/components/shared/EmptyState";
 import LevelUpCelebration from "@/components/gamification/LevelUpCelebration";
 import DopamineLoop from "@/components/gamification/DopamineLoop";
 import { Progress } from "@/components/ui/progress";
-import { Sparkles, Flame, CheckSquare, Square, Coins, Trophy, Gift, Swords, Star } from "lucide-react";
+import { Sparkles, Flame, CheckSquare, Square, Coins, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { playComplete, playXPAward, playStreakFire, playLevelUp, playGoldDrop } from "@/services/soundEngine";
 
 export default function ChildMyDay() {
   const { t } = useTranslation();
   const { profile, user } = useAuth();
-  const { currentLevel, totalXP, xpProgress, xpInLevel, xpNeeded, streak, gold, isLoading: gamLoading } = useGamification();
+  const { currentLevel, xpProgress, xpInLevel, xpNeeded, streak, gold, isLoading: gamLoading } = useGamification();
   const { tasks, isLoading: tasksLoading, completeTask } = useTasks({ status: "open" });
-  const { familyId } = useFamily();
 
   const [completingId, setCompletingId] = useState<string | null>(null);
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(0);
-  const [dopamineData, setDopamineData] = useState<{ xp: number; gold: number; streakCount: number } | null>(null);
+  const [dopamineData, setDopamineData] = useState<{
+    xp: number; gold: number; streakCount: number; streakStartedToday: boolean;
+    dropEvent?: { type: string; value: string | number };
+  } | null>(null);
 
   const today = format(new Date(), "yyyy-MM-dd");
   const todayTasks = tasks.filter(task => task.due_date === today && task.assigned_to_user_id === user?.id);
@@ -36,24 +36,25 @@ export default function ChildMyDay() {
   const handleComplete = async (taskId: string) => {
     setCompletingId(taskId);
     try {
-      // Call complete-task edge function for full gamification
       const { data, error } = await supabase.functions.invoke("complete-task", {
-        body: { task_id: taskId, user_id: user?.id },
+        body: { taskId, userId: user?.id },
       });
 
       if (error) {
-        // Fallback: simple completion
         completeTask.mutate(taskId);
-      } else if (data) {
+      } else if (data?.gamification) {
+        const g = data.gamification;
         setDopamineData({
-          xp: data.xp_awarded ?? 0,
-          gold: data.gold_awarded ?? 0,
-          streakCount: data.streak_count ?? 0,
+          xp: g.xpAwarded ?? 0,
+          gold: g.goldAwarded ?? 0,
+          streakCount: g.streakCount ?? 0,
+          streakStartedToday: g.streakStartedToday ?? false,
+          dropEvent: g.dropEvent,
         });
 
-        if (data.level_up) {
+        if (g.leveledUp) {
           setTimeout(() => {
-            setNewLevel(data.new_level);
+            setNewLevel(g.newLevel ?? g.currentLevel);
             setShowLevelUp(true);
           }, 1200);
         }
@@ -77,7 +78,7 @@ export default function ChildMyDay() {
           {t("child.greeting", { name: profile?.name })}
         </h1>
         <p className="text-sm text-muted-foreground">
-          {format(new Date(), "EEEE, d. MMMM", { locale: de })} · {todayTasks.length} {t("child.questsToday", { count: todayTasks.length })}
+          {format(new Date(), "EEEE, d. MMMM", { locale: de })} · {t("child.questsToday", { count: todayTasks.length })}
         </p>
       </motion.div>
 
@@ -129,7 +130,7 @@ export default function ChildMyDay() {
                 </motion.div>
                 <span className="text-sm font-semibold text-foreground">{t("child.levelLabel", { level: currentLevel })}</span>
               </div>
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-muted-foreground tabular-nums">
                 {t("child.xpProgress", { current: xpInLevel, target: xpNeeded })}
               </span>
             </div>
@@ -139,7 +140,7 @@ export default function ChildMyDay() {
           {/* Quest list */}
           <motion.div variants={slideUp}>
             <h2 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-1.5">
-              <Star className="w-4 h-4 text-accent" /> Heutige Quests
+              <Star className="w-4 h-4 text-accent" /> {t("child.todayQuests")}
             </h2>
             {todayTasks.length === 0 ? (
               <EmptyState
@@ -192,6 +193,8 @@ export default function ChildMyDay() {
             xp={dopamineData.xp}
             gold={dopamineData.gold}
             streakCount={dopamineData.streakCount}
+            streakStartedToday={dopamineData.streakStartedToday}
+            dropEvent={dopamineData.dropEvent}
             onComplete={() => setDopamineData(null)}
           />
         )}

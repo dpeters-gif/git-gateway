@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { staggerContainer, slideUp } from "@/lib/animations";
-import { startOfWeek, addWeeks, subWeeks, format } from "date-fns";
+import { startOfWeek, addWeeks, subWeeks, format, getWeek } from "date-fns";
 import { de } from "date-fns/locale";
 import { useAuth } from "@/hooks/useAuth";
 import { useFamily } from "@/hooks/useFamily";
@@ -31,6 +31,7 @@ export default function ParentCalendar() {
   const { timeBlocks, isLoading: blocksLoading } = useTimeBlocks();
 
   const [weekOffset, setWeekOffset] = useState(0);
+  const [viewMode, setViewMode] = useState<"week" | "month">("week");
   const weekStart = useMemo(() => {
     const base = startOfWeek(new Date(), { weekStartsOn: 1 });
     return weekOffset === 0 ? base : weekOffset > 0 ? addWeeks(base, weekOffset) : subWeeks(base, -weekOffset);
@@ -43,10 +44,13 @@ export default function ParentCalendar() {
   const [selectedItem, setSelectedItem] = useState<Task | Event | null>(null);
   const [showDetail, setShowDetail] = useState(false);
 
+  // QuickCreate popover state
+  const [quickCreateAnchor, setQuickCreateAnchor] = useState<{ x: number; y: number } | null>(null);
+  const [showQuickCreate, setShowQuickCreate] = useState(false);
+
   // Conflict detection
   const conflicts = useMemo(() => {
     const map = new Map<string, { items: (Task | Event)[] }>();
-    // Simple overlap detection per user per day
     const allItems = [
       ...tasks.filter(t => t.start_time && t.end_time).map(t => ({
         id: t.id, userId: t.assigned_to_user_id, date: t.due_date, start: t.start_time!, end: t.end_time!, item: t as Task | Event,
@@ -72,9 +76,15 @@ export default function ParentCalendar() {
     return map;
   }, [tasks, events]);
 
-  const handleCellClick = useCallback((date: Date, memberId: string | null) => {
-    setSelectedDate(format(date, "yyyy-MM-dd"));
+  const handleCellClick = useCallback((date: Date, memberId: string | null, event?: React.MouseEvent) => {
+    const dateStr = format(date, "yyyy-MM-dd");
+    setSelectedDate(dateStr);
     setSelectedAssignee(memberId ?? undefined);
+
+    if (event) {
+      setQuickCreateAnchor({ x: event.clientX, y: event.clientY });
+      setShowQuickCreate(true);
+    }
   }, []);
 
   const handleTaskSubmit = useCallback((data: TaskFormData) => {
@@ -98,6 +108,7 @@ export default function ParentCalendar() {
       assigned_to_user_id: selectedAssignee ?? null,
       created_by_user_id: user?.id ?? null,
     });
+    setShowQuickCreate(false);
   }, [createTask, selectedDate, selectedAssignee, user]);
 
   const handleQuickEvent = useCallback((title: string) => {
@@ -107,6 +118,7 @@ export default function ParentCalendar() {
       assigned_to_user_ids: selectedAssignee ? [selectedAssignee] : [],
       created_by_user_id: user?.id ?? null,
     });
+    setShowQuickCreate(false);
   }, [createEvent, selectedDate, selectedAssignee, user]);
 
   const isLoading = tasksLoading || eventsLoading || blocksLoading;
@@ -116,11 +128,33 @@ export default function ParentCalendar() {
     return <ErrorState message={t("common.error")} onRetry={() => { refetchTasks(); refetchEvents(); }} />;
   }
 
+  const weekNumber = getWeek(weekStart, { weekStartsOn: 1 });
+
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-4">
       <motion.div variants={slideUp} className="flex items-center justify-between">
         <h1 className="text-xl font-extrabold text-foreground">{t("nav.calendar")}</h1>
         <div className="flex items-center gap-2">
+          {/* View mode toggle */}
+          <div className="flex bg-muted rounded-lg p-0.5">
+            <button
+              onClick={() => setViewMode("week")}
+              className={`px-2 py-1 text-xs font-medium rounded-md transition-colors ${
+                viewMode === "week" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+              }`}
+            >
+              {t("calendar.weekView")}
+            </button>
+            <button
+              onClick={() => setViewMode("month")}
+              className={`px-2 py-1 text-xs font-medium rounded-md transition-colors ${
+                viewMode === "month" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+              }`}
+            >
+              {t("calendar.monthView")}
+            </button>
+          </div>
+
           <Button variant="ghost" size="icon" onClick={() => setWeekOffset(o => o - 1)}>
             <ChevronLeft className="w-4 h-4" />
           </Button>
@@ -128,7 +162,7 @@ export default function ParentCalendar() {
             onClick={() => setWeekOffset(0)}
             className="text-sm font-medium text-primary hover:underline"
           >
-            {format(weekStart, "'KW' w · MMM yyyy", { locale: de })}
+            {t("calendar.calendarWeek", { week: weekNumber })} · {format(weekStart, "MMM yyyy", { locale: de })}
           </button>
           <Button variant="ghost" size="icon" onClick={() => setWeekOffset(o => o + 1)}>
             <ChevronRight className="w-4 h-4" />
@@ -156,6 +190,16 @@ export default function ParentCalendar() {
           />
         )}
       </motion.div>
+
+      {/* Quick Create Popover wired to cell clicks */}
+      <QuickCreatePopover
+        open={showQuickCreate}
+        onOpenChange={setShowQuickCreate}
+        onCreateTask={handleQuickTask}
+        onCreateEvent={handleQuickEvent}
+      >
+        <span />
+      </QuickCreatePopover>
 
       <TaskCreateForm
         open={showTaskForm}
