@@ -32,6 +32,7 @@ function AuthenticatedApp() {
         <Route path="/tasks" element={<ParentTasks />} />
         <Route path="/rewards" element={<ParentRewards />} />
         <Route path="/settings" element={<ParentSettings />} />
+        <Route path="/shopping" element={<ShoppingList />} />
         {/* Child routes */}
         <Route path="/quests" element={<ChildQuests />} />
         <Route path="/progress" element={<ChildProgress />} />
