@@ -333,6 +333,8 @@ ADD: "Default icon for tasks: checkbox (CheckSquare). Default icon for events: c
 ### ADD Acceptance Criteria:
 - **AC-050:** Board note creation animation: new note slides in from top with popIn. Delete: fadeOut + collapse.
 - **AC-051:** Board visible on both parent Home AND child My Day screens.
+- **AC-052:** Board note creation form includes image upload (Supabase Storage 'board-images'). Image displayed as thumbnail. Tap thumbnail for lightbox.
+- **AC-053:** Board notes fully CRUD: create, read, edit (author or admin), delete (author or admin with confirmation).
 
 ### Subscription tier: Free (5 notes), Family (unlimited)
 
