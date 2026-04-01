@@ -2,6 +2,18 @@ import * as React from "react";
 
 const MOBILE_BREAKPOINT = 768;
 
+export function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = React.useState(false);
+  React.useEffect(() => {
+    const mql = window.matchMedia(query);
+    setMatches(mql.matches);
+    const handler = () => setMatches(mql.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, [query]);
+  return matches;
+}
+
 export function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined);
 
