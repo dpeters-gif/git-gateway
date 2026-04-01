@@ -176,7 +176,8 @@ ADD: "Default icon for tasks: checkbox (CheckSquare). Default icon for events: c
 
 ### ADD Acceptance Criteria:
 - **AC-023:** Challenges of type "boss_battle" shall display a boss creature SVG silhouette with a health bar. Each qualifying task completion reduces boss HP. When HP reaches 0: celebration animation + bonus XP for all contributors.
-- **AC-024:** Rewards can optionally be purchasable with Gold (parent sets Gold price alongside or instead of XP threshold). This creates a "Gold shop" experience for children.
+- **AC-024:** Rewards can optionally be purchasable with Gold (parent sets Gold price alongside or instead of XP threshold).
+- **AC-025:** Challenge and reward cards include edit buttons opening pre-filled edit forms. Both tables support optional image_url for card thumbnails.
 
 ### Subscription tier: Family tier (rewards + challenges are gamification)
 
