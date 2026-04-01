@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Calendar, CheckSquare, Gift, Settings, ShoppingCart, BarChart3 } from "lucide-react";
+import { Home, Calendar, CheckSquare, Gift, Settings } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
@@ -20,8 +19,6 @@ export default function DesktopSidebar() {
     { icon: Calendar, label: t("nav.calendar"), path: "/calendar" },
     { icon: CheckSquare, label: t("nav.tasks"), path: "/tasks" },
     { icon: Gift, label: t("nav.rewards"), path: "/rewards" },
-    { icon: ShoppingCart, label: t("shopping.title"), path: "/shopping" },
-    { icon: BarChart3, label: t("careShare.title"), path: "/care-share" },
     { icon: Settings, label: t("nav.settings"), path: "/settings" },
   ];
 
