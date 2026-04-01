@@ -99,9 +99,10 @@ export default function ParentCalendar() {
   const handleQuickTask = useCallback((title: string) => {
     createTask.mutate({
       title, due_date: selectedDate ?? null, assigned_to_user_id: selectedAssignee ?? null, created_by_user_id: user?.id ?? null,
+      start_time: selectedTime ?? null,
     });
     setShowQuickCreate(false);
-  }, [createTask, selectedDate, selectedAssignee, user]);
+  }, [createTask, selectedDate, selectedAssignee, selectedTime, user]);
 
   const handleQuickEvent = useCallback((title: string) => {
     createEvent.mutate({
