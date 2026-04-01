@@ -79,11 +79,10 @@ export default function ParentCalendar() {
     return map;
   }, [tasks, events]);
 
-  const handleCellClick = useCallback((date: Date, memberId: string | null, time?: string) => {
+  const handleCellClick = useCallback((date: Date, memberId: string | null) => {
     const dateStr = format(date, "yyyy-MM-dd");
     setSelectedDate(dateStr);
     setSelectedAssignee(memberId ?? undefined);
-    setSelectedTime(time);
     setShowQuickCreate(true);
   }, []);
 
