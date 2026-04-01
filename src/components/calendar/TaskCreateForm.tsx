@@ -71,6 +71,10 @@ export default function TaskCreateForm({ open, onOpenChange, onSubmit, defaultDa
 
   const formContent = (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <AISuggestions onSelect={(s) => {
+        setTitle(s.title);
+        setXpValue(s.xp);
+      }} />
       <div className="flex items-center gap-2">
         <IconPicker value={icon} onChange={setIcon} />
         <Input autoFocus placeholder={t("task.title") + " *"} value={title} onChange={e => setTitle(e.target.value)} className="flex-1" />

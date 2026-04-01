@@ -76,6 +76,10 @@ export default function ParentSettings() {
               onDeleteRoutine={deleteRoutine.mutate}
             />
           </TabsContent>
+
+          <TabsContent value="nudges" className="space-y-4 mt-4">
+            <NudgeConfig />
+          </TabsContent>
         </Tabs>
       )}
     </motion.div>
