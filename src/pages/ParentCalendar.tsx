@@ -138,7 +138,7 @@ export default function ParentCalendar() {
 
       <motion.div variants={slideUp}>
         {isLoading ? (
-          <SkeletonLoader variant="card" count={3} />
+          <SkeletonLoader type="card" count={3} />
         ) : (
           <WeekMatrix
             tasks={tasks}

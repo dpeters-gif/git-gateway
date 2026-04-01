@@ -40,7 +40,7 @@ export default function ParentSettings() {
       </motion.div>
 
       {isLoading ? (
-        <SkeletonLoader variant="card" count={3} />
+        <SkeletonLoader type="card" count={3} />
       ) : (
         <Tabs defaultValue="family" className="w-full">
           <TabsList className="w-full">

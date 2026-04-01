@@ -74,7 +74,7 @@ export default function ParentTasks() {
 
       {/* Task list */}
       {isLoading ? (
-        <SkeletonLoader variant="list" count={5} />
+        <SkeletonLoader type="list" count={5} />
       ) : tasks.length === 0 ? (
         <EmptyState
           icon={CheckSquare}

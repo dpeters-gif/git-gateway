@@ -100,7 +100,7 @@ export default function ParentRewards() {
       </motion.div>
 
       {isLoading ? (
-        <SkeletonLoader variant="list" count={3} />
+        <SkeletonLoader type="list" count={3} />
       ) : tab === "rewards" ? (
         rewards.length === 0 ? (
           <EmptyState icon={Gift} title="Noch keine Belohnungen" body="Erstelle die erste Belohnung für deine Kinder." ctaLabel="Belohnung erstellen" onCta={() => setShowCreate(true)} />

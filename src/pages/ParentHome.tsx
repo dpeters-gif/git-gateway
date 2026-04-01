@@ -43,7 +43,7 @@ export default function ParentHome() {
       </motion.div>
 
       {isLoading ? (
-        <SkeletonLoader variant="card" count={3} />
+        <SkeletonLoader type="card" count={3} />
       ) : (
         <>
           {/* Stats row */}
