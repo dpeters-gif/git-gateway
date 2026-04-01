@@ -63,7 +63,7 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
       const xp = data?.gamification?.xpAwarded ?? currentTask.xp_value;
       setTotalXp(prev => prev + xp);
       setCompleted(prev => new Set(prev).add(currentTask.id));
-      soundEngine.playFlowStep();
+      playFlowStep();
 
       // Check if all done
       if (completedCount + 1 >= totalSteps) {
