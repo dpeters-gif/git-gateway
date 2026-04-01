@@ -147,6 +147,7 @@ ADD: "Default icon for tasks: checkbox (CheckSquare). Default icon for events: c
 - **AC-014:** The FAB quick-create menu shall be accessible from EVERY page in the app, not just the calendar or tasks page.
 - **AC-015:** When creating a task, the default XP value shall be 10 (not 0 or empty).
 - **AC-016:** Task completion is possible directly from the task card (inline checkbox) without opening the detail view. Tapping the checkbox triggers the full dopamine loop.
+- **AC-017:** FAB menu items (Task, Event, Routine, Board Note) must each open their respective creation form when tapped. The menu opening alone is insufficient.
 
 ### Subscription tier: Free (core feature)
 
