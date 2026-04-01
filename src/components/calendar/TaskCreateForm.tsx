@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useFamily } from "@/hooks/useFamily";
 import { useMediaQuery } from "@/hooks/use-mobile";
 import IconPicker from "./IconPicker";
+import AISuggestions from "@/components/tasks/AISuggestions";
 
 interface TaskCreateFormProps {
   open: boolean;
