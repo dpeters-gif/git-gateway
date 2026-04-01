@@ -337,5 +337,77 @@
     "available": "Verfügbar",
     "upcoming": "Bald verfügbar",
     "received": "Erhalten"
+  },
+  "careShare": {
+    "title": "Care-Share",
+    "subtitle": "Aufgabenverteilung unter Erwachsenen",
+    "thisWeek": "Diese Woche",
+    "thisMonth": "Diesen Monat",
+    "emptyTitle": "Noch keine erledigten Aufgaben",
+    "emptyBody": "Noch keine erledigten Aufgaben in diesem Zeitraum",
+    "singleAdult": "Alle Aufgaben erledigt von {{name}}",
+    "tasks": "Aufgaben"
+  },
+  "grandparent": {
+    "shareLinks": "Freigabelinks",
+    "createLink": "Link erstellen",
+    "createLinkTitle": "Freigabelink erstellen",
+    "linkLabel": "Bezeichnung",
+    "linkPlaceholder": "z.B. Oma Helga",
+    "expiryLabel": "Gültigkeitsdauer",
+    "day": "Tag",
+    "days": "Tage",
+    "linkCreated": "Link erstellt",
+    "linkRevoked": "Link widerrufen",
+    "linkCopied": "Link kopiert",
+    "emptyTitle": "Keine Freigabelinks",
+    "emptyBody": "Erstelle einen Link für Großeltern oder Betreuer",
+    "expired": "Dieser Link ist abgelaufen",
+    "expiredLabel": "Abgelaufen",
+    "expiresAt": "Gültig bis {{date}}",
+    "askFamily": "Bitte die Familie um einen neuen Link",
+    "noToken": "Kein Link angegeben",
+    "notFound": "Link nicht gefunden",
+    "familyCalendar": "Familienkalender",
+    "noEvents": "Keine Termine"
+  },
+  "subscription": {
+    "currentPlan": "Aktueller Plan",
+    "freePlan": "Kostenlos",
+    "currentLabel": "Aktueller Plan",
+    "upgrade": "Upgrade",
+    "comingSoon": "In-App-Käufe werden bald verfügbar sein",
+    "free": "Kostenlos",
+    "feature": {
+      "calendar.weekMatrix": "Kalender (Wochenansicht)",
+      "tasks.upTo20": "Bis zu 20 aktive Aufgaben",
+      "members.upTo3": "Bis zu 3 Familienmitglieder",
+      "shoppingList.one": "1 Einkaufsliste",
+      "boardNotes.five": "5 Pinnwand-Notizen",
+      "photoProof": "Foto-Beweis",
+      "unlimited.items": "Unbegrenzte Aufgaben & Termine",
+      "members.upTo8": "Bis zu 8 Familienmitglieder",
+      "gamification.full": "Volle Gamification (Gold, Drops, Begleiter)",
+      "routines.flowMode": "Routinen & Flow-Modus",
+      "shoppingList.multiple": "Mehrere Einkaufslisten",
+      "boardNotes.unlimited": "Unbegrenzte Pinnwand-Notizen",
+      "calendarSync": "Google Kalender Sync",
+      "pushNotifications": "Push-Benachrichtigungen",
+      "members.upTo12": "Bis zu 12 Familienmitglieder",
+      "ai.suggestions": "KI-Aufgabenvorschläge",
+      "ai.emailCalendar": "E-Mail-zu-Kalender",
+      "smartNudges": "Smart Nudges",
+      "weeklyRecap": "Wöchentlicher Rückblick",
+      "careShare": "Care-Share Analytics",
+      "multiHousehold": "Mehrere Haushalte"
+    }
+  },
+  "upgrade": {
+    "unlockFeature": "Schalte dieses Feature frei mit {{tier}}",
+    "upgradeNow": "Jetzt upgraden"
+  },
+  "settings": {
+    "sharingTab": "Teilen",
+    "subscriptionTab": "Abo"
   }
 }

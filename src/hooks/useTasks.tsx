@@ -19,8 +19,8 @@ export function useTasks(filters?: { status?: string; assignee?: string; priorit
     queryFn: async () => {
       let q = supabase.from("tasks").select("*").eq("family_id", familyId!);
       if (filters?.status && filters.status !== "all") q = q.eq("status", filters.status as "open" | "completed");
-      if (filters?.assignee) q = q.eq("assigned_to_user_id", filters.assignee);
-      if (filters?.priority) q = q.eq("priority", filters.priority as "high" | "normal" | "low");
+      if (filters?.assignee && filters.assignee !== "all") q = q.eq("assigned_to_user_id", filters.assignee);
+      if (filters?.priority && filters.priority !== "all") q = q.eq("priority", filters.priority as "high" | "normal" | "low");
       const { data, error } = await q.order("due_date", { ascending: true, nullsFirst: false });
       if (error) throw error;
       return data as Task[];

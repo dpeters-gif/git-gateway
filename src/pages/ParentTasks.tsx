@@ -53,18 +53,18 @@ export default function ParentTasks() {
           </SelectContent>
         </Select>
         <Select value={memberFilter} onValueChange={setMemberFilter}>
-          <SelectTrigger className="w-32"><SelectValue placeholder="Alle Mitglieder" /></SelectTrigger>
+          <SelectTrigger className="w-32"><SelectValue placeholder={t("common.all")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Alle</SelectItem>
-            {members.map(m => (
-              <SelectItem key={m.id} value={m.user_id ?? m.id}>{m.name}</SelectItem>
+            <SelectItem value="all">{t("common.all")}</SelectItem>
+            {members.filter(m => m.user_id || m.id).map(m => (
+              <SelectItem key={m.id} value={m.user_id || m.id}>{m.name}</SelectItem>
             ))}
           </SelectContent>
         </Select>
         <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-          <SelectTrigger className="w-32"><SelectValue placeholder="Priorität" /></SelectTrigger>
+          <SelectTrigger className="w-32"><SelectValue placeholder={t("task.priorityLabel", "Priorität")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Alle</SelectItem>
+            <SelectItem value="all">{t("common.all")}</SelectItem>
             <SelectItem value="high">{t("task.priorityHigh")}</SelectItem>
             <SelectItem value="normal">{t("task.priorityNormal")}</SelectItem>
             <SelectItem value="low">{t("task.priorityLow")}</SelectItem>

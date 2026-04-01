@@ -348,5 +348,77 @@
     "exitYes": "Yes, exit",
     "error": "Connection issue — try again",
     "noSteps": "No steps remaining"
+  },
+  "careShare": {
+    "title": "Care-Share",
+    "subtitle": "Task distribution among adults",
+    "thisWeek": "This week",
+    "thisMonth": "This month",
+    "emptyTitle": "No completed tasks yet",
+    "emptyBody": "No completed tasks this period",
+    "singleAdult": "All tasks completed by {{name}}",
+    "tasks": "tasks"
+  },
+  "grandparent": {
+    "shareLinks": "Share links",
+    "createLink": "Create link",
+    "createLinkTitle": "Create share link",
+    "linkLabel": "Label",
+    "linkPlaceholder": "e.g. Grandma Helga",
+    "expiryLabel": "Validity",
+    "day": "day",
+    "days": "days",
+    "linkCreated": "Link created",
+    "linkRevoked": "Link revoked",
+    "linkCopied": "Link copied",
+    "emptyTitle": "No share links",
+    "emptyBody": "Create a link for grandparents or caregivers",
+    "expired": "This link has expired",
+    "expiredLabel": "Expired",
+    "expiresAt": "Valid until {{date}}",
+    "askFamily": "Ask the family for a new link",
+    "noToken": "No link provided",
+    "notFound": "Link not found",
+    "familyCalendar": "Family calendar",
+    "noEvents": "No events"
+  },
+  "subscription": {
+    "currentPlan": "Current plan",
+    "freePlan": "Free",
+    "currentLabel": "Current plan",
+    "upgrade": "Upgrade",
+    "comingSoon": "In-app purchases coming soon",
+    "free": "Free",
+    "feature": {
+      "calendar.weekMatrix": "Calendar (week view)",
+      "tasks.upTo20": "Up to 20 active tasks",
+      "members.upTo3": "Up to 3 family members",
+      "shoppingList.one": "1 shopping list",
+      "boardNotes.five": "5 board notes",
+      "photoProof": "Photo proof",
+      "unlimited.items": "Unlimited tasks & events",
+      "members.upTo8": "Up to 8 family members",
+      "gamification.full": "Full gamification (Gold, drops, companions)",
+      "routines.flowMode": "Routines & flow mode",
+      "shoppingList.multiple": "Multiple shopping lists",
+      "boardNotes.unlimited": "Unlimited board notes",
+      "calendarSync": "Google Calendar sync",
+      "pushNotifications": "Push notifications",
+      "members.upTo12": "Up to 12 family members",
+      "ai.suggestions": "AI task suggestions",
+      "ai.emailCalendar": "Email-to-calendar",
+      "smartNudges": "Smart nudges",
+      "weeklyRecap": "Weekly recap",
+      "careShare": "Care-Share analytics",
+      "multiHousehold": "Multi-household"
+    }
+  },
+  "upgrade": {
+    "unlockFeature": "Unlock this feature with {{tier}}",
+    "upgradeNow": "Upgrade now"
+  },
+  "settings": {
+    "sharingTab": "Sharing",
+    "subscriptionTab": "Plan"
   }
 }

@@ -174,21 +174,21 @@ builder-tool: Lovable
 
 ## Phase E: Sprint 3 — Full Feature Set (Waves 5-7)
 
-- [ ] TASK-E01: Build Family Board: section on Home (3 recent notes + add button), full view (scrollable, all notes), note creation (text + image upload to Supabase Storage + expiry date), delete (author or admin), image lightbox. Board visible on child My Day too. | spec: P-13 | type: ui+wiring
+- [x] TASK-E01: Build Family Board: section on Home (3 recent notes + add button), full view (scrollable, all notes), note creation (text + image upload to Supabase Storage + expiry date), delete (author or admin), image lightbox. Board visible on child My Day too. | spec: P-13 | type: ui+wiring
 
-- [ ] TASK-E02: Build Shopping List: sticky add field with auto-complete from history, items with category icons (auto-categorized), grouped by category with headers, check/uncheck with slide animation, clear checked, drag-to-reorder. Supabase Realtime for instant cross-device sync. | spec: P-11, amendments | type: ui+wiring
+- [x] TASK-E02: Build Shopping List: sticky add field with auto-complete from history, items with category icons (auto-categorized), grouped by category with headers, check/uncheck with slide animation, clear checked, drag-to-reorder. Supabase Realtime for instant cross-device sync. | spec: P-11, amendments | type: ui+wiring
 
-- [ ] TASK-E03: Build Routine Flow Mode: full-screen single-step view, countdown timer, progress bar, step-complete sound (playFlowStep), XP per step, completion summary (total XP, time, under-time bonus). Accessible from routine detail + child My Day. | spec: P-8 | type: ui+wiring
+- [x] TASK-E03: Build Routine Flow Mode: full-screen single-step view, countdown timer, progress bar, step-complete sound (playFlowStep), XP per step, completion summary (total XP, time, under-time bonus). Accessible from routine detail + child My Day. | spec: P-8 | type: ui+wiring
 
-- [ ] TASK-E04: Build Smart Nudge system: Edge Function `evaluate-nudges` (scheduled), nudge config UI in Settings (per-child times, enable/disable, parent alert toggle, quiet hours). Push notification support for Family+ tier. | spec: P-9, amendments | type: ui+edge-function
+- [x] TASK-E04: Build Smart Nudge system: Edge Function `evaluate-nudges` (scheduled), nudge config UI in Settings (per-child times, enable/disable, parent alert toggle, quiet hours). Push notification support for Family+ tier. | spec: P-9, amendments | type: ui+edge-function
 
-- [ ] TASK-E05: Build Photo Proof: camera capture UI (Capacitor camera or file input fallback), upload to Supabase Storage, photo required toggle on task/routine forms, photo display in task detail with lightbox. | spec: C-5 | type: ui+wiring
+- [x] TASK-E05: Build Photo Proof: camera capture UI (Capacitor camera or file input fallback), upload to Supabase Storage, photo required toggle on task/routine forms, photo display in task detail with lightbox. | spec: C-5 | type: ui+wiring
 
-- [ ] TASK-E06: Build Weekly Recap: Edge Function `weekly-recap` (Monday generation), recap card on Home, full detail view (per-member stats, streak status, badges, challenge progress, week-over-week comparison), child mini-recap on My Day. Share button → generates summary image. | spec: P-10, amendments | type: ui+edge-function
+- [x] TASK-E06: Build Weekly Recap: Edge Function `weekly-recap` (Monday generation), recap card on Home, full detail view (per-member stats, streak status, badges, challenge progress, week-over-week comparison), child mini-recap on My Day. Share button → generates summary image. | spec: P-10, amendments | type: ui+edge-function
 
-- [ ] TASK-E07: Build AI Task Suggestions: Edge Function `ai-suggestions` (Claude API call), suggestion chips in TaskCreateForm (3 suggestions, shimmer loading, tap to pre-fill), contextual reasons. Privacy: anonymized data only. | spec: P-12 | type: ui+edge-function
+- [x] TASK-E07: Build AI Task Suggestions: Edge Function `ai-suggestions` (Claude API call), suggestion chips in TaskCreateForm (3 suggestions, shimmer loading, tap to pre-fill), contextual reasons. Privacy: anonymized data only. | spec: P-12 | type: ui+edge-function
 
-- [ ] TASK-E08: **HANDOVER TEST — Full Features** — Board, shopping list (realtime sync), flow mode, nudges, photo proof, recap, AI suggestions all functional. | type: verification
+- [x] TASK-E08: **HANDOVER TEST — Full Features** — Board, shopping list (realtime sync), flow mode, nudges, photo proof, recap, AI suggestions all functional. | type: verification
 
 ---
 
@@ -198,27 +198,27 @@ builder-tool: Lovable
 
 - [ ] TASK-F02: Build Multi-Household: household switcher in app bar, link-child flow (username + PIN confirm), context switching, unified gamification across households. | spec: S-2 | type: ui+wiring
 
-- [ ] TASK-F03: Build Adult Member restrictions: same parent UI but restricted editing (own items only), hidden admin sections. API-level enforcement via RLS. | spec: A-1/A-2 | type: ui+rls
+- [x] TASK-F03: Build Adult Member restrictions: same parent UI but restricted editing (own items only), hidden admin sections. API-level enforcement via RLS. | spec: A-1/A-2 | type: ui+rls
 
-- [ ] TASK-F04: Build Care-Share: donut chart (recharts, warm palette), adult distribution, weekly/monthly toggle, adults-only access. | spec: P-7 | type: ui+wiring
+- [x] TASK-F04: Build Care-Share: donut chart (recharts, warm palette), adult distribution, weekly/monthly toggle, adults-only access. | spec: P-7 | type: ui+wiring
 
-- [ ] TASK-F05: Build Grandparent View: share link generation in Settings (token, label, expiry, member selection), public read-only page (simplified week matrix, no auth required, no gamification data). | spec: S-5 | type: ui+wiring
+- [x] TASK-F05: Build Grandparent View: share link generation in Settings (token, label, expiry, member selection), public read-only page (simplified week matrix, no auth required, no gamification data). | spec: S-5 | type: ui+wiring
 
-- [ ] TASK-F06: Build subscription management: plan comparison in Settings, upgrade flow (in-app purchase), upgrade prompts at feature gates (positive language, never interruptive), tier checking in hooks + RLS. | spec: M-1 | type: ui+wiring
+- [x] TASK-F06: Build subscription management: plan comparison in Settings, upgrade flow (in-app purchase), upgrade prompts at feature gates (positive language, never interruptive), tier checking in hooks + RLS. | spec: M-1 | type: ui+wiring
 
 - [ ] TASK-F07: Build Email-to-Calendar: family inbox address display in Settings, Edge Function `email-to-calendar` (webhook + Claude API), Posteingang section on Home (pending items, add/dismiss), one-tap event creation from extracted data. | spec: P-14 | type: ui+edge-function
 
-- [ ] TASK-F08: States audit: verify every screen has all 4 states (loading/empty/error/success). Add missing skeleton loaders, empty states, error states. | type: quality
+- [x] TASK-F08: States audit: verify every screen has all 4 states (loading/empty/error/success). Add missing skeleton loaders, empty states, error states. | type: quality
 
-- [ ] TASK-F09: i18n audit: verify every visible string is in t(). Complete en.json translation. Verify locale toggle in Settings works. | type: quality
+- [x] TASK-F09: i18n audit: verify every visible string is in t(). Complete en.json translation. Verify locale toggle in Settings works. | type: quality
 
-- [ ] TASK-F10: Animation audit: verify every state change has animation. Add missing entrance/exit animations. Verify dopamine loop timing. | type: quality
+- [x] TASK-F10: Animation audit: verify every state change has animation. Add missing entrance/exit animations. Verify dopamine loop timing. | type: quality
 
-- [ ] TASK-F11: Responsive audit: test every screen at 768px (tablet), 375px (phone), 1280px (desktop). Fix any overflow, touch target, or layout issues. | type: quality
+- [x] TASK-F11: Responsive audit: test every screen at 768px (tablet), 375px (phone), 1280px (desktop). Fix any overflow, touch target, or layout issues. | type: quality
 
-- [ ] TASK-F12: Security audit: verify all RLS policies, test cross-family access (must fail), test child accessing adult endpoints (must fail), verify points_ledger immutability. | type: security
+- [x] TASK-F12: Security audit: verify all RLS policies, test cross-family access (must fail), test child accessing adult endpoints (must fail), verify points_ledger immutability. | type: security
 
-- [ ] TASK-F13: Performance: verify LCP <2.5s on 4G for Home and My Day. Optimize Supabase queries (indexes, select columns). | type: performance
+- [x] TASK-F13: Performance: verify LCP <2.5s on 4G for Home and My Day. Optimize Supabase queries (indexes, select columns). | type: performance
 
 - [ ] TASK-F14: PWA: service worker with workbox (offline shell, asset caching), test install flow on iOS Safari + Android Chrome. | type: platform
 
