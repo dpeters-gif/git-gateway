@@ -68,7 +68,7 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
       // Check if all done
       if (completedCount + 1 >= totalSteps) {
         setIsComplete(true);
-        soundEngine.playFlowDone();
+        playFlowDone();
       }
     } catch {
       setError(true);
