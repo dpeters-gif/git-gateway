@@ -8,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Play, CheckCircle2, Clock, Sparkles, ArrowLeft } from "lucide-react";
-import { soundEngine } from "@/services/soundEngine";
+import { playFlowStep, playFlowDone } from "@/services/soundEngine";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Task = Tables<"tasks">;
