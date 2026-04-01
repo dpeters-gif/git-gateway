@@ -185,6 +185,12 @@ export default function ChildMyDay() {
               </div>
             )}
           </motion.div>
+
+          {/* Weekly recap mini card */}
+          <ChildRecapMiniCard />
+
+          {/* Family Board */}
+          <FamilyBoard preview />
         </>
       )}
 
