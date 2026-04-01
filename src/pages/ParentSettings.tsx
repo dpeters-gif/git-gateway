@@ -258,8 +258,8 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
               <Select value={userId} onValueChange={setUserId}>
                 <SelectTrigger><SelectValue placeholder={t("settings.selectPlaceholder")} /></SelectTrigger>
                 <SelectContent>
-                  {members.map((m: any) => (
-                    <SelectItem key={m.id} value={m.user_id ?? m.id}>{m.name}</SelectItem>
+                  {members.filter((m: any) => m.user_id || m.id).map((m: any) => (
+                    <SelectItem key={m.id} value={m.user_id || m.id}>{m.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
