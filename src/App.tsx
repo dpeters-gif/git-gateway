@@ -20,6 +20,7 @@ import OnboardingFlow from "@/pages/OnboardingFlow";
 import ShoppingList from "@/pages/ShoppingList";
 import CareShare from "@/pages/CareShare";
 import GrandparentView from "@/pages/GrandparentView";
+import SeedPage from "@/pages/SeedPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ function AuthenticatedApp() {
         <Route path="/quests" element={<ChildQuests />} />
         <Route path="/progress" element={<ChildProgress />} />
         <Route path="/child-rewards" element={<ChildRewards />} />
+        <Route path="/seed" element={<SeedPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <FAB />
