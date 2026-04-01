@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { slideInRight, popIn, bounceIn, confetti } from "@/lib/animations";
+import { slideInRight, popIn, bounceIn } from "@/lib/animations";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
