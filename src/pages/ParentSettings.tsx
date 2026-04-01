@@ -18,8 +18,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MEMBER_LIMITS } from "@/lib/constants";
 import { supabase } from "@/integrations/supabase/client";
+import NudgeConfig from "@/components/nudges/NudgeConfig";
 import {
-  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield
+  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield, Bell
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -46,6 +47,7 @@ export default function ParentSettings() {
             <TabsTrigger value="family" className="flex-1 gap-1"><Users className="w-4 h-4" /> {t("settings.familyTab")}</TabsTrigger>
             <TabsTrigger value="timeblocks" className="flex-1 gap-1"><Clock className="w-4 h-4" /> {t("settings.timeBlocksTab")}</TabsTrigger>
             <TabsTrigger value="routines" className="flex-1 gap-1"><RotateCcw className="w-4 h-4" /> {t("settings.routinesTab")}</TabsTrigger>
+            <TabsTrigger value="nudges" className="flex-1 gap-1"><Bell className="w-4 h-4" /> {t("settings.nudgesTab", "Nudges")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="family" className="space-y-4 mt-4">
@@ -73,6 +75,10 @@ export default function ParentSettings() {
               onCreateRoutine={createRoutine.mutate}
               onDeleteRoutine={deleteRoutine.mutate}
             />
+          </TabsContent>
+
+          <TabsContent value="nudges" className="space-y-4 mt-4">
+            <NudgeConfig />
           </TabsContent>
         </Tabs>
       )}

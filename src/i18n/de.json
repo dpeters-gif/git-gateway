@@ -193,5 +193,75 @@
     "event": "Event",
     "routine": "Routine",
     "boardNote": "Notiz"
+  },
+  "board": {
+    "notePosted": "Notiz gepostet",
+    "noteDeleted": "Notiz gelöscht",
+    "deleteConfirm": "Diese Notiz löschen?",
+    "text": "Nachricht",
+    "textPlaceholder": "Was gibt's Neues?",
+    "image": "Bild (optional)",
+    "addImage": "Bild wählen",
+    "imageTooLarge": "Bild zu groß (max 5MB)",
+    "expiry": "Ablaufdatum (optional)",
+    "post": "Posten",
+    "viewAll": "Alle anzeigen",
+    "createNote": "Notiz erstellen",
+    "emptyTitle": "Noch keine Nachrichten",
+    "emptyBody": "Schreib die erste!"
+  },
+  "shopping": {
+    "title": "Einkaufsliste",
+    "addPlaceholder": "Artikel hinzufügen…",
+    "emptyTitle": "Alles eingekauft! 🛒",
+    "emptyBody": "Füge Artikel über das Feld oben hinzu.",
+    "checked": "Erledigt",
+    "clearChecked": "Erledigte löschen",
+    "clearConfirm": "Alle erledigten Einträge löschen?",
+    "cleared": "Erledigte gelöscht"
+  },
+  "flow": {
+    "step": "Schritt {{current}} von {{total}}",
+    "stepDone": "Fertig ✓",
+    "done": "Geschafft!",
+    "time": "Zeit: {{minutes}} Min",
+    "underTime": "Unter der Zeit! Mega! 🚀",
+    "noStress": "Kein Stress — mach einfach weiter",
+    "exitConfirm": "Routine abbrechen? Dein Fortschritt wird gespeichert.",
+    "error": "Verbindungsproblem — nochmal versuchen",
+    "noSteps": "Keine Schritte übrig"
+  },
+  "nudge": {
+    "title": "Erinnerungen",
+    "created": "Erinnerung erstellt",
+    "deleted": "Erinnerung gelöscht",
+    "emptyTitle": "Keine Erinnerungen",
+    "emptyBody": "Erstelle Erinnerungen für Kinder.",
+    "create": "Erinnerung erstellen",
+    "child": "Kind",
+    "times": "Zeiten",
+    "addTime": "Zeit hinzufügen",
+    "quietHours": "Ruhezeiten",
+    "parentAlert": "Eltern-Alarm"
+  },
+  "photo": {
+    "title": "Beweis-Foto",
+    "tooLarge": "Foto zu groß (max 5MB)",
+    "uploadError": "Foto konnte nicht hochgeladen werden",
+    "retake": "Nochmal",
+    "use": "Verwenden",
+    "capture": "Foto aufnehmen",
+    "instruction": "Foto aufnehmen oder aus Galerie wählen"
+  },
+  "recap": {
+    "title": "Eure Woche",
+    "yourWeek": "Deine Woche",
+    "tasksCompleted": "Aufgaben erledigt",
+    "vsLastWeek": "vs. letzte Woche",
+    "tasks": "Aufgaben"
+  },
+  "suggestions": {
+    "title": "Vorschläge",
+    "show": "Vorschläge anzeigen"
   }
 }

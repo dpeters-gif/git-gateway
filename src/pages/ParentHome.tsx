@@ -7,7 +7,9 @@ import { useTasks } from "@/hooks/useTasks";
 import { useEvents } from "@/hooks/useEvents";
 import SkeletonLoader from "@/components/shared/SkeletonLoader";
 import EmptyState from "@/components/shared/EmptyState";
-import { ClipboardList, Calendar, CheckCircle2, Users, StickyNote } from "lucide-react";
+import FamilyBoard from "@/components/board/FamilyBoard";
+import { WeeklyRecapCard } from "@/components/recap/WeeklyRecap";
+import { ClipboardList, Calendar, CheckCircle2, Users } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 export default function ParentHome() {
@@ -43,6 +45,9 @@ export default function ParentHome() {
         <SkeletonLoader type="card" count={3} />
       ) : (
         <>
+          {/* Weekly Recap (Mon/Tue only) */}
+          <WeeklyRecapCard />
+
           <motion.div variants={slideUp} className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <StatCard icon={ClipboardList} label={t("home.openTasks")} value={openTasks.length} color="text-primary" />
             <StatCard icon={CheckCircle2} label={t("home.completedToday")} value={completedToday.length} color="text-success" />
@@ -77,13 +82,8 @@ export default function ParentHome() {
             </motion.div>
           )}
 
-          <motion.div variants={slideUp} className="bg-card rounded-lg p-5 border border-border">
-            <div className="flex items-center gap-2 mb-3">
-              <StickyNote className="w-4 h-4 text-accent" />
-              <h2 className="text-sm font-semibold text-foreground">{t("home.familyBoard")}</h2>
-            </div>
-            <p className="text-xs text-muted-foreground">{t("home.boardEmpty")}</p>
-          </motion.div>
+          {/* Family Board */}
+          <FamilyBoard preview />
 
           {tasks.length === 0 && events.length === 0 && (
             <EmptyState
