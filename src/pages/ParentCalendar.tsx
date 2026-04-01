@@ -244,6 +244,7 @@ export default function ParentCalendar() {
           onOpenChange={setShowQuickCreate}
           onCreateTask={handleQuickTask}
           onCreateEvent={handleQuickEvent}
+          defaultTime={selectedTime}
         >
           <span />
         </QuickCreatePopover>
