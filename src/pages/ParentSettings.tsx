@@ -34,7 +34,12 @@ export default function ParentSettings() {
   const { routines, createRoutine, deleteRoutine, isLoading: routinesLoading } = useRoutines();
   const { tier } = useSubscription();
 
+  const [searchParams] = useSearchParams();
+  const defaultTab = searchParams.get("tab") || "family";
   const isLoading = famLoading || blocksLoading || routinesLoading;
+
+  // Non-admin adults: hide admin-only tabs
+  const showAdminTabs = isAdmin;
 
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-4">
@@ -45,12 +50,18 @@ export default function ParentSettings() {
       {isLoading ? (
         <SkeletonLoader type="card" count={3} />
       ) : (
-        <Tabs defaultValue="family" className="w-full">
-          <TabsList className="w-full">
+        <Tabs defaultValue={defaultTab} className="w-full">
+          <TabsList className="w-full flex-wrap h-auto gap-1">
             <TabsTrigger value="family" className="flex-1 gap-1"><Users className="w-4 h-4" /> {t("settings.familyTab")}</TabsTrigger>
-            <TabsTrigger value="timeblocks" className="flex-1 gap-1"><Clock className="w-4 h-4" /> {t("settings.timeBlocksTab")}</TabsTrigger>
-            <TabsTrigger value="routines" className="flex-1 gap-1"><RotateCcw className="w-4 h-4" /> {t("settings.routinesTab")}</TabsTrigger>
-            <TabsTrigger value="nudges" className="flex-1 gap-1"><Bell className="w-4 h-4" /> {t("settings.nudgesTab", "Nudges")}</TabsTrigger>
+            {showAdminTabs && (
+              <>
+                <TabsTrigger value="timeblocks" className="flex-1 gap-1"><Clock className="w-4 h-4" /> {t("settings.timeBlocksTab")}</TabsTrigger>
+                <TabsTrigger value="routines" className="flex-1 gap-1"><RotateCcw className="w-4 h-4" /> {t("settings.routinesTab")}</TabsTrigger>
+                <TabsTrigger value="nudges" className="flex-1 gap-1"><Bell className="w-4 h-4" /> {t("settings.nudgesTab", "Nudges")}</TabsTrigger>
+                <TabsTrigger value="sharing" className="flex-1 gap-1"><Link2 className="w-4 h-4" /> {t("settings.sharingTab", "Teilen")}</TabsTrigger>
+              </>
+            )}
+            <TabsTrigger value="subscription" className="flex-1 gap-1"><CreditCard className="w-4 h-4" /> {t("settings.subscriptionTab", "Abo")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="family" className="space-y-4 mt-4">
@@ -62,26 +73,38 @@ export default function ParentSettings() {
             />
           </TabsContent>
 
-          <TabsContent value="timeblocks" className="space-y-4 mt-4">
-            <TimeBlockManagement
-              timeBlocks={timeBlocks}
-              members={members}
-              onCreateBlock={createTimeBlock.mutate}
-              onDeleteBlock={deleteTimeBlock.mutate}
-            />
-          </TabsContent>
+          {showAdminTabs && (
+            <>
+              <TabsContent value="timeblocks" className="space-y-4 mt-4">
+                <TimeBlockManagement
+                  timeBlocks={timeBlocks}
+                  members={members}
+                  onCreateBlock={createTimeBlock.mutate}
+                  onDeleteBlock={deleteTimeBlock.mutate}
+                />
+              </TabsContent>
 
-          <TabsContent value="routines" className="space-y-4 mt-4">
-            <RoutineManagement
-              routines={routines}
-              members={members}
-              onCreateRoutine={createRoutine.mutate}
-              onDeleteRoutine={deleteRoutine.mutate}
-            />
-          </TabsContent>
+              <TabsContent value="routines" className="space-y-4 mt-4">
+                <RoutineManagement
+                  routines={routines}
+                  members={members}
+                  onCreateRoutine={createRoutine.mutate}
+                  onDeleteRoutine={deleteRoutine.mutate}
+                />
+              </TabsContent>
 
-          <TabsContent value="nudges" className="space-y-4 mt-4">
-            <NudgeConfig />
+              <TabsContent value="nudges" className="space-y-4 mt-4">
+                <NudgeConfig />
+              </TabsContent>
+
+              <TabsContent value="sharing" className="space-y-4 mt-4">
+                <GrandparentLinks />
+              </TabsContent>
+            </>
+          )}
+
+          <TabsContent value="subscription" className="space-y-4 mt-4">
+            <SubscriptionManagement />
           </TabsContent>
         </Tabs>
       )}
