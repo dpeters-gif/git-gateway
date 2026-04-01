@@ -40,7 +40,6 @@ export function useShoppingList() {
   const { t } = useTranslation();
   const qc = useQueryClient();
 
-  // Get or create the family's single shopping list
   const listQuery = useQuery({
     queryKey: ["shopping-list", familyId],
     queryFn: async () => {
@@ -73,6 +72,7 @@ export function useShoppingList() {
         .select("*")
         .eq("list_id", listId!)
         .order("checked", { ascending: true })
+        .order("sort_order", { ascending: true })
         .order("category")
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -81,7 +81,6 @@ export function useShoppingList() {
     enabled: !!listId,
   });
 
-  // Realtime subscription
   useEffect(() => {
     if (!listId) return;
     const channel = supabase
@@ -143,11 +142,19 @@ export function useShoppingList() {
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["shopping-items", listId] });
-      toast.success(t("shopping.cleared", "Erledigte gelöscht"));
+      toast.success(t("shopping.cleared"));
     },
   });
 
-  // History for autocomplete
+  const updateOrder = useMutation({
+    mutationFn: async (updates: { id: string; sort_order: number }[]) => {
+      for (const u of updates) {
+        await supabase.from("shopping_items").update({ sort_order: u.sort_order }).eq("id", u.id);
+      }
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["shopping-items", listId] }),
+  });
+
   const historyQuery = useQuery({
     queryKey: ["shopping-history", listId],
     queryFn: async () => {
@@ -171,6 +178,7 @@ export function useShoppingList() {
     addItem,
     toggleItem,
     clearChecked,
+    updateOrder,
     history: historyQuery.data ?? [],
   };
 }
