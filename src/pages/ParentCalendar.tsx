@@ -28,7 +28,7 @@ export default function ParentCalendar() {
   const { user } = useAuth();
   const { familyId } = useFamily();
   const { tasks, isLoading: tasksLoading, isError: tasksError, refetch: refetchTasks, createTask, updateTask, completeTask } = useTasks();
-  const { events, isLoading: eventsLoading, isError: eventsError, refetch: refetchEvents, createEvent } = useEvents();
+  const { events, isLoading: eventsLoading, isError: eventsError, refetch: refetchEvents, createEvent, updateEvent } = useEvents();
   const { timeBlocks, isLoading: blocksLoading } = useTimeBlocks();
 
   const [weekOffset, setWeekOffset] = useState(0);
