@@ -355,7 +355,12 @@
   "avatar": {
     "equippedCount": "{{count}} items equipped",
     "unequipped": "Item unequipped",
-    "purchased": "{{name}} purchased!"
+    "purchased": "{{name}} purchased!",
+    "changeAvatar": "Change avatar",
+    "presets": "Presets",
+    "uploadCustom": "Upload custom image",
+    "avatarChanged": "Avatar changed",
+    "uploadError": "Upload failed"
   },
   "drop": {
     "bonusGold": "Bonus Gold!",
