@@ -169,6 +169,15 @@ function ProfileSection() {
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-4">
       <motion.div variants={slideUp} className="bg-card rounded-lg p-4 border border-border space-y-4">
         <h2 className="text-sm font-semibold text-foreground">{t("settings.editProfile")}</h2>
+        <div className="flex items-center gap-4">
+          <button onClick={() => setShowAvatarPicker(true)} className="focus:outline-none group relative">
+            <UserAvatar avatarUrl={profile?.avatar_url} name={profile?.name ?? "?"} className="h-16 w-16" />
+            <span className="absolute inset-0 bg-foreground/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-primary-foreground text-xs font-medium">✎</span>
+          </button>
+          <Button variant="outline" size="sm" onClick={() => setShowAvatarPicker(true)}>
+            {t("avatar.changeAvatar")}
+          </Button>
+        </div>
         <div>
           <Label>{t("common.name")}</Label>
           <div className="flex gap-2 mt-1">
