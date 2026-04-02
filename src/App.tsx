@@ -15,6 +15,7 @@ import ParentSettings from "@/pages/ParentSettings";
 import ChildQuests from "@/pages/ChildQuests";
 import ChildProgress from "@/pages/ChildProgress";
 import ChildRewards from "@/pages/ChildRewards";
+import ChildCalendar from "@/pages/ChildCalendar";
 import OnboardingFlow from "@/pages/OnboardingFlow";
 import ShoppingList from "@/pages/ShoppingList";
 import CareShare from "@/pages/CareShare";
