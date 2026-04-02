@@ -84,9 +84,9 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
             initial={{ scale: 1 }}
             animate={{ scale: [1, 1.3, 0.8], rotate: [0, -5, 5, 0] }}
             transition={{ duration: 0.4 }}
-            className="w-24 h-24 rounded-2xl bg-accent flex items-center justify-center"
+            className={`${isChild ? "w-36 h-36" : "w-24 h-24"} rounded-2xl bg-accent flex items-center justify-center`}
           >
-            <Gift className="w-12 h-12 text-primary-foreground" />
+            <Gift className={`${isChild ? "w-20 h-20" : "w-12 h-12"} text-primary-foreground`} />
           </motion.div>
         )}
 
