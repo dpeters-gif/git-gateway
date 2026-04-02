@@ -111,7 +111,7 @@ export default function ParentCalendar() {
   }, [createEvent, selectedDate, selectedAssignee, user]);
 
   const handleTaskComplete = useCallback((taskId: string) => {
-    completeTask.mutate(taskId);
+    completeTask.mutate({ taskId });
     toast.success(t("task.completed"), {
       action: {
         label: t("common.undo"),

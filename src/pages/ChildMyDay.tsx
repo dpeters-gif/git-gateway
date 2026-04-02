@@ -43,7 +43,7 @@ export default function ChildMyDay() {
       });
 
       if (error) {
-        completeTask.mutate(taskId);
+        completeTask.mutate({ taskId });
       } else if (data?.gamification) {
         const g = data.gamification;
         setDopamineData({
@@ -62,7 +62,7 @@ export default function ChildMyDay() {
         }
       }
     } catch {
-      completeTask.mutate(taskId);
+      completeTask.mutate({ taskId });
     }
     setTimeout(() => setCompletingId(null), 1500);
   };

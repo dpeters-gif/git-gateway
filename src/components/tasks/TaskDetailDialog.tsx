@@ -32,8 +32,8 @@ export default function TaskDetailDialog({ task, open, onOpenChange }: TaskDetai
   const priorityLabels: Record<string, string> = { high: t("task.priorityHigh"), normal: t("task.priorityNormal"), low: t("task.priorityLow") };
   const priorityColors: Record<string, string> = { high: "text-red-500", normal: "text-yellow-600", low: "text-blue-500" };
 
-  const handleComplete = () => {
-    completeTask.mutate(task.id);
+  const handleComplete = (photoUrl?: string) => {
+    completeTask.mutate({ taskId: task.id, photoUrl });
     toast.success(t("task.completed"), {
       action: { label: t("common.undo"), onClick: () => updateTask.mutate({ id: task.id, status: "open" as const, completed_at: null }) },
       duration: 5000,
@@ -56,7 +56,7 @@ export default function TaskDetailDialog({ task, open, onOpenChange }: TaskDetai
     <div className="space-y-4">
       {/* Title + status */}
       <div className="flex items-start gap-3">
-        <button onClick={handleComplete} className="mt-1 shrink-0">
+        <button onClick={() => handleComplete()} className="mt-1 shrink-0">
           {isCompleted ? <CheckSquare className="w-6 h-6 text-success" /> : <Square className="w-6 h-6 text-muted-foreground hover:text-primary" />}
         </button>
         <div>
@@ -108,7 +108,7 @@ export default function TaskDetailDialog({ task, open, onOpenChange }: TaskDetai
           <Edit className="w-3.5 h-3.5" /> {t("common.edit")}
         </Button>
         {!isCompleted && (
-          <Button size="sm" onClick={handleComplete} className="gap-1 flex-1">
+          <Button size="sm" onClick={() => handleComplete()} className="gap-1 flex-1">
             <CheckSquare className="w-3.5 h-3.5" /> {t("task.completed")}
           </Button>
         )}

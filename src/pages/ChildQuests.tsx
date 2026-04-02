@@ -70,7 +70,7 @@ export default function ChildQuests() {
                 }`}
               >
                 <button
-                  onClick={() => !isCompleted && completeTask.mutate(task.id)}
+                  onClick={() => !isCompleted && completeTask.mutate({ taskId: task.id })}
                   disabled={isCompleted}
                   className="shrink-0 touch-manipulation"
                 >
