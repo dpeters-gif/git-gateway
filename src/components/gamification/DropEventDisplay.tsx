@@ -55,7 +55,7 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
     playDropChest();
     const t1 = setTimeout(() => { setPhase("open"); playDropOpen(); }, 800);
     const t2 = setTimeout(() => setPhase("reveal"), 1200);
-    const t3 = setTimeout(onComplete, 3000);
+    const t3 = setTimeout(onComplete, isChild ? 4500 : 3000);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, [onComplete, prefersReduced]);
 
