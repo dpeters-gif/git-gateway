@@ -28,6 +28,8 @@ import {
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import i18n from "@/i18n";
+import AvatarPicker, { UserAvatar } from "@/components/settings/AvatarPicker";
+import i18n from "@/i18n";
 
 export default function ParentSettings() {
   const { t } = useTranslation();
