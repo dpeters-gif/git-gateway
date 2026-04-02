@@ -29,8 +29,15 @@ type ChildForm = z.infer<typeof childSchema>;
 
 export default function LoginPage() {
   const { t } = useTranslation();
-  const { signIn, signInChild } = useAuth();
+  const { signIn, signInChild, user } = useAuth();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true });
+    }
+  }, [user, navigate]);
 
   const adultForm = useForm<AdultForm>({
     resolver: zodResolver(adultSchema),
