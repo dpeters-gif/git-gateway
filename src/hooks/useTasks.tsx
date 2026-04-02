@@ -71,6 +71,13 @@ export function useTasks(filters?: { status?: string; assignee?: string; priorit
         body: { taskId, userId: user?.id },
       });
       if (error) {
+        // Check if the response body indicates already completed
+        try {
+          const body = typeof data === "string" ? JSON.parse(data) : data;
+          if (body?.error?.code === "ALREADY_COMPLETED") {
+            return { task: null, gamification: null, alreadyCompleted: true };
+          }
+        } catch {}
         // Fallback: direct update without gamification
         const { data: fallback, error: fbErr } = await supabase
           .from("tasks")
