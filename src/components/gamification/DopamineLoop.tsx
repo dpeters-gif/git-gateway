@@ -100,10 +100,10 @@ export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 20 }}
-            className="flex items-center gap-2 bg-accent-light px-4 py-2 rounded-full"
+            className={`flex items-center gap-2 bg-accent-light ${isChild ? "px-6 py-3" : "px-4 py-2"} rounded-full`}
           >
-            <Coins className="w-5 h-5 text-gold" />
-            <span className="text-lg font-extrabold text-accent tabular-nums">
+            <Coins className={`${isChild ? "w-8 h-8" : "w-5 h-5"} text-gold`} />
+            <span className={`${isChild ? "text-2xl" : "text-lg"} font-extrabold text-accent tabular-nums`}>
               {t("gamification.goldAwarded", { amount: gold })}
             </span>
           </motion.div>
