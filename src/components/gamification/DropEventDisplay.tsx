@@ -32,6 +32,9 @@ const DROP_ICONS_CHILD: Record<string, React.ReactNode> = {
 export default function DropEventDisplay({ dropType, dropValue, onComplete }: DropEventDisplayProps) {
   const { t } = useTranslation();
   const prefersReduced = useReducedMotion();
+  const { profile } = useAuth();
+  const isChild = profile?.role === "child";
+  const DROP_ICONS = isChild ? DROP_ICONS_CHILD : DROP_ICONS_NORMAL;
   const [phase, setPhase] = useState<"chest" | "open" | "reveal">("chest");
 
   const DROP_LABELS: Record<string, string> = {
