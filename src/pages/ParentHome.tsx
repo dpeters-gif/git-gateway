@@ -12,6 +12,8 @@ import { WeeklyRecapCard } from "@/components/recap/WeeklyRecap";
 import TodaysTasksWidget from "@/components/dashboard/TodaysTasksWidget";
 import GroceryWidget from "@/components/dashboard/GroceryWidget";
 import RewardsChallengesWidget from "@/components/dashboard/RewardsChallengesWidget";
+import WorkloadChartWidget from "@/components/dashboard/WorkloadChartWidget";
+import TodayTimelineWidget from "@/components/dashboard/TodayTimelineWidget";
 import { ClipboardList, Calendar, CheckCircle2, Users } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
@@ -71,6 +73,16 @@ export default function ParentHome() {
           {/* Rewards & Challenges Widget */}
           <motion.div variants={slideUp}>
             <RewardsChallengesWidget />
+          </motion.div>
+
+          {/* Workload Bar Chart */}
+          <motion.div variants={slideUp}>
+            <WorkloadChartWidget />
+          </motion.div>
+
+          {/* Today Timeline */}
+          <motion.div variants={slideUp}>
+            <TodayTimelineWidget />
           </motion.div>
 
           {distribution.length > 0 && (
