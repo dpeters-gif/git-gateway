@@ -108,7 +108,7 @@ export default function TaskDetailDialog({ task, open, onOpenChange }: TaskDetai
           <Edit className="w-3.5 h-3.5" /> {t("common.edit")}
         </Button>
         {!isCompleted && (
-          <Button size="sm" onClick={handleComplete} className="gap-1 flex-1">
+          <Button size="sm" onClick={() => handleComplete()} className="gap-1 flex-1">
             <CheckSquare className="w-3.5 h-3.5" /> {t("task.completed")}
           </Button>
         )}
