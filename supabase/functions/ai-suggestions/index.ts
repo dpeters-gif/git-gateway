@@ -94,7 +94,7 @@ Regeln:
 - XP-Wert orientiert an ähnlichen historischen Aufgaben`;
 
     // Call Lovable AI
-    const aiResponse = await fetch("https://lovable.dev/api/ai/chat", {
+    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
