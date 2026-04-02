@@ -19,6 +19,8 @@ interface DopamineLoopProps {
 export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday, dropEvent, onComplete }: DopamineLoopProps) {
   const { t } = useTranslation();
   const prefersReduced = useReducedMotion();
+  const { profile } = useAuth();
+  const isChild = profile?.role === "child";
   const [phase, setPhase] = useState(0);
 
   useEffect(() => {
