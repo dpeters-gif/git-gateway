@@ -236,6 +236,8 @@ function ProfileSection() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AvatarPicker open={showAvatarPicker} onOpenChange={setShowAvatarPicker} />
     </motion.div>
   );
 }
