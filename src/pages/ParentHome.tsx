@@ -75,6 +75,16 @@ export default function ParentHome() {
             <RewardsChallengesWidget />
           </motion.div>
 
+          {/* Workload Bar Chart */}
+          <motion.div variants={slideUp}>
+            <WorkloadChartWidget />
+          </motion.div>
+
+          {/* Today Timeline */}
+          <motion.div variants={slideUp}>
+            <TodayTimelineWidget />
+          </motion.div>
+
           {distribution.length > 0 && (
             <motion.div variants={slideUp} className="bg-card rounded-lg p-5 border border-border">
               <h2 className="text-sm font-semibold text-foreground mb-3">{t("home.taskDistribution")}</h2>
