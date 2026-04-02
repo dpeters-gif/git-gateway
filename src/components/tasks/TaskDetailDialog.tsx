@@ -56,7 +56,7 @@ export default function TaskDetailDialog({ task, open, onOpenChange }: TaskDetai
     <div className="space-y-4">
       {/* Title + status */}
       <div className="flex items-start gap-3">
-        <button onClick={handleComplete} className="mt-1 shrink-0">
+        <button onClick={() => handleComplete()} className="mt-1 shrink-0">
           {isCompleted ? <CheckSquare className="w-6 h-6 text-success" /> : <Square className="w-6 h-6 text-muted-foreground hover:text-primary" />}
         </button>
         <div>
