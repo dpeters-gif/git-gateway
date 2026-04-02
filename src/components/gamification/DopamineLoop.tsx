@@ -62,8 +62,8 @@ export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday
       if (dropEvent) playDropOpen();
     }, 1700);
 
-    // Auto-dismiss
-    const duration = dropEvent ? 3500 : 2500;
+    // Auto-dismiss — longer for children
+    const duration = dropEvent ? (isChild ? 5000 : 3500) : (isChild ? 3500 : 2500);
     const t7 = setTimeout(onComplete, duration);
 
     return () => {
