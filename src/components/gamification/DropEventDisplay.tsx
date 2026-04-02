@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { bounceIn, popIn } from "@/lib/animations";
 import { playDropChest, playDropOpen } from "@/services/soundEngine";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useAuth } from "@/hooks/useAuth";
 import { Gift, Coins, Sparkles, Snowflake, Egg, Shirt } from "lucide-react";
 
 interface DropEventDisplayProps {
