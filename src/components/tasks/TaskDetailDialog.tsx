@@ -32,8 +32,8 @@ export default function TaskDetailDialog({ task, open, onOpenChange }: TaskDetai
   const priorityLabels: Record<string, string> = { high: t("task.priorityHigh"), normal: t("task.priorityNormal"), low: t("task.priorityLow") };
   const priorityColors: Record<string, string> = { high: "text-red-500", normal: "text-yellow-600", low: "text-blue-500" };
 
-  const handleComplete = () => {
-    completeTask.mutate(task.id);
+  const handleComplete = (photoUrl?: string) => {
+    completeTask.mutate({ taskId: task.id, photoUrl });
     toast.success(t("task.completed"), {
       action: { label: t("common.undo"), onClick: () => updateTask.mutate({ id: task.id, status: "open" as const, completed_at: null }) },
       duration: 5000,

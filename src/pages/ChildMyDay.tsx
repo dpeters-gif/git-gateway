@@ -62,7 +62,7 @@ export default function ChildMyDay() {
         }
       }
     } catch {
-      completeTask.mutate(taskId);
+      completeTask.mutate({ taskId });
     }
     setTimeout(() => setCompletingId(null), 1500);
   };

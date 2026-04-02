@@ -108,7 +108,7 @@ export default function ParentTasks() {
   }, [createTask, user]);
 
   const handleComplete = useCallback((taskId: string) => {
-    completeTask.mutate(taskId);
+    completeTask.mutate({ taskId });
     toast.success(t("task.completed"), {
       action: {
         label: t("common.undo"),
