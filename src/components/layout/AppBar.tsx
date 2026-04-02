@@ -3,7 +3,7 @@ import { Settings, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useFamily } from "@/hooks/useFamily";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserAvatar } from "@/components/settings/AvatarPicker";
 import {
   DropdownMenu,
   DropdownMenuContent,
