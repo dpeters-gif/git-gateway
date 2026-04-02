@@ -13,12 +13,20 @@ interface DropEventDisplayProps {
   onComplete: () => void;
 }
 
-const DROP_ICONS: Record<string, React.ReactNode> = {
+const DROP_ICONS_NORMAL: Record<string, React.ReactNode> = {
   bonus_gold: <Coins className="w-8 h-8 text-gold" />,
   xp_boost: <Sparkles className="w-8 h-8 text-xp" />,
   streak_freeze: <Snowflake className="w-8 h-8 text-info" />,
   mystery_egg: <Egg className="w-8 h-8 text-secondary" />,
   avatar_item: <Shirt className="w-8 h-8 text-accent" />,
+};
+
+const DROP_ICONS_CHILD: Record<string, React.ReactNode> = {
+  bonus_gold: <Coins className="w-14 h-14 text-gold" />,
+  xp_boost: <Sparkles className="w-14 h-14 text-xp" />,
+  streak_freeze: <Snowflake className="w-14 h-14 text-info" />,
+  mystery_egg: <Egg className="w-14 h-14 text-secondary" />,
+  avatar_item: <Shirt className="w-14 h-14 text-accent" />,
 };
 
 export default function DropEventDisplay({ dropType, dropValue, onComplete }: DropEventDisplayProps) {
