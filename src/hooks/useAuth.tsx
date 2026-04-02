@@ -110,23 +110,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signInChild = async (username: string, pin: string) => {
+    const normalizedUsername = username.trim().toLowerCase();
+    const normalizedPin = pin.trim();
+
     try {
       const { data, error } = await supabase.functions.invoke("child-auth", {
-        body: { username, pin },
+        body: { username: normalizedUsername, pin: normalizedPin },
       });
-      if (error) return { error: error.message };
-      if (!data?.success) return { error: data?.error?.message || "Anmeldung fehlgeschlagen" };
 
-      // Child auth returns a Supabase session
+      if (error) {
+        const response = (error as { context?: Response }).context;
+        if (response instanceof Response) {
+          const payload = await response.json().catch(() => null);
+          return {
+            error:
+              payload?.error?.message ??
+              payload?.error ??
+              error.message ??
+              "Anmeldung fehlgeschlagen",
+          };
+        }
+
+        return { error: error.message || "Anmeldung fehlgeschlagen" };
+      }
+
+      if (!data?.success) {
+        return { error: data?.error?.message || data?.error || "Anmeldung fehlgeschlagen" };
+      }
+
       if (data.session) {
         await supabase.auth.setSession({
           access_token: data.session.access_token,
           refresh_token: data.session.refresh_token,
         });
       }
+
       return { error: null };
-    } catch (e: any) {
-      return { error: e.message || "Anmeldung fehlgeschlagen" };
+    } catch (e: unknown) {
+      return { error: e instanceof Error ? e.message : "Anmeldung fehlgeschlagen" };
     }
   };
 

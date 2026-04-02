@@ -406,24 +406,35 @@ function AddChildDialog({ open, onOpenChange, familyId, membersCount }: { open: 
   const [result, setResult] = useState<string | null>(null);
 
   const handleCreate = async () => {
-    if (!name.trim() || !username.trim() || pin.length !== 4) return;
+    const trimmedName = name.trim();
+    const normalizedUsername = username.trim().toLowerCase();
+
+    if (!trimmedName || !normalizedUsername || pin.length !== 4 || !familyId || !user) return;
     setLoading(true);
     try {
-      // Call child-auth edge function to create the child account
       const { data, error } = await supabase.functions.invoke("child-auth", {
         body: {
           action: "create",
           familyId,
-          name: name.trim(),
-          username: username.trim().toLowerCase(),
+          name: trimmedName,
+          username: normalizedUsername,
           pin,
-          managedBy: user!.id,
+          managedBy: user.id,
         },
       });
-      if (error) throw error;
+
+      if (error) {
+        const response = (error as { context?: Response }).context;
+        if (response instanceof Response) {
+          const payload = await response.json().catch(() => null);
+          throw new Error(payload?.error?.message ?? payload?.error ?? error.message);
+        }
+        throw error;
+      }
+
       if (data?.error) throw new Error(data.error);
 
-      setResult(t("settings.childCreated", { username: username.trim(), pin }));
+      setResult(t("settings.childCreated", { username: data?.username ?? normalizedUsername, pin }));
       qc.invalidateQueries({ queryKey: ["family-members"] });
     } catch (err: any) {
       toast.error(err.message || t("common.error"));
