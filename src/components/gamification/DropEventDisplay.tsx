@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { bounceIn, popIn } from "@/lib/animations";
 import { playDropChest, playDropOpen } from "@/services/soundEngine";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useAuth } from "@/hooks/useAuth";
 import { Gift, Coins, Sparkles, Snowflake, Egg, Shirt } from "lucide-react";
 
 interface DropEventDisplayProps {
@@ -12,7 +13,7 @@ interface DropEventDisplayProps {
   onComplete: () => void;
 }
 
-const DROP_ICONS: Record<string, React.ReactNode> = {
+const DROP_ICONS_NORMAL: Record<string, React.ReactNode> = {
   bonus_gold: <Coins className="w-8 h-8 text-gold" />,
   xp_boost: <Sparkles className="w-8 h-8 text-xp" />,
   streak_freeze: <Snowflake className="w-8 h-8 text-info" />,
@@ -20,9 +21,20 @@ const DROP_ICONS: Record<string, React.ReactNode> = {
   avatar_item: <Shirt className="w-8 h-8 text-accent" />,
 };
 
+const DROP_ICONS_CHILD: Record<string, React.ReactNode> = {
+  bonus_gold: <Coins className="w-14 h-14 text-gold" />,
+  xp_boost: <Sparkles className="w-14 h-14 text-xp" />,
+  streak_freeze: <Snowflake className="w-14 h-14 text-info" />,
+  mystery_egg: <Egg className="w-14 h-14 text-secondary" />,
+  avatar_item: <Shirt className="w-14 h-14 text-accent" />,
+};
+
 export default function DropEventDisplay({ dropType, dropValue, onComplete }: DropEventDisplayProps) {
   const { t } = useTranslation();
   const prefersReduced = useReducedMotion();
+  const { profile } = useAuth();
+  const isChild = profile?.role === "child";
+  const DROP_ICONS = isChild ? DROP_ICONS_CHILD : DROP_ICONS_NORMAL;
   const [phase, setPhase] = useState<"chest" | "open" | "reveal">("chest");
 
   const DROP_LABELS: Record<string, string> = {
@@ -43,7 +55,7 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
     playDropChest();
     const t1 = setTimeout(() => { setPhase("open"); playDropOpen(); }, 800);
     const t2 = setTimeout(() => setPhase("reveal"), 1200);
-    const t3 = setTimeout(onComplete, 3000);
+    const t3 = setTimeout(onComplete, isChild ? 4500 : 3000);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, [onComplete, prefersReduced]);
 
@@ -61,9 +73,9 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
             variants={bounceIn}
             initial="hidden"
             animate="visible"
-            className="w-24 h-24 rounded-2xl bg-accent flex items-center justify-center shadow-glow-gold"
+            className={`${isChild ? "w-36 h-36" : "w-24 h-24"} rounded-2xl bg-accent flex items-center justify-center shadow-glow-gold`}
           >
-            <Gift className="w-12 h-12 text-primary-foreground" />
+            <Gift className={`${isChild ? "w-20 h-20" : "w-12 h-12"} text-primary-foreground`} />
           </motion.div>
         )}
 
@@ -72,9 +84,9 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
             initial={{ scale: 1 }}
             animate={{ scale: [1, 1.3, 0.8], rotate: [0, -5, 5, 0] }}
             transition={{ duration: 0.4 }}
-            className="w-24 h-24 rounded-2xl bg-accent flex items-center justify-center"
+            className={`${isChild ? "w-36 h-36" : "w-24 h-24"} rounded-2xl bg-accent flex items-center justify-center`}
           >
-            <Gift className="w-12 h-12 text-primary-foreground" />
+            <Gift className={`${isChild ? "w-20 h-20" : "w-12 h-12"} text-primary-foreground`} />
           </motion.div>
         )}
 
@@ -85,14 +97,14 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
             animate="visible"
             className="flex flex-col items-center gap-3"
           >
-            <div className="w-20 h-20 rounded-full bg-card flex items-center justify-center shadow-lg border-2 border-accent">
-              {DROP_ICONS[dropType] ?? <Gift className="w-8 h-8 text-accent" />}
+            <div className={`${isChild ? "w-28 h-28" : "w-20 h-20"} rounded-full bg-card flex items-center justify-center shadow-lg border-2 border-accent`}>
+              {DROP_ICONS[dropType] ?? <Gift className={`${isChild ? "w-14 h-14" : "w-8 h-8"} text-accent`} />}
             </div>
-            <span className="text-lg font-extrabold text-primary-foreground">
+            <span className={`${isChild ? "text-2xl" : "text-lg"} font-extrabold text-primary-foreground`}>
               {DROP_LABELS[dropType] ?? t("drop.reward", "Belohnung!")}
             </span>
             {dropType === "bonus_gold" && (
-              <span className="text-sm text-primary-foreground/80">+{dropValue} 🪙</span>
+              <span className={`${isChild ? "text-lg" : "text-sm"} text-primary-foreground/80`}>+{dropValue} 🪙</span>
             )}
           </motion.div>
         )}

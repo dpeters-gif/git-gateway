@@ -15,6 +15,7 @@ import ParentSettings from "@/pages/ParentSettings";
 import ChildQuests from "@/pages/ChildQuests";
 import ChildProgress from "@/pages/ChildProgress";
 import ChildRewards from "@/pages/ChildRewards";
+import ChildCalendar from "@/pages/ChildCalendar";
 import OnboardingFlow from "@/pages/OnboardingFlow";
 import ShoppingList from "@/pages/ShoppingList";
 import CareShare from "@/pages/CareShare";
@@ -50,6 +51,7 @@ function AuthenticatedApp() {
         <Route path="/quests" element={<ChildQuests />} />
         <Route path="/progress" element={<ChildProgress />} />
         <Route path="/child-rewards" element={<ChildRewards />} />
+        <Route path="/child-calendar" element={<ChildCalendar />} />
         <Route path="/seed" element={<SeedPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

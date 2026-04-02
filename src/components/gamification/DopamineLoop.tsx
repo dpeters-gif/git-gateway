@@ -5,6 +5,7 @@ import { popIn, float, glow, pulse } from "@/lib/animations";
 import { playComplete, playXPAward, playGoldDrop, playStreakFire, playDropChest, playDropOpen } from "@/services/soundEngine";
 import { Sparkles, Coins, Flame, Gift } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useAuth } from "@/hooks/useAuth";
 
 interface DopamineLoopProps {
   xp: number;
@@ -18,6 +19,8 @@ interface DopamineLoopProps {
 export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday, dropEvent, onComplete }: DopamineLoopProps) {
   const { t } = useTranslation();
   const prefersReduced = useReducedMotion();
+  const { profile } = useAuth();
+  const isChild = profile?.role === "child";
   const [phase, setPhase] = useState(0);
 
   useEffect(() => {
@@ -59,8 +62,8 @@ export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday
       if (dropEvent) playDropOpen();
     }, 1700);
 
-    // Auto-dismiss
-    const duration = dropEvent ? 3500 : 2500;
+    // Auto-dismiss — longer for children
+    const duration = dropEvent ? (isChild ? 5000 : 3500) : (isChild ? 3500 : 2500);
     const t7 = setTimeout(onComplete, duration);
 
     return () => {
@@ -82,10 +85,10 @@ export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday
             variants={popIn}
             initial="hidden"
             animate="visible"
-            className="flex items-center gap-2 bg-xp-light px-4 py-2 rounded-full shadow-glow-xp"
+            className={`flex items-center gap-2 bg-xp-light ${isChild ? "px-6 py-3" : "px-4 py-2"} rounded-full shadow-glow-xp`}
           >
-            <Sparkles className="w-5 h-5 text-xp" />
-            <span className="text-lg font-extrabold text-xp tabular-nums">
+            <Sparkles className={`${isChild ? "w-8 h-8" : "w-5 h-5"} text-xp`} />
+            <span className={`${isChild ? "text-2xl" : "text-lg"} font-extrabold text-xp tabular-nums`}>
               {t("gamification.xpAwarded", { amount: xp })}
             </span>
           </motion.div>
@@ -97,10 +100,10 @@ export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 20 }}
-            className="flex items-center gap-2 bg-accent-light px-4 py-2 rounded-full"
+            className={`flex items-center gap-2 bg-accent-light ${isChild ? "px-6 py-3" : "px-4 py-2"} rounded-full`}
           >
-            <Coins className="w-5 h-5 text-gold" />
-            <span className="text-lg font-extrabold text-accent tabular-nums">
+            <Coins className={`${isChild ? "w-8 h-8" : "w-5 h-5"} text-gold`} />
+            <span className={`${isChild ? "text-2xl" : "text-lg"} font-extrabold text-accent tabular-nums`}>
               {t("gamification.goldAwarded", { amount: gold })}
             </span>
           </motion.div>
@@ -112,10 +115,10 @@ export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="flex items-center gap-2 bg-streak-light px-4 py-2 rounded-full shadow-glow-streak"
+            className={`flex items-center gap-2 bg-streak-light ${isChild ? "px-6 py-3" : "px-4 py-2"} rounded-full shadow-glow-streak`}
           >
-            <Flame className="w-5 h-5 text-streak" />
-            <span className="text-lg font-extrabold text-streak tabular-nums">
+            <Flame className={`${isChild ? "w-8 h-8" : "w-5 h-5"} text-streak`} />
+            <span className={`${isChild ? "text-2xl" : "text-lg"} font-extrabold text-streak tabular-nums`}>
               {t("gamification.streakDay", { count: streakCount })}
             </span>
           </motion.div>
@@ -127,10 +130,10 @@ export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday
             initial={{ scale: 0, y: 20 }}
             animate={{ scale: [0, 1.2, 1], y: 0 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            className="flex items-center gap-2 bg-drop-light px-4 py-2 rounded-full"
+            className={`flex items-center gap-2 bg-drop-light ${isChild ? "px-6 py-3" : "px-4 py-2"} rounded-full`}
           >
-            <Gift className="w-5 h-5 text-drop" />
-            <span className="text-lg font-extrabold text-drop">
+            <Gift className={`${isChild ? "w-10 h-10" : "w-5 h-5"} text-drop`} />
+            <span className={`${isChild ? "text-2xl" : "text-lg"} font-extrabold text-drop`}>
               {t("gamification.treasureFound")}
             </span>
           </motion.div>

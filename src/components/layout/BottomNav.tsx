@@ -27,8 +27,8 @@ export default function BottomNav() {
 
   const childItems: NavItem[] = [
     { icon: Sparkles, label: t("nav.myDay"), path: "/" },
+    { icon: Calendar, label: t("nav.calendar"), path: "/child-calendar" },
     { icon: Star, label: t("nav.quests"), path: "/quests" },
-    { icon: Trophy, label: t("nav.progress"), path: "/progress" },
     { icon: Gift, label: t("nav.rewards"), path: "/rewards" },
   ];
 
