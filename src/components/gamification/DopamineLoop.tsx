@@ -5,6 +5,7 @@ import { popIn, float, glow, pulse } from "@/lib/animations";
 import { playComplete, playXPAward, playGoldDrop, playStreakFire, playDropChest, playDropOpen } from "@/services/soundEngine";
 import { Sparkles, Coins, Flame, Gift } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useAuth } from "@/hooks/useAuth";
 
 interface DopamineLoopProps {
   xp: number;
