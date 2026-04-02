@@ -127,6 +127,7 @@ function ProfileSection() {
   const [name, setName] = useState(profile?.name ?? "");
   const [saving, setSaving] = useState(false);
   const [showPwDialog, setShowPwDialog] = useState(false);
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const [newPw, setNewPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
   const currentLocale = profile?.locale ?? "de";
