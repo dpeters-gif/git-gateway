@@ -66,9 +66,9 @@ export function useTasks(filters?: { status?: string; assignee?: string; priorit
   });
 
   const completeTask = useMutation({
-    mutationFn: async (taskId: string) => {
+    mutationFn: async ({ taskId, photoUrl }: { taskId: string; photoUrl?: string }) => {
       const { data, error } = await supabase.functions.invoke("complete-task", {
-        body: { taskId, userId: user?.id },
+        body: { taskId, userId: user?.id, ...(photoUrl ? { photoUrl } : {}) },
       });
       if (error) {
         // Check if the response body indicates already completed
