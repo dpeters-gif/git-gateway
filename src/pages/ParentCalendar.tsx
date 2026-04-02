@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Task } from "@/hooks/useTasks";
 import type { Event } from "@/hooks/useEvents";
+import TaskDetailDialog from "@/components/tasks/TaskDetailDialog";
 import { toast } from "sonner";
 
 export default function ParentCalendar() {
@@ -258,6 +259,13 @@ export default function ParentCalendar() {
           onSubmit={handleEventSubmit}
           defaultDate={selectedDate}
           defaultAssignee={selectedAssignee}
+        />
+
+        {/* Task detail dialog */}
+        <TaskDetailDialog
+          task={selectedItem && "xp_value" in selectedItem ? selectedItem as Task : null}
+          open={showDetail && !!selectedItem && "xp_value" in selectedItem}
+          onOpenChange={(open) => { setShowDetail(open); if (!open) setSelectedItem(null); }}
         />
       </motion.div>
     </PullToRefresh>
