@@ -29,7 +29,13 @@ export function useEvents() {
   // Realtime subscription
   useEffect(() => {
     if (!familyId) return;
-    const channelName = `events-${familyId}-${Date.now()}`;
+
+    const channelInstanceId =
+      typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+    const channelName = `events-${familyId}-${channelInstanceId}`;
     const channel = supabase
       .channel(channelName)
       .on("postgres_changes", {
@@ -41,7 +47,10 @@ export function useEvents() {
         qc.invalidateQueries({ queryKey: ["events", familyId] });
       })
       .subscribe();
-    return () => { supabase.removeChannel(channel); };
+
+    return () => {
+      void supabase.removeChannel(channel);
+    };
   }, [familyId, qc]);
 
   const createEvent = useMutation({
