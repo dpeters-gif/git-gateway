@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home, Calendar, CheckSquare, Gift, Settings, Sparkles, Trophy, Star } from "lucide-react";
+import { Home, Calendar, CheckSquare, Gift, ShoppingCart, Sparkles, Trophy, Star } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 interface NavItem {
@@ -22,7 +22,7 @@ export default function BottomNav() {
     { icon: Calendar, label: t("nav.calendar"), path: "/calendar" },
     { icon: CheckSquare, label: t("nav.tasks"), path: "/tasks" },
     { icon: Gift, label: t("nav.rewards"), path: "/rewards" },
-    { icon: Settings, label: t("nav.settings"), path: "/settings" },
+    { icon: ShoppingCart, label: t("nav.shopping"), path: "/shopping" },
   ];
 
   const childItems: NavItem[] = [

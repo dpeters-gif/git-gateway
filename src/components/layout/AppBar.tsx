@@ -1,15 +1,24 @@
 import { useTranslation } from "react-i18next";
-import { Bell, LogOut } from "lucide-react";
+import { Settings, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useFamily } from "@/hooks/useFamily";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { UserAvatar } from "@/components/settings/AvatarPicker";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import NotificationMenu from "@/components/layout/NotificationMenu";
 
 export default function AppBar() {
   const { t } = useTranslation();
-  const { profile, signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const { family } = useFamily();
+  const navigate = useNavigate();
   const isChild = profile?.role === "child";
 
   return (
@@ -27,14 +36,32 @@ export default function AppBar() {
           </div>
         )}
         <NotificationMenu />
-        <Avatar className="h-8 w-8">
-          <AvatarFallback className="text-xs bg-primary text-primary-foreground">
-            {profile?.name?.charAt(0)?.toUpperCase() ?? "?"}
-          </AvatarFallback>
-        </Avatar>
-        <Button variant="ghost" size="icon" onClick={signOut} className="h-9 w-9">
-          <LogOut className="h-4 w-4" />
-        </Button>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+              <UserAvatar avatarUrl={profile?.avatar_url} name={profile?.name ?? "?"} className="h-8 w-8" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium">{profile?.name}</p>
+                <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => navigate("/settings")} className="cursor-pointer gap-2">
+              <Settings className="w-4 h-4" />
+              {t("nav.settings")}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={signOut} className="cursor-pointer gap-2 text-destructive">
+              <LogOut className="w-4 h-4" />
+              {t("auth.logout")}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

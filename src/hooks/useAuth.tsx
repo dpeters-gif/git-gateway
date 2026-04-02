@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     childToken: null,
   });
 
-  const fetchProfile = useCallback(async (userId: string) => {
+  const fetchProfile = useCallback(async (userId: string): Promise<Profile | null> => {
     const { data } = await supabase
       .from("profiles")
       .select("*")
@@ -55,12 +55,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    // Register listener FIRST, then check existing session
+    let mounted = true;
+
+    // 1. Set up listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      (_event, session) => {
+        if (!mounted) return;
         if (session?.user) {
-          setTimeout(() => {
-            fetchProfile(session.user.id).then(profile => {
+          // CRITICAL: Don't call Supabase inside the callback synchronously
+          // to avoid auth deadlock. Use setTimeout(0).
+          setTimeout(async () => {
+            if (!mounted) return;
+            const profile = await fetchProfile(session.user.id);
+            if (mounted) {
               setState({
                 user: session.user,
                 session,
@@ -69,7 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 isChild: profile?.role === "child",
                 childToken: null,
               });
-            });
+            }
           }, 0);
         } else {
           setState({
@@ -84,15 +91,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     );
 
-    // Check existing session — if none, stop loading. If exists, onAuthStateChange handles it.
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        setState(s => ({ ...s, isLoading: false }));
+    // 2. THEN check for existing session
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!mounted) return;
+      if (session?.user) {
+        const profile = await fetchProfile(session.user.id);
+        if (mounted) {
+          setState({
+            user: session.user,
+            session,
+            profile,
+            isLoading: false,
+            isChild: profile?.role === "child",
+            childToken: null,
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(s => ({ ...s, isLoading: false }));
+        }
       }
-      // If session exists, the listener above will fire and set state
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, [fetchProfile]);
 
   const signUp = async (email: string, password: string, name: string) => {
@@ -106,6 +130,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
+    // Don't navigate here — let onAuthStateChange + ProtectedRoute handle it
     return { error: error?.message ?? null };
   };
 
@@ -145,6 +170,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
       }
 
+      // Don't navigate — let onAuthStateChange handle it
       return { error: null };
     } catch (e: unknown) {
       return { error: e instanceof Error ? e.message : "Anmeldung fehlgeschlagen" };

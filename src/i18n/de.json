@@ -41,6 +41,7 @@
     "tasks": "Aufgaben",
     "rewards": "Belohnungen",
     "settings": "Einstellungen",
+    "shopping": "Einkaufsliste",
     "myDay": "Mein Tag",
     "quests": "Quests",
     "progress": "Fortschritt"
@@ -354,7 +355,12 @@
   "avatar": {
     "equippedCount": "{{count}} Items angelegt",
     "unequipped": "Item abgelegt",
-    "purchased": "{{name}} gekauft!"
+    "purchased": "{{name}} gekauft!",
+    "changeAvatar": "Avatar ändern",
+    "presets": "Vorlagen",
+    "uploadCustom": "Eigenes Bild hochladen",
+    "avatarChanged": "Avatar geändert",
+    "uploadError": "Upload fehlgeschlagen"
   },
   "drop": {
     "bonusGold": "Bonus Gold!",
