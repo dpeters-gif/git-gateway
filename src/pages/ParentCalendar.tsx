@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Task } from "@/hooks/useTasks";
 import type { Event } from "@/hooks/useEvents";
+import TaskDetailDialog from "@/components/tasks/TaskDetailDialog";
 import { toast } from "sonner";
 
 export default function ParentCalendar() {
