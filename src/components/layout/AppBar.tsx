@@ -40,12 +40,7 @@ export default function AppBar() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-              <Avatar className="h-8 w-8 cursor-pointer">
-                {profile?.avatar_url && <AvatarImage src={profile.avatar_url} alt={profile.name} />}
-                <AvatarFallback className="text-xs bg-primary text-primary-foreground">
-                  {profile?.name?.charAt(0)?.toUpperCase() ?? "?"}
-                </AvatarFallback>
-              </Avatar>
+              <UserAvatar avatarUrl={profile?.avatar_url} name={profile?.name ?? "?"} className="h-8 w-8" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
