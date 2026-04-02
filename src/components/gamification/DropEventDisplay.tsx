@@ -97,14 +97,14 @@ export default function DropEventDisplay({ dropType, dropValue, onComplete }: Dr
             animate="visible"
             className="flex flex-col items-center gap-3"
           >
-            <div className="w-20 h-20 rounded-full bg-card flex items-center justify-center shadow-lg border-2 border-accent">
-              {DROP_ICONS[dropType] ?? <Gift className="w-8 h-8 text-accent" />}
+            <div className={`${isChild ? "w-28 h-28" : "w-20 h-20"} rounded-full bg-card flex items-center justify-center shadow-lg border-2 border-accent`}>
+              {DROP_ICONS[dropType] ?? <Gift className={`${isChild ? "w-14 h-14" : "w-8 h-8"} text-accent`} />}
             </div>
-            <span className="text-lg font-extrabold text-primary-foreground">
+            <span className={`${isChild ? "text-2xl" : "text-lg"} font-extrabold text-primary-foreground`}>
               {DROP_LABELS[dropType] ?? t("drop.reward", "Belohnung!")}
             </span>
             {dropType === "bonus_gold" && (
-              <span className="text-sm text-primary-foreground/80">+{dropValue} 🪙</span>
+              <span className={`${isChild ? "text-lg" : "text-sm"} text-primary-foreground/80`}>+{dropValue} 🪙</span>
             )}
           </motion.div>
         )}
