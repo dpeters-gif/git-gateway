@@ -85,10 +85,10 @@ export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday
             variants={popIn}
             initial="hidden"
             animate="visible"
-            className="flex items-center gap-2 bg-xp-light px-4 py-2 rounded-full shadow-glow-xp"
+            className={`flex items-center gap-2 bg-xp-light ${isChild ? "px-6 py-3" : "px-4 py-2"} rounded-full shadow-glow-xp`}
           >
-            <Sparkles className="w-5 h-5 text-xp" />
-            <span className="text-lg font-extrabold text-xp tabular-nums">
+            <Sparkles className={`${isChild ? "w-8 h-8" : "w-5 h-5"} text-xp`} />
+            <span className={`${isChild ? "text-2xl" : "text-lg"} font-extrabold text-xp tabular-nums`}>
               {t("gamification.xpAwarded", { amount: xp })}
             </span>
           </motion.div>
