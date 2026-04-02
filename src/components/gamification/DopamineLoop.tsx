@@ -115,10 +115,10 @@ export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="flex items-center gap-2 bg-streak-light px-4 py-2 rounded-full shadow-glow-streak"
+            className={`flex items-center gap-2 bg-streak-light ${isChild ? "px-6 py-3" : "px-4 py-2"} rounded-full shadow-glow-streak`}
           >
-            <Flame className="w-5 h-5 text-streak" />
-            <span className="text-lg font-extrabold text-streak tabular-nums">
+            <Flame className={`${isChild ? "w-8 h-8" : "w-5 h-5"} text-streak`} />
+            <span className={`${isChild ? "text-2xl" : "text-lg"} font-extrabold text-streak tabular-nums`}>
               {t("gamification.streakDay", { count: streakCount })}
             </span>
           </motion.div>
