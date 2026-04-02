@@ -130,10 +130,10 @@ export default function DopamineLoop({ xp, gold, streakCount, streakStartedToday
             initial={{ scale: 0, y: 20 }}
             animate={{ scale: [0, 1.2, 1], y: 0 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            className="flex items-center gap-2 bg-drop-light px-4 py-2 rounded-full"
+            className={`flex items-center gap-2 bg-drop-light ${isChild ? "px-6 py-3" : "px-4 py-2"} rounded-full`}
           >
-            <Gift className="w-5 h-5 text-drop" />
-            <span className="text-lg font-extrabold text-drop">
+            <Gift className={`${isChild ? "w-10 h-10" : "w-5 h-5"} text-drop`} />
+            <span className={`${isChild ? "text-2xl" : "text-lg"} font-extrabold text-drop`}>
               {t("gamification.treasureFound")}
             </span>
           </motion.div>
