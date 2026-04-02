@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,7 +30,6 @@ type ChildForm = z.infer<typeof childSchema>;
 export default function LoginPage() {
   const { t } = useTranslation();
   const { signIn, signInChild } = useAuth();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const adultForm = useForm<AdultForm>({
@@ -49,9 +48,8 @@ export default function LoginPage() {
     setLoading(false);
     if (error) {
       toast.error(error);
-    } else {
-      navigate("/");
     }
+    // No navigate — ProtectedRoute handles redirect on auth state change
   };
 
   const onChildSubmit = async (data: ChildForm) => {
@@ -60,9 +58,8 @@ export default function LoginPage() {
     setLoading(false);
     if (error) {
       toast.error(error);
-    } else {
-      navigate("/");
     }
+    // No navigate — ProtectedRoute handles redirect on auth state change
   };
 
   return (
