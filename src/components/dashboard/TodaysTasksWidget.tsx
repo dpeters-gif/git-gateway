@@ -21,7 +21,7 @@ export default function TodaysTasksWidget() {
 
   const getMemberName = (userId: string | null) => {
     if (!userId) return "";
-    return members.find((m) => m.user_id === userId)?.name ?? "";
+    return members.find((m) => m.user_id === userId)?.display_name ?? "";
   };
 
   const priorityColor: Record<string, string> = {

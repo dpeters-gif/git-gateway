@@ -137,11 +137,15 @@ function ProfileSection() {
     if (!name.trim()) return;
     setSaving(true);
     const { error } = await supabase.from("profiles").update({ name: name.trim() }).eq("id", user!.id);
+    // Also sync family_members.name
+    await supabase.from("family_members").update({ name: name.trim() }).eq("user_id", user!.id);
     setSaving(false);
     if (error) toast.error(t("common.error"));
     else {
       toast.success(t("settings.profileSaved"));
       qc.invalidateQueries({ queryKey: ["profile"] });
+      qc.invalidateQueries({ queryKey: ["family-members"] });
+      qc.invalidateQueries({ queryKey: ["family-member"] });
     }
   };
 
@@ -327,10 +331,10 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
       {members.map((m: any) => (
         <motion.div key={m.id} variants={slideUp} className="bg-card rounded-lg p-4 border border-border flex items-center gap-3">
           <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-primary-foreground" style={{ backgroundColor: m.color }}>
-            {m.role === "baby" ? <Baby className="w-4 h-4" /> : m.name.charAt(0)}
+            {m.role === "baby" ? <Baby className="w-4 h-4" /> : (m.display_name || m.name).charAt(0)}
           </div>
           <div className="flex-1">
-            <span className="text-sm font-semibold text-foreground">{m.name}</span>
+            <span className="text-sm font-semibold text-foreground">{m.display_name || m.name}</span>
             <div className="flex items-center gap-1 mt-0.5">
               {m.role === "adult" && <UserCheck className="w-3 h-3 text-primary" />}
               {m.role === "child" && <User className="w-3 h-3 text-accent" />}

@@ -40,7 +40,7 @@ export default function WorkloadChartWidget() {
           r.weekdays.includes(dayOfWeek === 0 ? 7 : dayOfWeek)
       ).length;
 
-      entry[member.name] = taskCount + routineCount;
+      entry[member.display_name] = taskCount + routineCount;
     });
 
     return entry;
@@ -73,7 +73,7 @@ export default function WorkloadChartWidget() {
             {activeMembersList.map((member) => (
               <Bar
                 key={member.id}
-                dataKey={member.name}
+                dataKey={member.display_name}
                 stackId="workload"
                 fill={member.color}
                 radius={[2, 2, 0, 0]}
@@ -88,7 +88,7 @@ export default function WorkloadChartWidget() {
         {activeMembersList.map(m => (
           <div key={m.id} className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
             <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: m.color }} />
-            {m.name}
+            {m.display_name}
           </div>
         ))}
       </div>

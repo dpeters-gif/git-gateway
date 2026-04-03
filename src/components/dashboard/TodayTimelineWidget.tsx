@@ -40,7 +40,7 @@ export default function TodayTimelineWidget() {
         id: `t-${tk.id}`,
         time: tk.start_time!,
         label: tk.title,
-        memberName: member?.name,
+      memberName: member?.display_name,
         memberColor: member?.color,
         type: "task",
       });
@@ -68,9 +68,9 @@ export default function TodayTimelineWidget() {
         id: `r-${r.id}`,
         time: r.scheduled_time!,
         label: r.title,
-        memberName: member?.name,
-        memberColor: member?.color,
-        type: "routine",
+      memberName: member?.display_name,
+      memberColor: member?.color,
+      type: "routine",
       });
     });
 
