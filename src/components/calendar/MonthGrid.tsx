@@ -122,7 +122,7 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
               >
                 {member.name.charAt(0).toUpperCase()}
               </div>
-              <span className="text-[11px] font-semibold text-foreground truncate">{member.name}</span>
+              <span className="text-[11px] font-semibold text-foreground truncate">{member.display_name}</span>
             </div>
           ))
         )}
