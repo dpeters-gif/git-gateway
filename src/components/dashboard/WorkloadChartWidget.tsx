@@ -40,7 +40,7 @@ export default function WorkloadChartWidget() {
           r.weekdays.includes(dayOfWeek === 0 ? 7 : dayOfWeek)
       ).length;
 
-      entry[member.name] = taskCount + routineCount;
+      entry[member.display_name] = taskCount + routineCount;
     });
 
     return entry;
