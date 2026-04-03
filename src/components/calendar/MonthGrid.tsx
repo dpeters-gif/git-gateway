@@ -120,7 +120,7 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
                 className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[9px] font-bold shrink-0"
                 style={{ backgroundColor: member.color }}
               >
-                {member.name.charAt(0).toUpperCase()}
+                {member.display_name.charAt(0).toUpperCase()}
               </div>
               <span className="text-[11px] font-semibold text-foreground truncate">{member.display_name}</span>
             </div>

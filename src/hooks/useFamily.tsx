@@ -25,11 +25,27 @@ export function useFamily() {
   const { data: members = [], isLoading: membersLoading } = useQuery({
     queryKey: ["family-members", familyId],
     queryFn: async () => {
-      const { data } = await supabase
+      const { data: fms } = await supabase
         .from("family_members")
         .select("*")
         .eq("family_id", familyId!);
-      return data ?? [];
+      if (!fms?.length) return [];
+
+      const userIds = fms.map(m => m.user_id).filter(Boolean) as string[];
+      let profileMap = new Map<string, { name: string; avatar_url: string | null }>();
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from("profiles")
+          .select("id, name, avatar_url")
+          .in("id", userIds);
+        profileMap = new Map(profiles?.map(p => [p.id, { name: p.name, avatar_url: p.avatar_url }]) ?? []);
+      }
+
+      return fms.map(m => ({
+        ...m,
+        display_name: (m.user_id && profileMap.get(m.user_id)?.name) || m.name,
+        avatar_url: m.user_id ? profileMap.get(m.user_id)?.avatar_url ?? null : null,
+      }));
     },
     enabled: !!familyId,
   });

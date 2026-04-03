@@ -137,11 +137,15 @@ function ProfileSection() {
     if (!name.trim()) return;
     setSaving(true);
     const { error } = await supabase.from("profiles").update({ name: name.trim() }).eq("id", user!.id);
+    // Also sync family_members.name
+    await supabase.from("family_members").update({ name: name.trim() }).eq("user_id", user!.id);
     setSaving(false);
     if (error) toast.error(t("common.error"));
     else {
       toast.success(t("settings.profileSaved"));
       qc.invalidateQueries({ queryKey: ["profile"] });
+      qc.invalidateQueries({ queryKey: ["family-members"] });
+      qc.invalidateQueries({ queryKey: ["family-member"] });
     }
   };
 

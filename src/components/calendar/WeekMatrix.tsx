@@ -357,9 +357,9 @@ export default function WeekMatrix({
                     className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold"
                     style={{ backgroundColor: member.color }}
                   >
-                    {member.name.charAt(0).toUpperCase()}
+                    {member.display_name.charAt(0).toUpperCase()}
                   </div>
-                  <span className="text-sm font-semibold text-foreground">{member.name}</span>
+                  <span className="text-sm font-semibold text-foreground">{member.display_name}</span>
                   {member.user_id === user?.id && (
                     <span className="text-[10px] text-primary font-medium">Du</span>
                   )}

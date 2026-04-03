@@ -88,7 +88,7 @@ export default function WorkloadChartWidget() {
         {activeMembersList.map(m => (
           <div key={m.id} className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
             <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: m.color }} />
-            {m.name}
+            {m.display_name}
           </div>
         ))}
       </div>
