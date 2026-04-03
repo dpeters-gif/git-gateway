@@ -73,7 +73,7 @@ export default function WorkloadChartWidget() {
             {activeMembersList.map((member) => (
               <Bar
                 key={member.id}
-                dataKey={member.name}
+                dataKey={member.display_name}
                 stackId="workload"
                 fill={member.color}
                 radius={[2, 2, 0, 0]}
