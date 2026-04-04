@@ -42,8 +42,8 @@ export default function CalendarEventCard({ event, onClick }: CalendarEventCardP
   const style = transform ? {
     transform: CSS.Translate.toString(transform),
     opacity: isDragging ? 0.5 : 1,
-    zIndex: isDragging ? 50 : undefined,
-  } : undefined;
+    zIndex: isDragging ? 50 : 4,
+  } : { zIndex: 4 };
 
   return (
     <motion.div

@@ -20,8 +20,8 @@ export default function TimeBlockBand({ block, top, height }: TimeBlockBandProps
 
   return (
     <div
-      className={`absolute left-0 right-0 ${style.bg} border-l-[3px] ${style.border} rounded-sm pointer-events-none z-0`}
-      style={{ top, height }}
+      className={`absolute left-0 right-0 ${style.bg} border-l-[3px] ${style.border} rounded-sm pointer-events-none`}
+      style={{ top, height, zIndex: 1 }}
     >
       <span className="text-xs text-muted-foreground font-medium px-1 pt-1 block truncate">
         {block.label || block.type}
