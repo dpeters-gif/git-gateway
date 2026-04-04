@@ -34,8 +34,8 @@ export default function CalendarTaskCard({ task, onClick, onComplete }: Calendar
   const style = transform ? {
     transform: CSS.Translate.toString(transform),
     opacity: isDragging ? 0.5 : 1,
-    zIndex: isDragging ? 50 : undefined,
-  } : undefined;
+    zIndex: isDragging ? 50 : 3,
+  } : { zIndex: 3 };
 
   return (
     <motion.div
