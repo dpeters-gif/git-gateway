@@ -188,6 +188,19 @@ This journey is entirely read-only.
   tasks with a terracotta left-border accent and a repeat icon (↻).
 - **AC-004:** When the parent taps a family member filter, the system
   shall show only that member's time blocks, events, and tasks.
+- **AC-004a:** Time blocks shall render as semi-transparent colored background
+  bands using color-block-* tokens. They shall NOT render as plain text labels
+  or as cards. The block type label shall appear as small secondary text inside
+  the band.
+- **AC-004b:** Event cards shall display the assigned member's avatar (20px) in
+  the bottom-right of the card. Cards without a member avatar do not satisfy
+  this criterion.
+- **AC-004c:** Task card left-border color shall be determined solely by priority,
+  using color-priority-high, color-priority-normal, or color-priority-low tokens.
+  No other border color is permitted for tasks in the parent calendar view.
+- **AC-004d:** Routine-sourced tasks shall display a repeat icon (↻) and use
+  color-block-routine-border as their left-border accent. Any other left-border
+  color for routine tasks does not satisfy this criterion.
 - **AC-005:** When the parent clears the family member filter, the
   system shall restore the full family view.
 - **AC-006:** The system shall highlight today's date with a distinct
