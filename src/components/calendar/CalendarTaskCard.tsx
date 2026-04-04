@@ -44,7 +44,7 @@ export default function CalendarTaskCard({ task, onClick, onComplete }: Calendar
       variants={scaleIn}
       whileTap={{ scale: 0.97 }}
       onClick={(e) => { e.stopPropagation(); onClick(); }}
-      className={`bg-card border-l-[3px] ${priorityColors[task.priority] ?? "border-primary"} rounded-md p-2 cursor-pointer hover:shadow-sm transition-shadow ${
+      className={`bg-card border-l-[3px] ${className={`bg-card border-l-[3px] ${priorityColors[task.priority] ?? "border-priority-normal"} rounded-md p-2 cursor-pointer hover:shadow-sm transition-shadow ${} rounded-md p-2 cursor-pointer hover:shadow-sm transition-shadow ${
         isCompleted ? "opacity-60" : ""
       } group relative`}
     >
