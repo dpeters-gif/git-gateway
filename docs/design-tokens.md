@@ -1,9 +1,9 @@
 ---
 document: design-tokens
 project: "Familienzentrale"
-version: 2.0.0
+version: 2.1.0
 status: Draft
-last-updated: "2026-03-31"
+last-updated: "2026-04-04"
 depends-on:
   - constitution.md v2.0.0
 supersedes: design-tokens.md v1.0.0
@@ -86,6 +86,8 @@ supersedes: design-tokens.md v1.0.0
 | `color-block-nap-border` | `#C67B5C` | Nap block left accent |
 | `color-block-unavailable` | `rgba(155,168,159,0.10)` | Generic unavailability |
 | `color-block-unavailable-border` | `#9BA89F` | Unavailable left accent |
+| `color-block-routine` | `rgba(162,92,72,0.12)` | Routine task time block band |
+| `color-block-routine-border` | `#A25C48` | Routine block left accent (terracotta) |
 
 ### Priority Accents (left-border system)
 
@@ -332,3 +334,4 @@ Every sound has a purpose. Every animation has timing. Never skip, never overlap
 |---------|------|--------|--------|
 | 1.0.0 | 2026-03-29 | Initial design tokens | PM + VEGA |
 | 2.0.0 | 2026-03-31 | Warmer palette (forest sage, warm linen, honey), DM Sans font, baby time blocks, enhanced animation presets, Tailwind-oriented tokens | PM + Atlas |
+| 2.1.0 | 2026-04-04 | Calendar visual rules tightened: time block band rendering mandatory, task border color tokens corrected, member avatar on event cards made mandatory, routine token added | PM + VEGA |

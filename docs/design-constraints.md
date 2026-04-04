@@ -1,9 +1,9 @@
 ---
 document: design-constraints
 project: "Familienzentrale"
-version: 2.0.0
+version: 2.1.0
 status: Draft
-last-updated: "2026-03-31"
+last-updated: "2026-04-04"
 depends-on:
   - constitution.md v2.0.0
   - design-tokens.md v2.0.0
@@ -261,7 +261,49 @@ Every visible state change MUST have an animation. Silent state changes are bugs
 
 ---
 
-## 11. Accessibility & Touch
+## 11. Calendar Visual Rules
+
+- Time blocks (school/work/unavailable) render as semi-transparent colored bands spanning
+  the full height of their time range — they are background layers, NOT text labels or cards.
+  They must use the color-block-* tokens as fill and a 3px left-border accent.
+  The block label ("Arbeit", "Schule", "Mittagsschlaf") is rendered as small secondary text
+  INSIDE the band — never as a standalone text label with no background.
+
+- Events render as solid white cards with a colored left-border accent and a calendar icon,
+  positioned absolutely over the time block bands.
+
+- Tasks with due time render as white cards with a checkbox left, XP badge right, and a
+  priority left-border accent using color-priority-* tokens — NOT color-child-accent (orange).
+
+- All-day events render as filled blue-grey chips in the Ganztag row above the time grid.
+
+- All-day tasks render as white cards with checkbox + XP badge in the Ganztag row.
+
+- Routine tasks visually distinguished by color-block-routine (terracotta) left-border and
+  repeat icon (↻) — never a plain left-border or orange border.
+
+- Event cards must show: title, time, and assigned member avatar (small, 20px) in the
+  bottom-right of the card. This is mandatory — not optional.
+
+- Task card left-border color is determined by priority only:
+    high   → color-priority-high   (#C25B4E, red)
+    normal → color-priority-normal (#5B7A6B, green)
+    low    → color-priority-low    (#9BA89F, grey)
+  Never use color-child-accent (orange) for task borders in the parent calendar view.
+
+- Calendar supports collapsed view (chips only, compact) and expanded view (full timeline
+  with 30-min slots)
+
+- Week view on tablet (768px+): full week matrix with person-lanes — this is the DEFAULT view
+
+- Week view on phone (<768px): horizontal swipe between days, one day visible at a time
+  with day selector tabs
+
+- Month view: compact grid, days show dot indicators for item count, tap day to see day detail
+
+---
+
+## 12. Accessibility & Touch
 
 - All touch targets: minimum 44×44px
 - Focus indicators: visible ring on keyboard navigation (shadcn default)
@@ -274,7 +316,7 @@ Every visible state change MUST have an animation. Silent state changes are bugs
 
 ---
 
-## 12. Data Display
+## 13. Data Display
 
 - Charts use recharts with the design token color palette
 - Chart backgrounds: transparent (inherit card background)
@@ -293,3 +335,4 @@ Every visible state change MUST have an animation. Silent state changes are bugs
 |---------|------|--------|--------|
 | 1.0.0 | 2026-03-29 | Initial design constraints | PM + VEGA |
 | 2.0.0 | 2026-03-31 | Complete rewrite: mandatory interaction defaults, calendar interaction patterns (drag-drop, click, quick-create), FAB requirements, animation standards table, baby/conflict indicators, shadcn/Tailwind targeting, warmer palette references | PM + Atlas |
+| 2.1.0 | 2026-04-04 | Calendar visual rules tightened: time block band rendering mandatory, task border color tokens corrected, member avatar on event cards made mandatory, routine token added | PM + VEGA |
