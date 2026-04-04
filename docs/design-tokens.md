@@ -86,6 +86,8 @@ supersedes: design-tokens.md v1.0.0
 | `color-block-nap-border` | `#C67B5C` | Nap block left accent |
 | `color-block-unavailable` | `rgba(155,168,159,0.10)` | Generic unavailability |
 | `color-block-unavailable-border` | `#9BA89F` | Unavailable left accent |
+| `color-block-routine` | `rgba(162,92,72,0.12)` | Routine task time block band |
+| `color-block-routine-border` | `#A25C48` | Routine block left accent (terracotta) |
 
 ### Priority Accents (left-border system)
 
