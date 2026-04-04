@@ -2,9 +2,9 @@
 document: spec
 title: "Parent Weekly Overview"
 journey-id: "P-1"
-version: 1.0.0
+version: 1.1.0
 status: Draft
-last-updated: "2026-03-29"
+last-updated: "2026-04-04"
 author: "PM + VEGA"
 depends-on:
   - constitution.md
