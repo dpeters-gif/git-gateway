@@ -310,3 +310,4 @@ not pixel-perfect reproduction.
 | Version | Date | Change | Author |
 |---------|------|--------|--------|
 | 1.0.0 | 2026-03-29 | Initial spec | PM + VEGA |
+| 1.1.0 | 2026-04-04 | Added AC-004a–d to tighten calendar card rendering rules based on build review | PM + VEGA |
