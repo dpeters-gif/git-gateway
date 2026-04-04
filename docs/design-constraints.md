@@ -274,7 +274,7 @@ Every visible state change MUST have an animation. Silent state changes are bugs
 
 ---
 
-## 12. Data Display
+## 13. Data Display
 
 - Charts use recharts with the design token color palette
 - Chart backgrounds: transparent (inherit card background)
