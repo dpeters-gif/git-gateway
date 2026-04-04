@@ -293,3 +293,4 @@ Every visible state change MUST have an animation. Silent state changes are bugs
 |---------|------|--------|--------|
 | 1.0.0 | 2026-03-29 | Initial design constraints | PM + VEGA |
 | 2.0.0 | 2026-03-31 | Complete rewrite: mandatory interaction defaults, calendar interaction patterns (drag-drop, click, quick-create), FAB requirements, animation standards table, baby/conflict indicators, shadcn/Tailwind targeting, warmer palette references | PM + Atlas |
+| 2.1.0 | 2026-04-04 | Calendar visual rules tightened: time block band rendering mandatory, task border color tokens corrected, member avatar on event cards made mandatory, routine token added | PM + VEGA |

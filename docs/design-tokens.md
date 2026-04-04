@@ -334,3 +334,4 @@ Every sound has a purpose. Every animation has timing. Never skip, never overlap
 |---------|------|--------|--------|
 | 1.0.0 | 2026-03-29 | Initial design tokens | PM + VEGA |
 | 2.0.0 | 2026-03-31 | Warmer palette (forest sage, warm linen, honey), DM Sans font, baby time blocks, enhanced animation presets, Tailwind-oriented tokens | PM + Atlas |
+| 2.1.0 | 2026-04-04 | Calendar visual rules tightened: time block band rendering mandatory, task border color tokens corrected, member avatar on event cards made mandatory, routine token added | PM + VEGA |
