@@ -2,9 +2,9 @@
 document: spec
 title: "Parent Weekly Overview"
 journey-id: "P-1"
-version: 1.0.0
+version: 1.1.0
 status: Draft
-last-updated: "2026-03-29"
+last-updated: "2026-04-04"
 author: "PM + VEGA"
 depends-on:
   - constitution.md
@@ -188,6 +188,19 @@ This journey is entirely read-only.
   tasks with a terracotta left-border accent and a repeat icon (↻).
 - **AC-004:** When the parent taps a family member filter, the system
   shall show only that member's time blocks, events, and tasks.
+- **AC-004a:** Time blocks shall render as semi-transparent colored background
+  bands using color-block-* tokens. They shall NOT render as plain text labels
+  or as cards. The block type label shall appear as small secondary text inside
+  the band.
+- **AC-004b:** Event cards shall display the assigned member's avatar (20px) in
+  the bottom-right of the card. Cards without a member avatar do not satisfy
+  this criterion.
+- **AC-004c:** Task card left-border color shall be determined solely by priority,
+  using color-priority-high, color-priority-normal, or color-priority-low tokens.
+  No other border color is permitted for tasks in the parent calendar view.
+- **AC-004d:** Routine-sourced tasks shall display a repeat icon (↻) and use
+  color-block-routine-border as their left-border accent. Any other left-border
+  color for routine tasks does not satisfy this criterion.
 - **AC-005:** When the parent clears the family member filter, the
   system shall restore the full family view.
 - **AC-006:** The system shall highlight today's date with a distinct
@@ -271,6 +284,9 @@ This journey is entirely read-only.
   matrix component for the person-lane view
 - DO NOT implement real-time updates (WebSocket) — polling on a
   30-second interval is sufficient
+- DO NOT render time blocks as text-only labels with no background band
+- DO NOT use color-child-accent (orange) for task card borders in the parent view
+- DO NOT omit the member avatar from event cards
 - DO NOT add Care-Share indicators to this view — that is journey P-7
 
 ## 13. UI Reference
@@ -294,3 +310,4 @@ not pixel-perfect reproduction.
 | Version | Date | Change | Author |
 |---------|------|--------|--------|
 | 1.0.0 | 2026-03-29 | Initial spec | PM + VEGA |
+| 1.1.0 | 2026-04-04 | Added AC-004a–d to tighten calendar card rendering rules based on build review | PM + VEGA |
