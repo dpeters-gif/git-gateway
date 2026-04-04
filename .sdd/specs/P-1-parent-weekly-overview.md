@@ -284,6 +284,9 @@ This journey is entirely read-only.
   matrix component for the person-lane view
 - DO NOT implement real-time updates (WebSocket) — polling on a
   30-second interval is sufficient
+- DO NOT render time blocks as text-only labels with no background band
+- DO NOT use color-child-accent (orange) for task card borders in the parent view
+- DO NOT omit the member avatar from event cards
 - DO NOT add Care-Share indicators to this view — that is journey P-7
 
 ## 13. UI Reference
