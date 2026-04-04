@@ -8,6 +8,7 @@ import type { Task } from "@/hooks/useTasks";
 import type { Event } from "@/hooks/useEvents";
 import type { TimeBlock } from "@/hooks/useTimeBlocks";
 import DayTabSelector from "./DayTabSelector";
+import TimeBlockBand from "./TimeBlockBand";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { CheckSquare, Square, Calendar, Sparkles } from "lucide-react";
 
