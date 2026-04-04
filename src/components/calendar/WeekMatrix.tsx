@@ -179,23 +179,13 @@ export default function WeekMatrix({
     return blocks.map(block => {
       const startMin = timeToMinutes(block.start_time);
       const endMin = timeToMinutes(block.end_time);
-      const bgColors: Record<string, string> = {
-        school: "bg-blue-500/8",
-        work: "bg-orange-500/8",
-        nap: "bg-purple-500/8",
-        unavailable: "bg-muted/40",
-      };
       return (
-        <div
+        <TimeBlockBand
           key={block.id}
-          className={`absolute left-0 right-0 ${bgColors[block.type] || "bg-muted/20"} border-y border-dashed border-muted-foreground/10 pointer-events-none`}
-          style={{
-            top: minutesToTop(startMin),
-            height: durationPx(startMin, endMin),
-          }}
-        >
-          <span className="text-[8px] text-muted-foreground/50 px-1 font-medium">{block.label}</span>
-        </div>
+          block={block}
+          top={minutesToTop(startMin)}
+          height={durationPx(startMin, endMin)}
+        />
       );
     });
   };
