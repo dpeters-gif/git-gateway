@@ -1,9 +1,9 @@
 ---
 document: design-constraints
 project: "Familienzentrale"
-version: 2.0.0
+version: 2.1.0
 status: Draft
-last-updated: "2026-03-31"
+last-updated: "2026-04-04"
 depends-on:
   - constitution.md v2.0.0
   - design-tokens.md v2.0.0
