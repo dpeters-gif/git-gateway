@@ -79,7 +79,7 @@ export default function ParentRewards() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-4">
       <motion.div variants={slideUp} className="flex items-center justify-between">
-        <h1 className="text-xl font-extrabold text-foreground">{t("nav.rewards")}</h1>
+        <h1 className="text-xl font-bold text-foreground">{t("nav.rewards")}</h1>
         <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
           <Plus className="w-3 h-3" /> {tab === "rewards" ? t("rewards.create") : t("challenges.create", "Challenge")}
         </Button>

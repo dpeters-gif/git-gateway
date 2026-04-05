@@ -84,7 +84,7 @@ export default function TodayTimelineWidget() {
     <div className="bg-card rounded-lg p-4 border border-border">
       <div className="flex items-center gap-2 mb-3">
         <Clock className="w-4 h-4 text-primary" />
-        <h2 className="text-sm font-semibold text-foreground">
+        <h2 className="text-md font-extrabold text-foreground">
           {t("home.todayTimeline", "Heute")}
         </h2>
       </div>

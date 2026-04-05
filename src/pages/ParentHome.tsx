@@ -87,7 +87,7 @@ export default function ParentHome() {
 
           {distribution.length > 0 && (
             <motion.div variants={slideUp} className="bg-card rounded-lg p-5 border border-border">
-              <h2 className="text-sm font-semibold text-foreground mb-3">{t("home.taskDistribution")}</h2>
+              <h2 className="text-md font-extrabold text-foreground mb-3">{t("home.taskDistribution")}</h2>
               <div className="flex items-center gap-6">
                 <ResponsiveContainer width={120} height={120}>
                   <PieChart>

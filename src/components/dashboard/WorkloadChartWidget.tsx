@@ -52,7 +52,7 @@ export default function WorkloadChartWidget() {
     <div className="bg-card rounded-lg p-4 border border-border">
       <div className="flex items-center gap-2 mb-3">
         <BarChart3 className="w-4 h-4 text-primary" />
-        <h2 className="text-sm font-semibold text-foreground">
+        <h2 className="text-md font-extrabold text-foreground">
           {t("home.workloadChart", "Wochenauslastung")}
         </h2>
       </div>

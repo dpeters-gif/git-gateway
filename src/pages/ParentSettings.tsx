@@ -309,7 +309,7 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground">
+        <h2 className="text-md font-extrabold text-foreground">
           {t("settings.members")} ({members.length}/{memberLimit})
         </h2>
       </div>
