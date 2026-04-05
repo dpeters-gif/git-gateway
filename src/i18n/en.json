@@ -210,7 +210,10 @@
     "passwordMismatch": "Passwords don't match",
     "language": "Language",
     "notifications": "Notifications",
-    "profileSaved": "Profile saved"
+    "profileSaved": "Profile saved",
+    "nudges": {
+      "untitled": "Untitled reminder"
+    }
   },
   "rewards": {
     "title": "Rewards",
