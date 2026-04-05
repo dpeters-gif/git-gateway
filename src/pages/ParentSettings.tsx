@@ -339,28 +339,51 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
         </div>
       )}
 
-      {members.map((m: any) => (
-        <motion.div key={m.id} variants={slideUp} className="bg-card rounded-lg p-4 border border-border flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-primary-foreground" style={{ backgroundColor: m.color }}>
-            {m.role === "baby" ? <Baby className="w-4 h-4" /> : (m.display_name || m.name).charAt(0)}
-          </div>
-          <div className="flex-1">
-            <span className="text-sm font-semibold text-foreground">{m.display_name || m.name}</span>
-            <div className="flex items-center gap-1 mt-0.5">
-              {m.role === "adult" && <UserCheck className="w-3 h-3 text-primary" />}
-              {m.role === "child" && <User className="w-3 h-3 text-accent" />}
-              {m.role === "baby" && <Baby className="w-3 h-3 text-secondary" />}
-              <span className="text-xs text-muted-foreground capitalize">{t(`settings.role${m.role.charAt(0).toUpperCase() + m.role.slice(1)}`)}</span>
-              {m.is_admin && <Shield className="w-3 h-3 text-primary ml-1" />}
+      {members.map((m: any) => {
+        const displayName = m.display_name || m.name;
+        const isSelf = m.user_id === user?.id;
+        const roleKey = m.role as "adult" | "child" | "baby";
+        const roleStyles: Record<string, { bg: string; color: string }> = {
+          adult: { bg: "#F3F0EB", color: "#6B7B72" },
+          child: { bg: "#EEF2EE", color: "#5B7A6B" },
+          baby: { bg: "rgba(198,123,92,0.12)", color: "#A65F3F" },
+        };
+        const rs = roleStyles[roleKey] ?? roleStyles.child;
+
+        return (
+          <motion.div
+            key={m.id}
+            variants={slideUp}
+            className="flex items-center gap-4 rounded-xl p-4 border"
+            style={{ background: "#FEFEFB", borderColor: "rgba(45,58,50,0.08)" }}
+          >
+            <UserAvatar avatarUrl={m.avatar_url} name={displayName} color={m.color} className="h-12 w-12 text-base" />
+            <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+              <span className="text-md font-semibold text-foreground truncate">{displayName}</span>
+              <span
+                className="inline-flex items-center self-start h-[22px] px-2 rounded-full"
+                style={{
+                  background: rs.bg,
+                  color: rs.color,
+                  fontSize: "12px",
+                  fontWeight: roleKey === "adult" ? 500 : 600,
+                }}
+              >
+                {t(`settings.role${m.role.charAt(0).toUpperCase() + m.role.slice(1)}`)}
+                {m.is_admin && <Shield className="w-3 h-3 ml-1" />}
+              </span>
             </div>
-          </div>
-          {canRemove(m) && (
-            <Button size="icon" variant="ghost" onClick={() => setRemoveTarget(m)}>
-              <Trash2 className="w-4 h-4 text-muted-foreground" />
-            </Button>
-          )}
-        </motion.div>
-      ))}
+            {canRemove(m) && (
+              <button
+                onClick={() => setRemoveTarget(m)}
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors shrink-0"
+              >
+                <Trash2 className="w-5 h-5" style={{ color: "#C25B4E" }} />
+              </button>
+            )}
+          </motion.div>
+        );
+      })}
 
       {/* Invite Adult Dialog */}
       <Dialog open={showInvite} onOpenChange={v => { setShowInvite(v); if (!v) setInviteToken(""); }}>
