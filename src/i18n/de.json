@@ -317,10 +317,6 @@
       "cta": "Aufgabe erstellen"
     }
   },
-  "settings": {
-    "nudges": {
-      "untitled": "Unbenannte Erinnerung"
-    },
   "photo": {
     "title": "Beweis-Foto",
     "tooLarge": "Foto zu groß (max 5MB)",
