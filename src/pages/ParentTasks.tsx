@@ -13,14 +13,14 @@ import PullToRefresh from "@/components/shared/PullToRefresh";
 import SkeletonLoader from "@/components/shared/SkeletonLoader";
 import EmptyState from "@/components/shared/EmptyState";
 import ErrorState from "@/components/shared/ErrorState";
+import TaskCard from "@/components/tasks/TaskCard";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CheckSquare, Square, Sparkles, GripVertical } from "lucide-react";
+import { CheckSquare, GripVertical } from "lucide-react";
 import { toast } from "sonner";
 import type { Task } from "@/hooks/useTasks";
 
-function SortableTaskCard({ task, onComplete }: { task: Task; onComplete: () => void }) {
-  const { t } = useTranslation();
+function SortableTaskCard({ task, onComplete, member }: { task: Task; onComplete: () => void; member?: any }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: task.id });
 
   const style = {
@@ -30,56 +30,27 @@ function SortableTaskCard({ task, onComplete }: { task: Task; onComplete: () => 
     zIndex: isDragging ? 50 : undefined,
   };
 
-  return (
-    <motion.div
-      ref={setNodeRef}
-      style={style}
-      variants={slideUp}
-      className={`bg-card rounded-lg p-4 border-l-[3px] ${
-        task.priority === "high" ? "border-priority-high" : task.priority === "low" ? "border-priority-low" : "border-priority-normal"
-      } border border-border hover:shadow-sm transition-shadow`}
+  const dragHandle = (
+    <button
+      {...attributes}
+      {...listeners}
+      className="flex items-center justify-center shrink-0 cursor-grab active:cursor-grabbing touch-manipulation"
+      style={{ width: "32px" }}
     >
-      <div className="flex items-start gap-3">
-        <button
-          {...attributes}
-          {...listeners}
-          className="mt-1 shrink-0 cursor-grab active:cursor-grabbing touch-manipulation"
-        >
-          <GripVertical className="w-4 h-4 text-muted-foreground" />
-        </button>
-        <button
-          onClick={() => {
-            if (task.status === "completed") return;
-            onComplete();
-          }}
-          className="mt-0.5 shrink-0 touch-manipulation"
-        >
-          {task.status === "completed" ? (
-            <CheckSquare className="w-5 h-5 text-success" />
-          ) : (
-            <Square className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
-          )}
-        </button>
-        <div className="flex-1 min-w-0">
-          <h3 className={`text-sm font-semibold ${task.status === "completed" ? "line-through text-muted-foreground" : "text-foreground"}`}>
-            {task.title}
-          </h3>
-          {task.description && (
-            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{task.description}</p>
-          )}
-          <div className="flex items-center gap-2 mt-1.5">
-            {task.xp_value > 0 && (
-              <span className="flex items-center gap-0.5 text-[10px] font-medium text-xp bg-xp-light px-1.5 py-0.5 rounded-full">
-                <Sparkles className="w-3 h-3" /> {task.xp_value} XP
-              </span>
-            )}
-            {task.due_date && (
-              <span className="text-[10px] text-muted-foreground">{task.due_date}</span>
-            )}
-          </div>
-        </div>
-      </div>
-    </motion.div>
+      <GripVertical className="w-4 h-4 text-muted-foreground" />
+    </button>
+  );
+
+  return (
+    <TaskCard
+      innerRef={setNodeRef}
+      style={style}
+      task={task}
+      onComplete={onComplete}
+      member={member}
+      isRoutine={!!task.challenge_id}
+      dragHandle={dragHandle}
+    />
   );
 }
 
@@ -102,6 +73,9 @@ export default function ParentTasks() {
   const orderedTasks = localOrder
     ? localOrder.map(id => tasks.find(t => t.id === id)).filter(Boolean) as Task[]
     : tasks;
+
+  const getMember = (userId: string | null) =>
+    userId ? members.find(m => m.user_id === userId) : undefined;
 
   const handleCreate = useCallback((data: TaskFormData) => {
     createTask.mutate({ ...data, created_by_user_id: user?.id ?? null });
@@ -184,7 +158,12 @@ export default function ParentTasks() {
             <SortableContext items={orderedTasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
               <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-2">
                 {orderedTasks.map(task => (
-                  <SortableTaskCard key={task.id} task={task} onComplete={() => handleComplete(task.id)} />
+                  <SortableTaskCard
+                    key={task.id}
+                    task={task}
+                    onComplete={() => handleComplete(task.id)}
+                    member={getMember(task.assigned_to_user_id)}
+                  />
                 ))}
               </motion.div>
             </SortableContext>
