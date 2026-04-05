@@ -524,7 +524,7 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground">{t("settings.timeBlocks")}</h2>
+        <h2 className="text-md font-extrabold text-foreground">{t("settings.timeBlocks")}</h2>
         <Button size="sm" variant="outline" onClick={() => setShowAdd(true)} className="gap-1">
           <Plus className="w-3 h-3" /> {t("common.create")}
         </Button>
