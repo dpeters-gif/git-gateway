@@ -51,11 +51,19 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
     return result;
   }, [month]);
 
+  const DATE_PATTERN = /^\d{2}\.\d{2}\.\d{4}$/;
+
   const getItemsForDay = useCallback((dayStr: string, userId: string | null) => {
-    const cellTasks = tasks.filter(t => t.due_date === dayStr && t.assigned_to_user_id === userId);
+    const cellTasks = tasks.filter(t =>
+      t.due_date === dayStr &&
+      t.assigned_to_user_id === userId &&
+      t.status !== "completed" &&
+      !DATE_PATTERN.test(t.title)
+    );
     const cellEvents = events.filter(e => {
       const eDate = format(new Date(e.start_at), "yyyy-MM-dd");
       const ids = e.assigned_to_user_ids ?? [];
+      if (DATE_PATTERN.test(e.title)) return false;
       return eDate === dayStr && (ids.includes(userId ?? "") || (ids.length === 0 && !userId));
     });
     return { tasks: cellTasks, events: cellEvents };
