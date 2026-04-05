@@ -259,6 +259,11 @@
     "addPlaceholder": "Add item…",
     "emptyTitle": "All shopped! 🛒",
     "emptyBody": "Add items using the field above.",
+    "empty": {
+      "heading": "List is empty",
+      "body": "Tap above to add the first item.",
+      "cta": "Add item"
+    },
     "checked": "Checked",
     "clearChecked": "Clear checked",
     "clearConfirm": "Remove all checked items?",
