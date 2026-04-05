@@ -7,8 +7,7 @@ import { useTasks } from "@/hooks/useTasks";
 import { useEvents } from "@/hooks/useEvents";
 import SkeletonLoader from "@/components/shared/SkeletonLoader";
 import WorkloadChartWidget from "@/components/dashboard/WorkloadChartWidget";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Progress } from "@/components/ui/progress";
+import TaskCard from "@/components/tasks/TaskCard";
 import { UserAvatar } from "@/components/settings/AvatarPicker";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,7 +23,6 @@ export default function ParentHome() {
   const { isLoading: eventsLoading } = useEvents();
 
   const isLoading = famLoading || tasksLoading || eventsLoading;
-
   const today = new Date().toISOString().split("T")[0];
 
   return (
@@ -83,9 +81,7 @@ function FamilyStatusBar({ members, tasks, today }: { members: any[]; tasks: any
                 className="h-10 w-10"
               />
               {count > 0 && (
-                <span
-                  className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center rounded-full text-[11px] font-semibold bg-primary-light text-primary px-1"
-                >
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center rounded-full text-[11px] font-semibold bg-primary-light text-primary px-1">
                   {count}
                 </span>
               )}
@@ -113,12 +109,6 @@ function TodaysFocus({ tasks, members, today }: { tasks: any[]; members: any[]; 
   const getMember = (userId: string | null) =>
     userId ? members.find((m: any) => m.user_id === userId) : undefined;
 
-  const borderColor: Record<string, string> = {
-    high: "#C25B4E",
-    normal: "#5B7A6B",
-    low: "#9BA89F",
-  };
-
   const handleComplete = async (taskId: string) => {
     await supabase
       .from("tasks")
@@ -126,11 +116,6 @@ function TodaysFocus({ tasks, members, today }: { tasks: any[]; members: any[]; 
       .eq("id", taskId);
     qc.invalidateQueries({ queryKey: ["tasks"] });
     toast.success(t("task.completed"));
-  };
-
-  const isOverdue = (task: any) => {
-    if (!task.due_date) return false;
-    return task.due_date < today;
   };
 
   return (
@@ -143,45 +128,14 @@ function TodaysFocus({ tasks, members, today }: { tasks: any[]; members: any[]; 
         <p className="text-sm text-muted-foreground">{t("home.noTasksToday")}</p>
       ) : (
         <div className="space-y-2">
-          {visible.map(task => {
-            const member = getMember(task.assigned_to_user_id);
-            const overdue = isOverdue(task);
-            return (
-              <div
-                key={task.id}
-                className="bg-card rounded-lg border border-border flex items-center"
-                style={{
-                  borderLeft: `3px solid ${borderColor[task.priority] ?? "#5B7A6B"}`,
-                  minHeight: "56px",
-                }}
-              >
-                {/* Tap target zone */}
-                <button
-                  onClick={() => handleComplete(task.id)}
-                  className="flex items-center justify-center shrink-0 h-14"
-                  style={{ width: "48px" }}
-                >
-                  <Checkbox checked={false} onCheckedChange={() => handleComplete(task.id)} />
-                </button>
-
-                {/* Title */}
-                <span className={`text-base flex-1 truncate ${overdue ? "font-semibold" : "font-normal"} text-foreground`}>
-                  {task.title}
-                </span>
-
-                {/* Assignee avatar */}
-                {member && (
-                  <div className="pr-3 shrink-0">
-                    <UserAvatar
-                      avatarUrl={member.avatar_url}
-                      name={member.display_name || member.name}
-                      className="h-7 w-7"
-                    />
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {visible.map(task => (
+            <TaskCard
+              key={task.id}
+              task={task}
+              onComplete={() => handleComplete(task.id)}
+              member={getMember(task.assigned_to_user_id)}
+            />
+          ))}
         </div>
       )}
 
