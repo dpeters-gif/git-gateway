@@ -285,8 +285,12 @@ export default function WeekMatrix({
             return (
               <div
                 key={member.id}
-                className="relative border-l border-border cursor-pointer hover:bg-muted/10 transition-colors"
-                style={{ height: GRID_HEIGHT }}
+                className="relative cursor-pointer transition-colors"
+                style={{
+                  height: GRID_HEIGHT,
+                  borderLeft: "1px solid rgba(45, 58, 50, 0.12)",
+                  backgroundColor: isToday(day) ? "rgba(91, 122, 107, 0.03)" : undefined,
+                }}
                 onClick={() => onCellClick(day, member.user_id)}
               >
                 {/* Hour grid lines */}
