@@ -265,14 +265,14 @@ export default function WeekMatrix({
         )}
 
         {/* Time grid */}
-        <div className="grid" style={{ gridTemplateColumns: `48px repeat(${activeMembers.length}, 1fr)` }}>
+        <div className="grid" style={{ gridTemplateColumns: `52px repeat(${activeMembers.length}, 1fr)` }}>
           {/* Time axis */}
           <div className="relative" style={{ height: GRID_HEIGHT }}>
             {hourLabels.map(h => (
               <div
                 key={h}
-                className="absolute left-0 right-0 text-[9px] text-muted-foreground px-1 border-t border-border/30"
-                style={{ top: (h - START_HOUR) * PX_PER_HOUR }}
+                className="absolute left-0 right-0 px-1"
+                style={{ top: (h - START_HOUR) * PX_PER_HOUR, fontSize: 13, fontWeight: 500, color: "#6B7B72", borderTop: "1px solid rgba(45, 58, 50, 0.08)" }}
               >
                 {String(h).padStart(2, "0")}:00
               </div>
