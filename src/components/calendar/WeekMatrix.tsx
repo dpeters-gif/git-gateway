@@ -231,7 +231,16 @@ export default function WeekMatrix({
         {/* Day header */}
         <div className={`flex items-center gap-2 px-3 py-2 border-b border-border ${isToday(day) ? "bg-primary/5 border-l-[3px] border-l-primary" : "bg-muted/30"}`}>
           <span className="text-[10px] text-muted-foreground font-medium uppercase">{format(day, "EEE", { locale: de })}</span>
-          <span className={`text-sm font-bold ${isToday(day) ? "text-primary" : "text-foreground"}`}>{format(day, "d. MMM", { locale: de })}</span>
+          {isToday(day) ? (
+            <span className="inline-flex items-center gap-1.5">
+              <span className="rounded-full flex items-center justify-center text-white" style={{ width: 24, height: 24, backgroundColor: "#5B7A6B", fontSize: 15, fontWeight: 700 }}>
+                {format(day, "d")}
+              </span>
+              <span className="text-sm font-semibold" style={{ color: "#2D3A32" }}>{format(day, "MMM", { locale: de })}</span>
+            </span>
+          ) : (
+            <span className="text-sm font-semibold" style={{ color: "#2D3A32" }}>{format(day, "d. MMM", { locale: de })}</span>
+          )}
         </div>
 
         {/* Untimed items section */}
@@ -242,7 +251,7 @@ export default function WeekMatrix({
               {activeMembers.map(member => {
                 const { untimed } = getItemsForCell(dayStr, member.user_id);
                 return (
-                  <div key={member.id} className="px-0.5 space-y-0.5 border-l border-border">
+                  <div key={member.id} className="px-0.5 space-y-0.5" style={{ borderLeft: "1px solid rgba(45, 58, 50, 0.12)" }}>
                     {untimed.map(item => {
                       if (item.type === "task" && item.task) return renderTaskPill(item.task);
                       if (item.type === "event" && item.event) return renderEventPill(item.event);
@@ -276,8 +285,12 @@ export default function WeekMatrix({
             return (
               <div
                 key={member.id}
-                className="relative border-l border-border cursor-pointer hover:bg-muted/10 transition-colors"
-                style={{ height: GRID_HEIGHT }}
+                className="relative cursor-pointer transition-colors"
+                style={{
+                  height: GRID_HEIGHT,
+                  borderLeft: "1px solid rgba(45, 58, 50, 0.12)",
+                  backgroundColor: isToday(day) ? "rgba(91, 122, 107, 0.03)" : undefined,
+                }}
                 onClick={() => onCellClick(day, member.user_id)}
               >
                 {/* Hour grid lines */}
@@ -318,19 +331,14 @@ export default function WeekMatrix({
           <div className="p-2 text-center text-sm text-muted-foreground">{t("common.noData")}</div>
         ) : (
           activeMembers.map(member => (
-            <div key={member.id} className="p-2 border-r border-border last:border-r-0 flex items-center gap-2 justify-center">
+            <div key={member.id} className="p-2 flex items-center gap-2 justify-center" style={{ borderRight: "1px solid rgba(45, 58, 50, 0.12)" }}>
               <div
-                className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
-                style={{ backgroundColor: member.color }}
+                className="rounded-full flex items-center justify-center text-white font-bold shrink-0"
+                style={{ width: 40, height: 40, fontSize: 16, backgroundColor: member.color }}
               >
                 {member.display_name.charAt(0).toUpperCase()}
               </div>
-              <div className="min-w-0">
-                <span className="text-xs font-semibold text-foreground block truncate">{member.display_name}</span>
-                {member.user_id === user?.id && (
-                  <span className="text-[9px] text-primary font-medium">Du</span>
-                )}
-              </div>
+              <span className="text-xs font-semibold text-foreground truncate">{member.display_name.split(" ")[0]}</span>
             </div>
           ))
         )}
