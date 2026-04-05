@@ -41,7 +41,7 @@ export default function ParentHome() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-6">
       <motion.div variants={slideUp}>
-        <h1 className="text-xl font-extrabold text-foreground">
+        <h1 className="text-xl font-bold text-foreground">
           {t("home.welcome")}, {profile?.name}
         </h1>
       </motion.div>
