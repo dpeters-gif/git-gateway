@@ -93,8 +93,10 @@ export default function NudgeConfig() {
       {rules.length === 0 ? (
         <EmptyState
           icon={Bell}
-          title={t("nudge.emptyTitle", "Keine Erinnerungen")}
-          body={t("nudge.emptyBody", "Erstelle Erinnerungen für Kinder.")}
+          title={t("nudges.empty.heading", "Noch keine Erinnerungen")}
+          body={t("nudges.empty.body", "Richte Erinnerungen ein, die zur richtigen Zeit anklopfen.")}
+          ctaLabel={t("nudges.empty.cta", "Erinnerung erstellen")}
+          onCta={() => setShowAdd(true)}
         />
       ) : (
         rules.map((rule: any) => (
