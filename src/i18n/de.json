@@ -219,8 +219,11 @@
     "xpThreshold": "XP-Schwelle",
     "active": "Aktiv",
     "fulfill": "Einlösen",
-    "empty": "Noch keine Belohnungen",
-    "emptyBody": "Erstelle Belohnungen für die Kinder."
+    "empty": {
+      "heading": "Noch keine Belohnungen",
+      "body": "Füge Belohnungen hinzu, auf die eure Familie hinarbeiten kann.",
+      "cta": "Belohnung erstellen"
+    }
   },
   "notifications": {
     "title": "Benachrichtigungen",
