@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Gift, Plus, Sparkles, Coins, Swords, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 export default function ParentRewards() {
   const { t } = useTranslation();
@@ -36,7 +37,7 @@ export default function ParentRewards() {
   const { data: challenges = [], isLoading: cLoading } = useQuery({
     queryKey: ["challenges", familyId],
     queryFn: async () => {
-      const { data } = await supabase.from("challenges").select("*").eq("family_id", familyId!).order("created_at", { ascending: false });
+      const { data } = await supabase.from("challenges").select("*, challenge_progress(*)").eq("family_id", familyId!).order("created_at", { ascending: false });
       return data ?? [];
     },
     enabled: !!familyId,
@@ -53,7 +54,6 @@ export default function ParentRewards() {
   const createChallenge = useMutation({
     mutationFn: async (c: any) => {
       const payload: any = { ...c, family_id: familyId! };
-      // Auto-calculate boss_hp for boss_battle type
       if (c.type === "boss_battle") {
         payload.boss_hp = c.target_count * 10;
         payload.boss_current_hp = c.target_count * 10;
@@ -80,8 +80,13 @@ export default function ParentRewards() {
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-4">
       <motion.div variants={slideUp} className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-foreground">{t("nav.rewards")}</h1>
-        <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
-          <Plus className="w-3 h-3" /> {tab === "rewards" ? t("rewards.create") : t("challenges.create", "Challenge")}
+        <Button
+          size="sm"
+          onClick={() => setShowCreate(true)}
+          className="gap-1 rounded-full"
+        >
+          <Plus className="w-3 h-3" />
+          {tab === "rewards" ? t("rewards.create") : t("challenges.create", "Challenge erstellen")}
         </Button>
       </motion.div>
 
@@ -108,40 +113,38 @@ export default function ParentRewards() {
         <SkeletonLoader type="list" count={3} />
       ) : tab === "rewards" ? (
         rewards.length === 0 ? (
-          <EmptyState icon={Gift} title={t("rewards.empty.heading", "Noch keine Belohnungen")} body={t("rewards.empty.body", "Füge Belohnungen hinzu, auf die eure Familie hinarbeiten kann.")} ctaLabel={t("rewards.empty.cta", "Belohnung erstellen")} onCta={() => setShowCreate(true)} />
+          <EmptyState
+            icon={Gift}
+            title={t("rewards.empty.heading", "Noch keine Belohnungen")}
+            body={t("rewards.empty.body", "Füge Belohnungen hinzu, auf die eure Familie hinarbeiten kann.")}
+            ctaLabel={t("rewards.empty.cta", "Belohnung erstellen")}
+            onCta={() => setShowCreate(true)}
+          />
         ) : (
-          <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-2">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"
+          >
             {rewards.map((r: any) => (
-              <motion.div key={r.id} variants={slideUp} className="bg-card rounded-lg p-4 border border-border flex items-center justify-between">
-                <div>
-                  <h3 className="text-sm font-semibold text-foreground">{r.title}</h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    {r.xp_threshold && <span className="text-[10px] bg-xp-light text-xp px-1.5 py-0.5 rounded-full"><Sparkles className="w-3 h-3 inline" /> {r.xp_threshold} XP</span>}
-                    {r.gold_price && <span className="text-[10px] bg-accent-light text-accent px-1.5 py-0.5 rounded-full"><Coins className="w-3 h-3 inline" /> {r.gold_price} Gold</span>}
-                  </div>
-                </div>
-                <Button size="icon" variant="ghost" onClick={() => deleteReward.mutate(r.id)}><Trash2 className="w-4 h-4 text-muted-foreground" /></Button>
-              </motion.div>
+              <RewardCard key={r.id} reward={r} onDelete={() => deleteReward.mutate(r.id)} />
             ))}
           </motion.div>
         )
       ) : (
         challenges.length === 0 ? (
-          <EmptyState icon={Swords} title={t("challenges.empty", "Noch keine Challenges")} body={t("challenges.emptyBody", "Erstelle eine Challenge für die Familie.")} ctaLabel={t("challenges.create", "Challenge erstellen")} onCta={() => setShowCreate(true)} />
+          <EmptyState
+            icon={Swords}
+            title={t("challenges.empty", "Noch keine Challenges")}
+            body={t("challenges.emptyBody", "Erstelle eine Challenge für die Familie.")}
+            ctaLabel={t("challenges.create", "Challenge erstellen")}
+            onCta={() => setShowCreate(true)}
+          />
         ) : (
-          <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-2">
+          <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
             {challenges.map((c: any) => (
-              <motion.div key={c.id} variants={slideUp} className="bg-card rounded-lg p-4 border border-border flex items-center justify-between">
-                <div>
-                  <h3 className="text-sm font-semibold text-foreground">{c.title}</h3>
-                  <div className="text-xs text-muted-foreground mt-0.5">
-                    {c.type === "boss_battle" ? t("challenges.bossBattle", "Boss-Kampf") : c.type === "individual" ? t("challenges.individual", "Individuell") : t("challenges.family", "Familie")}
-                    {" · "}{t("challenges.target", "Ziel")}: {c.target_count}
-                    {c.boss_hp && ` · HP: ${c.boss_hp}`}
-                  </div>
-                </div>
-                <Button size="icon" variant="ghost" onClick={() => deleteChallenge.mutate(c.id)}><Trash2 className="w-4 h-4 text-muted-foreground" /></Button>
-              </motion.div>
+              <ChallengeCard key={c.id} challenge={c} onDelete={() => deleteChallenge.mutate(c.id)} />
             ))}
           </motion.div>
         )
@@ -152,9 +155,151 @@ export default function ParentRewards() {
         onOpenChange={setShowCreate}
         tab={tab}
         members={members}
-        onCreateReward={r => createReward.mutate(r)}
-        onCreateChallenge={c => createChallenge.mutate(c)}
+        onCreateReward={(r: any) => createReward.mutate(r)}
+        onCreateChallenge={(c: any) => createChallenge.mutate(c)}
       />
+    </motion.div>
+  );
+}
+
+function RewardCard({ reward, onDelete }: { reward: any; onDelete: () => void }) {
+  const { t } = useTranslation();
+
+  return (
+    <motion.div
+      variants={slideUp}
+      whileHover={{ boxShadow: "0 4px 12px rgba(45,58,50,0.08)" }}
+      transition={{ duration: 0.2 }}
+      className="relative rounded-2xl p-5 border"
+      style={{
+        background: "#FEFEFB",
+        borderColor: "rgba(45,58,50,0.08)",
+      }}
+    >
+      <button
+        onClick={onDelete}
+        className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+      >
+        <Trash2 className="w-4 h-4" style={{ color: "#C25B4E" }} />
+      </button>
+
+      <h3 className="text-md font-semibold text-foreground pr-10 line-clamp-2">
+        {reward.title}
+      </h3>
+
+      <div className="flex items-center gap-2 mt-2">
+        {reward.xp_threshold > 0 && (
+          <span
+            className="inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-bold"
+            style={{
+              background: "rgba(255,176,32,0.15)",
+              border: "1px solid rgba(255,176,32,0.4)",
+              color: "#B8860B",
+            }}
+          >
+            <Sparkles className="w-3 h-3" /> {reward.xp_threshold} XP
+          </span>
+        )}
+        {reward.gold_price > 0 && (
+          <span
+            className="inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-bold"
+            style={{
+              background: "rgba(212,148,58,0.12)",
+              border: "1px solid rgba(212,148,58,0.4)",
+              color: "#854F0B",
+            }}
+          >
+            <Coins className="w-3 h-3" /> {reward.gold_price} Gold
+          </span>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+function ChallengeCard({ challenge, onDelete }: { challenge: any; onDelete: () => void }) {
+  const { t } = useTranslation();
+  const currentCount = (challenge.challenge_progress ?? []).reduce(
+    (sum: number, p: any) => sum + (p.count ?? 0),
+    0
+  );
+  const target = challenge.target_count ?? 1;
+  const pct = Math.min((currentCount / target) * 100, 100);
+  const isActive = !challenge.is_completed;
+
+  return (
+    <motion.div
+      variants={slideUp}
+      whileHover={{ boxShadow: "0 4px 12px rgba(45,58,50,0.08)" }}
+      transition={{ duration: 0.2 }}
+      className="relative rounded-2xl p-5 border"
+      style={{
+        background: "#FEFEFB",
+        borderColor: "rgba(45,58,50,0.08)",
+      }}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="text-md font-semibold text-foreground truncate">{challenge.title}</h3>
+            <span className="text-xs text-muted-foreground shrink-0">
+              {challenge.type === "boss_battle"
+                ? t("challenges.bossBattle", "Boss-Kampf")
+                : challenge.type === "individual"
+                ? t("challenges.individual", "Individuell")
+                : t("challenges.family", "Familie")}
+            </span>
+          </div>
+        </div>
+        <div className="flex items-center gap-1 shrink-0">
+          {isActive && (
+            <span
+              className="inline-flex items-center h-[22px] px-2 rounded-full text-xs font-semibold"
+              style={{
+                background: "rgba(0,191,165,0.12)",
+                color: "#0F6E56",
+                fontSize: "12px",
+              }}
+            >
+              {t("rewards.active", "Aktiv")}
+            </span>
+          )}
+          <button
+            onClick={onDelete}
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+          >
+            <Trash2 className="w-4 h-4" style={{ color: "#C25B4E" }} />
+          </button>
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="mt-3">
+        <div
+          className="h-2 rounded-full overflow-hidden"
+          style={{ background: "rgba(0,191,165,0.12)" }}
+        >
+          <motion.div
+            className="h-full rounded-full"
+            style={{ background: "#00BFA5" }}
+            initial={{ width: 0 }}
+            animate={{ width: `${pct}%` }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          />
+        </div>
+        <div className="flex items-center justify-between mt-1.5">
+          <div>
+            {challenge.end_date && (
+              <span className="text-muted-foreground" style={{ fontSize: "11px" }}>
+                bis {format(new Date(challenge.end_date), "dd.MM.")}
+              </span>
+            )}
+          </div>
+          <span className="text-xs font-bold" style={{ color: "#0F6E56" }}>
+            {currentCount} / {target} {t("careShare.tasks", "Aufgaben")}
+          </span>
+        </div>
+      </div>
     </motion.div>
   );
 }
