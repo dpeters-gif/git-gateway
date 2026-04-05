@@ -227,19 +227,27 @@ export default function WeekMatrix({
     });
 
     return (
-      <div key={day.toISOString()} className="border-b border-border last:border-b-0">
-        {/* Day header */}
-        <div className={`flex items-center gap-2 px-3 py-2 border-b border-border ${isToday(day) ? "bg-primary/5 border-l-[3px] border-l-primary" : "bg-muted/30"}`}>
-          <span className="text-[10px] text-muted-foreground font-medium uppercase">{format(day, "EEE", { locale: de })}</span>
+      <div key={day.toISOString()} style={{ borderBottom: "1px solid rgba(45, 58, 50, 0.10)" }}>
+        {/* Day header — sticky */}
+        <div
+          className="flex items-center gap-2 sticky top-0 z-10"
+          style={{
+            background: "#F3F0EB",
+            padding: "8px 16px",
+            height: 32,
+            borderBottom: "1px solid rgba(45, 58, 50, 0.10)",
+          }}
+        >
+          <span style={{ fontSize: 11, fontWeight: 500, color: "#6B7B72" }}>{format(day, "EEE", { locale: de }).toUpperCase()}</span>
           {isToday(day) ? (
             <span className="inline-flex items-center gap-1.5">
               <span className="rounded-full flex items-center justify-center text-white" style={{ width: 24, height: 24, backgroundColor: "#5B7A6B", fontSize: 15, fontWeight: 700 }}>
                 {format(day, "d")}
               </span>
-              <span className="text-sm font-semibold" style={{ color: "#2D3A32" }}>{format(day, "MMM", { locale: de })}</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: "#2D3A32" }}>{format(day, "MMM", { locale: de })}</span>
             </span>
           ) : (
-            <span className="text-sm font-semibold" style={{ color: "#2D3A32" }}>{format(day, "d. MMM", { locale: de })}</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: "#2D3A32" }}>{format(day, "d. MMM", { locale: de })}</span>
           )}
         </div>
 
