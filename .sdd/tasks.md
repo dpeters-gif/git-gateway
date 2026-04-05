@@ -1,7 +1,7 @@
 ---
 document: tasks
 project: "Familienzentrale"
-version: 2.1.0
+version: 2.2.0
 status: Draft
 last-updated: "2026-04-05"
 depends-on:
@@ -88,7 +88,7 @@ builder-tool: Lovable
  
 ### Wave 1: Parent Screens
  
-- [x] TASK-C01: Build WeekMatrix component: family members as rows, days (Mon-Sun) as columns. Today highlighted (primary-light bg). Time block bands rendered BEHIND cards (lower z-index). Baby members shown with pacifier avatar. Responsive: full matrix ≥768px, day tabs <768px. | spec: P-1, design-constraints §3 | type: ui
+- [x] TASK-C01: Build WeekMatrix component: family members as columns, time running vertically (06:00–22:00). Today highlighted. Time block bands rendered BEHIND cards. Baby members shown with pacifier avatar. Responsive: full person-lane matrix ≥768px, single-column day view <768px. | spec: P-1, design-constraints §3 | type: ui
  
 - [x] TASK-C02: Build calendar item components: CalendarEventCard (info-blue accent, time range, assignee avatar), CalendarTaskCard (priority accent, XP chip, checkbox inline, assignee avatar, strikethrough when complete). Both clickable → detail popover. Both draggable (dnd-kit). | spec: P-1, design-constraints §2, §3 | type: ui
  
@@ -96,9 +96,9 @@ builder-tool: Lovable
  
 - [x] TASK-C04: Build DayTabSelector + DayView (phone <768px): horizontal swipeable day tabs, single-column view, swipe gestures for day navigation. | spec: P-1 | type: ui
  
-- [x] TASK-C05: Build calendar drag-and-drop: DndContext wrapping calendar, items draggable to new day (reschedule) or new person row (reassign). DragOverlay shows cloned item. On drop: optimistic update + undo toast (5s). | spec: P-2, design-constraints §3 | type: ui
+- [x] TASK-C05: Build calendar drag-and-drop: DndContext wrapping calendar, items draggable to new time slot or new person column (reassign). DragOverlay shows cloned item. On drop: optimistic update + undo toast (5s). | spec: P-2, design-constraints §3 | type: ui
  
-- [x] TASK-C06: Build QuickCreatePopover: triggered by tapping empty calendar cell. Title input (auto-focus), type toggle (Task/Event), submit. Pre-fills date + person from clicked cell. | spec: P-2, design-constraints §3 | type: ui
+- [x] TASK-C06: Build QuickCreatePopover: triggered by tapping empty calendar cell. Title input (auto-focus), type toggle (Task/Event), submit. Pre-fills time + person from clicked cell. | spec: P-2, design-constraints §3 | type: ui
  
 - [x] TASK-C07: Build ItemDetailPopover: shown on item click. Title, full time range, description, assignee, action buttons (Edit, Delete, Complete for tasks). Edit opens full form. Delete shows confirmation + undo toast. | spec: P-2 | type: ui
  
@@ -112,7 +112,7 @@ builder-tool: Lovable
  
 - [x] TASK-C12: Build parent Home page: quick stats row (open tasks, completed, streak, gold — large numbers), member filter chips, weekly summary card, task distribution donut (recharts), Pinnwand preview (3 notes), calendar preview (compact week matrix). Wire to Supabase queries. All 4 states. Stagger entrance animations. | spec: P-1, P-13, design-constraints §7 | type: ui+wiring
  
-- [x] TASK-C13: Build parent Calendar page: view mode toggle (Day/Week/Month), WeekMatrix as default, member filter, all calendar interactions (click, drag, quick-create, conflict dots). Wire to Supabase. | spec: P-1, P-2 | type: ui+wiring
+- [x] TASK-C13: Build parent Calendar page: view mode toggle (Woche/Monat), person-lane week view as default, member filter, all calendar interactions (click, drag, quick-create, conflict dots). Wire to Supabase. | spec: P-1, P-2 | type: ui+wiring
  
 - [x] TASK-C14: Build parent Tasks page: list of all tasks with filters (open/completed/all, by member, by priority). Task cards with inline completion checkbox. Create via FAB. | spec: P-2 | type: ui+wiring
  
@@ -224,25 +224,45 @@ builder-tool: Lovable
  
 - [x] TASK-F15: **FINAL HANDOVER** — All 27 journeys functional, all states handled, all animations working, responsive at all breakpoints, i18n complete, security verified, performance within targets. App ready for user testing. | type: verification
  
-### Design Overhaul (UI/UX Polish — execute in order F16 → F18 → F19 → F17 → F20 → F21 → F22)
+---
  
-- [ ] TASK-F16: Typography system overhaul — update all text across the app to implement the full token scale from design-tokens.md §2. Section headings (e.g. "Aufgaben heute", "Belohnungen & Challenges", "Mitglieder", "Zeitblöcke") to 17px weight-800. Page titles to 24px weight-700. Stat card numbers on Home (open tasks, completed, events, members) to 32px weight-800 tabular-nums. Body text 15px weight-400. Meta/date text 13px weight-400 color #6B7B72. No text below 13px. No uppercase labels. Do not change any colors or font family (DM Sans stays). | spec: design-tokens §2, design-constraints §8 | type: polish
+### Design Overhaul — General UI (execute F16 → F18 → F19 → F17 → F20 → F21 → F22)
  
-- [ ] TASK-F18: Task card redesign — apply to TaskCard component used on Tasks page and Home. Card bg #FEFEFB, border-radius 12px, left-border accent 4px (high=#C25B4E, normal=#5B7A6B, low=#9BA89F, routine=#C67B5C). Completion zone: full 48px-wide left strip is the tap target; Framer Motion scale animation (1→1.2→1, 200ms) on checkbox on completion. XP badge redesign: 32px height pill, bg rgba(255,176,32,0.15), border 1px solid rgba(255,176,32,0.4), text "+{n} XP" 13px weight-700 color #B8860B. Overdue tasks: title weight-600, due date color #C25B4E. Completed tasks: title strikethrough color #9BA89F. Routine variant: terracotta left-border + RefreshCw lucide icon (14px) after title. Desktop hover: Framer Motion whileHover box-shadow 0 4px 12px rgba(45,58,50,0.08). Do not change CalendarTaskCard, task data model, or API calls. | spec: design-constraints §2 §3 §9, design-tokens §1 | type: polish
+- [ ] TASK-F16: Typography system overhaul — update all text across the app to implement the full token scale from design-tokens.md §2. Section headings to 17px weight-800. Page titles to 24px weight-700. Stat card numbers on Home to 32px weight-800 tabular-nums. Body text 15px weight-400. Meta/date text 13px weight-400 color #6B7B72. No text below 13px. No uppercase labels. Do not change any colors or font family (DM Sans stays). | spec: design-tokens §2, design-constraints §8 | type: polish
  
-- [ ] TASK-F19: Empty states audit and repair — (1) Fix bug: nudge items rendering title "?" when title is null — add null-safe fallback displaying "Unbenannte Erinnerung". (2) Apply the existing EmptyState component (built in B05) to four locations where it is missing: Tasks page when filtered list is empty (icon: CheckSquare, heading: "Alles erledigt!", body: "Erstelle eine neue Aufgabe über den + Button.", CTA: "Aufgabe erstellen"); Rewards tab when empty (icon: Gift, heading: "Noch keine Belohnungen", body: "Füge Belohnungen hinzu, auf die eure Familie hinarbeiten kann.", CTA: "Belohnung erstellen"); Shopping List when zero unchecked items (icon: ShoppingCart, heading: "Liste ist leer", body: "Tippe oben, um den ersten Artikel hinzuzufügen.", CTA focuses add-input); Nudges tab when empty (icon: Bell, heading: "Noch keine Erinnerungen", body: "Richte Erinnerungen ein, die zur richtigen Zeit anklopfen.", CTA: "Erinnerung erstellen"). Add i18n keys for all new strings. Do not apply EmptyState to the calendar. | spec: design-constraints §7 | type: polish
+- [ ] TASK-F17: Dashboard information architecture refactor — restructure Home to exactly 4 sections: (1) FamilyStatusBar (avatar chips + task count badges); (2) TodayFocus (max 5 tasks, overflow link, 48px tap zone, priority borders); (3) ActiveChallenges (max 2 challenge cards with progress bar); (4) WeeklyChart (recharts bar, 160px). Remove from Home JSX entirely: Einkaufsliste preview, Heute timeline, Aufgabenverteilung donut, Pinnwand. Do not change any other pages. | spec: P-1, design-constraints §1 §7 §8 | type: polish
  
-- [ ] TASK-F17: Dashboard information architecture refactor — restructure the parent Home page to exactly 4 sections in this order: (1) FamilyStatusBar: horizontal row of avatar chips (40px avatar + first name + today's open-task count badge per member, badge bg #EEF2EE text #5B7A6B); (2) TodayFocus: heading "Heute für die Familie" 17px weight-800, max 5 tasks shown with "[X] weitere →" overflow link, each row 56px min-height, assignee as 28px avatar at right, 48px-wide completion tap zone, priority left-border accent; (3) ActiveChallenges: heading "Aktive Challenges" 17px weight-800, max 2 cards with challenge name, progress bar (fill #00BFA5 bg rgba(0,191,165,0.12) height 8px), fraction text "{n}/{total} Aufgaben" weight-700 color #0F6E56, due date "bis DD.MM." color #6B7B72; (4) WeeklyChart: heading "Eure Woche" 17px weight-800, existing recharts bar chart reduced to 160px height. Remove entirely from Home JSX (do not hide — delete): Einkaufsliste preview, "Heute" day timeline, Aufgabenverteilung donut chart, Pinnwand section. Those pages remain accessible via navigation. Do not change any other pages. Do not add new API calls. | spec: P-1, design-constraints §1 §7 §8 | type: polish
+- [ ] TASK-F18: Task card redesign — bg #FEFEFB, border-radius 12px, 4px left-border by priority, 48px completion tap zone, Framer Motion checkbox scale animation (1→1.2→1, 200ms), XP badge 32px pill (bg rgba(255,176,32,0.15), text #B8860B weight-700), overdue styling (title weight-600, date #C25B4E), completed strikethrough, routine terracotta variant with RefreshCw icon. Do not change CalendarTaskCard. | spec: design-constraints §2 §3 §9, design-tokens §1 | type: polish
  
-- [ ] TASK-F20: Rewards page redesign — replace list rows with card grid on both tabs. Belohnungen tab: 2-column grid ≥768px, 1-column <768px, gap 16px/12px. Each reward card: bg #FEFEFB, border 1px solid rgba(45,58,50,0.08), border-radius 16px, padding 20px, Framer Motion whileHover shadow. Card content: reward name 17px weight-600 (2-line max ellipsis); cost badges row — XP badge (height 28px, bg rgba(255,176,32,0.15), border rgba(255,176,32,0.4), text "+{n} XP" 13px weight-700 #B8860B, border-radius 9999px) and Gold badge if applicable (height 28px, bg rgba(212,148,58,0.12), border rgba(212,148,58,0.4), text "{n} Gold" 13px weight-700 #854F0B); delete icon button bottom-right. Challenges tab: keep existing cards, add inside each: progress bar (height 8px, fill #00BFA5, track rgba(0,191,165,0.12)), fraction text "{current}/{target} Aufgaben" 13px weight-700 #0F6E56 right-aligned, due date "bis DD.MM." 11px #6B7B72, "Aktiv" chip top-right (bg rgba(0,191,165,0.12), text #0F6E56, 12px weight-600, height 22px, border-radius 9999px). Create button on both tabs: pill shape border-radius 9999px, label "+ Belohnung erstellen" / "+ Challenge erstellen". Do not change forms, API calls, or delete logic. | spec: P-4, design-constraints §9 | type: polish
+- [ ] TASK-F19: Empty states audit and repair — fix "?" nudge title bug (null-safe fallback "Unbenannte Erinnerung"). Apply EmptyState component to: Tasks empty, Rewards empty, Shopping empty, Nudges empty. Add i18n keys. Do not apply to calendar. | spec: design-constraints §7 | type: polish
  
-- [ ] TASK-F21: Settings pages typography and density uplift — (1) All Settings section headings to 17px weight-800 #2D3A32: "Profil bearbeiten", "Sprache", "Mitglieder", "Zeitblöcke", "Routinen", "Erinnerungen". (2) Familie tab: replace ListItem rows with Cards per member (bg #FEFEFB, border 1px solid rgba(45,58,50,0.08), border-radius 12px, padding 16px, flex row gap 16px). Card: 48px avatar left; center = name 17px weight-600 + role chip ("Kind" bg #EEF2EE text #5B7A6B / "Erwachsene/R" bg #F3F0EB text #6B7B72 / "Baby" bg rgba(198,123,92,0.12) text #A65F3F — all 12px weight-600 height 22px border-radius 9999px); Trash2 delete icon right (hidden for current user). (3) Zeiten tab: add description paragraph below heading — "Zeitblöcke zeigen im Kalender, wann Familienmitglieder nicht verfügbar sind." 13px weight-400 #6B7B72. (4) Routinen tab: add — "Routinen erstellen automatisch wiederkehrende Aufgaben für deine Familie." (5) Nudges tab: add — "Erinnerungen schicken dir zur richtigen Zeit eine Benachrichtigung." (6) Profil tab: "Speichern" button border-radius 9999px width auto; "Passwort ändern" → text button with KeyRound lucide icon. (7) Language switcher: segmented control — outer bg #F3F0EB border-radius 9999px padding 3px; active inner button bg white weight-600 shadow-sm; inactive bg transparent text #6B7B72. Do not change any form logic, API calls, or tab structure. | spec: design-constraints §5 §8, A-1/A-2 | type: polish
+- [ ] TASK-F20: Rewards page redesign — 2-column card grid (tablet) / 1-column (mobile). Reward cards: bg #FEFEFB, border-radius 16px, padding 20px, XP badge + Gold badge by cost type. Challenges tab: add progress bar + fraction text + due date + "Aktiv" chip per card. Create buttons: pill shape. Do not change forms or API calls. | spec: P-4, design-constraints §9 | type: polish
  
-- [ ] TASK-F22: **HANDOVER TEST — Design Overhaul** — Verify all 6 design tasks: (F16) stat card numbers 32px weight-800, all section headings 17px weight-800, no text below 13px; (F17) Home has exactly 4 sections, Today's Focus above fold at 768px, shopping/donut/timeline/pinnwand removed from Home; (F18) XP badges 32px amber pills, overdue tasks show weight-600 title + red date, completion animation fires, 48px tap zone on checkbox; (F19) all 4 empty states present, no "?" nudge titles; (F20) Rewards shows 2-col card grid at 768px, challenges show progress bars; (F21) section headings weight-800, Familie tab shows member cards with role chips, language switcher is segmented control. Responsive check: no overflow at 375px/768px/1280px, all touch targets ≥44px. | type: verification
+- [ ] TASK-F21: Settings pages uplift — all section headings 17px weight-800; Familie tab member Cards with role chips; Zeiten/Routinen/Nudges description paragraphs; Speichern pill button; language segmented control. Do not change form logic or tab structure. | spec: design-constraints §5 §8, A-1/A-2 | type: polish
+ 
+- [ ] TASK-F22: **HANDOVER TEST — General Design Overhaul** — Verify F16–F21: typography scale, dashboard 4 sections, task cards, empty states, rewards grid, settings. No overflow at any breakpoint. Touch targets ≥44px. | type: verification
  
 ---
  
-## Total: 74 tasks across 6 phases
+### Design Overhaul — Calendar (execute F23 → F24 → F25 → F26 → F27 → F28 → F29)
+ 
+- [ ] TASK-F23: Calendar card identity and depth (both views) — event cards: bg rgba(91,138,155,0.10) left-border 4px solid #5B8A9B. Normal-priority task cards: bg rgba(91,122,107,0.08) left-border 4px solid #5B7A6B. High-priority task cards: bg rgba(194,91,78,0.08) left-border 4px solid #C25B4E. Low-priority task cards: bg #FEFEFB left-border 4px solid #9BA89F. All card backgrounds fully opaque — no rgba bleed-through from time block bands. Grid container: bg #FFFFFF, border 1px solid rgba(45,58,50,0.08), border-radius 12px. Card title 13px weight-600. Card time range 12px weight-400 color #6B7B72. Fix time format: "09:00:00–09:30:00" → "09:00–09:30" everywhere. | spec: design-constraints §2 §11, design-tokens §1 | type: polish
+ 
+- [ ] TASK-F24: Calendar column structure (Woche view) — add 1px vertical divider between person columns: rgba(45,58,50,0.12). Today column: background tint rgba(91,122,107,0.03) behind bands and cards. Today date header: wrap date number in 24px filled circle bg #5B7A6B text white weight-700. Remove "Du" label from current user's column header — it breaks symmetry and adds no value. | spec: design-constraints §11, design-tokens §1 | type: polish
+ 
+- [ ] TASK-F25: Calendar row height (Woche view) — reduce hour slot height to 44px so the full day 06:00–22:00 (16 hours) fits within the 768px viewport without scrolling. Ganztag row stays 40px. Time label column: 52px wide, labels 13px weight-500 color #6B7B72. Add 30-minute sub-gridlines at rgba(45,58,50,0.04). Verify: 06:00–22:00 visible at 768px. | spec: design-constraints §1 §11 | type: polish
+ 
+- [ ] TASK-F26: Calendar day separators (Woche view) — add 1px horizontal divider between day sections: rgba(45,58,50,0.10). Day header row ("MO. 30. März") must be sticky — stays visible at top of its section while the time grid scrolls. Day header: bg #F3F0EB, padding 8px 16px, day abbreviation 11px weight-500 #6B7B72, date 13px weight-600 #2D3A32. | spec: design-constraints §11 | type: polish
+ 
+- [ ] TASK-F27: Calendar weekend separation (both views) — Woche view: Saturday and Sunday column backgrounds #F3F0EB, weekday columns #FFFFFF. Monat view: Saturday and Sunday row backgrounds #F3F0EB, weekday rows #FEFEFB. Tint applied behind time block bands and cards in Woche view. | spec: design-constraints §11 | type: polish
+ 
+- [ ] TASK-F28: Calendar month view data quality — (1) Hide completed items from month grid entirely — no strikethrough chips, open/upcoming only. (2) Filter out chips whose title matches a date string pattern (DD.MM.YYYY data bug). (3) Month view day typography: abbreviation 11px weight-500 #6B7B72, date number 15px weight-700 #2D3A32, today's date number in 24px filled circle bg #5B7A6B text white. (4) Woche/Monat view toggle: replace two pill buttons with segmented control — outer bg #F3F0EB border-radius 9999px padding 3px, active bg white weight-600 shadow-sm, inactive bg transparent text #6B7B72, height 36px each ~80px wide. | spec: design-constraints §8 §11 | type: polish
+ 
+- [ ] TASK-F29: **HANDOVER TEST — Calendar Design Overhaul** — Verify F23–F28: (F23) event/task cards show correct tinted backgrounds + 4px left-borders by type/priority, no seconds in times; (F24) column dividers visible, today tinted, today date in filled circle, no "Du" label; (F25) 06:00–22:00 visible at 768px, slot height 44px, sub-gridlines present; (F26) day headers sticky, day separators 1px visible, header on #F3F0EB; (F27) weekend columns/rows tinted #F3F0EB in both views; (F28) no strikethrough or date-bug chips in month, toggle is segmented control. Test both views at 768px and 375px. | type: verification
+ 
+---
+ 
+## Total: 81 tasks across 6 phases
  
 | Phase | Tasks | Focus |
 |-------|-------|-------|
@@ -251,7 +271,7 @@ builder-tool: Lovable
 | C (Sprint 1) | 27 | Parent calendar + tasks + child UI + basic gamification |
 | D (Sprint 2) | 11 | Deep gamification + onboarding |
 | E (Sprint 3) | 8 | Full feature set (board, shopping, flow, nudges, AI) |
-| F (Sprint 4) | 22 | Platform, polish, audits, launch readiness, design overhaul |
+| F (Sprint 4) | 29 | Platform, polish, audits, launch readiness, design overhaul |
  
 ---
  
@@ -260,6 +280,6 @@ builder-tool: Lovable
 | Version | Date | Change | Author |
 |---------|------|--------|--------|
 | 1.0.0 | 2026-03-29 | Initial tasks (Replit, 189 tasks, 10 waves) | PM + VEGA |
-| 2.0.0 | 2026-03-31 | Complete rewrite for Lovable. 67 tasks, 6 phases. Consolidated from 189 → 67 by grouping related work into prompt-sized units. Added interaction defaults verification to every handover test. | PM + Atlas |
-| 2.1.0 | 2026-04-05 | Added TASK-F16–F22: UI/UX design overhaul (typography, dashboard IA, task cards, empty states, rewards shop, settings uplift). Total: 74 tasks. Phase F: 15 → 22 tasks. | PM + Atlas |
- 
+| 2.0.0 | 2026-03-31 | Complete rewrite for Lovable. 67 tasks, 6 phases. | PM + Atlas |
+| 2.1.0 | 2026-04-05 | Added TASK-F16–F22: general UI/UX design overhaul. 74 tasks. | PM + Atlas |
+| 2.2.0 | 2026-04-05 | Added TASK-F23–F29: calendar design overhaul (card identity, column dividers, row height, day separators, weekend tinting, month fixes). Also corrected C01/C13 layout description to reflect approved person-as-column / time-as-vertical-axis model. 81 tasks. | PM + Atlas |
