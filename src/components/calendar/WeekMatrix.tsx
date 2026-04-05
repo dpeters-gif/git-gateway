@@ -297,7 +297,7 @@ export default function WeekMatrix({
                 style={{
                   height: GRID_HEIGHT,
                   borderLeft: "1px solid rgba(45, 58, 50, 0.12)",
-                  backgroundColor: isToday(day) ? "rgba(91, 122, 107, 0.03)" : undefined,
+                  backgroundColor: isToday(day) ? "rgba(91, 122, 107, 0.03)" : (day.getDay() === 0 || day.getDay() === 6) ? "#F3F0EB" : undefined,
                 }}
                 onClick={() => onCellClick(day, member.user_id)}
               >

@@ -147,11 +147,14 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
 
             if (!inMonth) return null;
 
+            const isWeekend = day.getDay() === 0 || day.getDay() === 6;
+            const rowBg = isWeekend ? "#F3F0EB" : "#FEFEFB";
+
             return (
               <div
                 key={day.toISOString()}
                 className="grid border-b border-border last:border-b-0"
-                style={{ gridTemplateColumns: `80px repeat(${activeMembers.length || 1}, 1fr)` }}
+                style={{ gridTemplateColumns: `80px repeat(${activeMembers.length || 1}, 1fr)`, backgroundColor: rowBg }}
               >
                 {/* Day label */}
                 <div
