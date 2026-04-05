@@ -146,7 +146,7 @@ export default function AvatarPicker({ open, onOpenChange }: AvatarPickerProps) 
 }
 
 /** Helper to render avatar for a user, handling preset:// URLs */
-export function UserAvatar({ avatarUrl, name, className = "h-8 w-8" }: { avatarUrl?: string | null; name: string; className?: string }) {
+export function UserAvatar({ avatarUrl, name, color, className = "h-8 w-8" }: { avatarUrl?: string | null; name: string; color?: string; className?: string }) {
   if (avatarUrl?.startsWith("preset://")) {
     const idx = parseInt(avatarUrl.replace("preset://", ""), 10);
     const preset = PRESET_AVATARS[idx] ?? PRESET_AVATARS[0];
@@ -164,7 +164,10 @@ export function UserAvatar({ avatarUrl, name, className = "h-8 w-8" }: { avatarU
   return (
     <Avatar className={className}>
       {avatarUrl && <AvatarImage src={avatarUrl} alt={name} />}
-      <AvatarFallback className="text-xs bg-primary text-primary-foreground">
+      <AvatarFallback
+        className="text-xs text-primary-foreground"
+        style={{ backgroundColor: color || "hsl(var(--primary))" }}
+      >
         {name?.charAt(0)?.toUpperCase() ?? "?"}
       </AvatarFallback>
     </Avatar>
