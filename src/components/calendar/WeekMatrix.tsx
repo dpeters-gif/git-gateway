@@ -16,7 +16,7 @@ import { CheckSquare, Square, Calendar, Sparkles } from "lucide-react";
 const START_HOUR = 6;
 const END_HOUR = 22;
 const TOTAL_HOURS = END_HOUR - START_HOUR; // 16 hours
-const PX_PER_HOUR = 60;
+const PX_PER_HOUR = 44;
 const GRID_HEIGHT = TOTAL_HOURS * PX_PER_HOUR;
 
 const PRIORITY_STYLES: Record<string, { bg: string; border: string }> = {
