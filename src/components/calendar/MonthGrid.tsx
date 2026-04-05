@@ -47,7 +47,8 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
     const cellTasks = tasks.filter(t => t.due_date === dayStr && t.assigned_to_user_id === userId);
     const cellEvents = events.filter(e => {
       const eDate = format(new Date(e.start_at), "yyyy-MM-dd");
-      return eDate === dayStr && (e.assigned_to_user_ids.includes(userId ?? "") || (e.assigned_to_user_ids.length === 0 && !userId));
+      const ids = e.assigned_to_user_ids ?? [];
+      return eDate === dayStr && (ids.includes(userId ?? "") || (ids.length === 0 && !userId));
     });
     return { tasks: cellTasks, events: cellEvents };
   }, [tasks, events]);

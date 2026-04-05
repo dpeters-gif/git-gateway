@@ -30,7 +30,7 @@ export default function CalendarEventCard({ event, onClick }: CalendarEventCardP
   const startTime = event.is_all_day ? "Ganztägig" : format(new Date(event.start_at), "HH:mm");
   const endTime = event.end_at && !event.is_all_day ? format(new Date(event.end_at), "HH:mm") : null;
 
-  const assignedMembers = members.filter(m => event.assigned_to_user_ids.includes(m.user_id ?? ""));
+  const assignedMembers = members.filter(m => (event.assigned_to_user_ids ?? []).includes(m.user_id ?? ""));
   const visibleMembers = assignedMembers.slice(0, 2);
   const extraCount = assignedMembers.length - 2;
 
