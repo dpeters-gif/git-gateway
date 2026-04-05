@@ -104,7 +104,7 @@ export function WeeklyRecapCard() {
                     )}
                   </div>
                 </div>
-                {m.badges.length > 0 && (
+                {(m.badges ?? []).length > 0 && (
                   <div className="flex gap-1">
                     {m.badges.map((b, j) => (
                       <Award key={j} className="w-4 h-4 text-gold" />
