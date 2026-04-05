@@ -168,7 +168,7 @@ export default function OnboardingFlow() {
             {step === 0 && (
               <div className="text-center space-y-4">
                 <motion.div variants={bounceIn} initial="hidden" animate="visible" className="text-6xl">🏠</motion.div>
-                <h1 className="text-xl font-extrabold text-foreground">{t("onboarding.welcome", "Willkommen bei Familienzentrale!")}</h1>
+                <h1 className="text-xl font-bold text-foreground">{t("onboarding.welcome", "Willkommen bei Familienzentrale!")}</h1>
                 <p className="text-sm text-muted-foreground">{t("onboarding.welcomeSub", "In wenigen Schritten richtest du deine Familie ein.")}</p>
               </div>
             )}

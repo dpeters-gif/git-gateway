@@ -53,7 +53,7 @@ export default function CareShare() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-6">
       <motion.div variants={slideUp}>
-        <h1 className="text-xl font-extrabold text-foreground">{t("careShare.title", "Care-Share")}</h1>
+        <h1 className="text-xl font-bold text-foreground">{t("careShare.title", "Care-Share")}</h1>
         <p className="text-sm text-muted-foreground mt-1">{t("careShare.subtitle", "Aufgabenverteilung unter Erwachsenen")}</p>
       </motion.div>
 

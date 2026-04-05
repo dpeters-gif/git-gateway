@@ -160,7 +160,7 @@ export default function ParentCalendar() {
     <PullToRefresh onRefresh={async () => { await refetchTasks(); await refetchEvents(); }}>
       <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-4">
         <motion.div variants={slideUp} className="flex items-center justify-between">
-          <h1 className="text-xl font-extrabold text-foreground">{t("nav.calendar")}</h1>
+          <h1 className="text-xl font-bold text-foreground">{t("nav.calendar")}</h1>
           <div className="flex items-center gap-2">
             <div className="flex bg-muted rounded-lg p-0.5">
               <button

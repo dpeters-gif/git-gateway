@@ -169,7 +169,7 @@ export default function FlowMode({ routine, tasks, open, onClose }: FlowModeProp
                   <div className="w-20 h-20 rounded-full bg-child-accent/20 flex items-center justify-center mx-auto">
                     <CheckCircle2 className="w-10 h-10 text-child-accent" />
                   </div>
-                  <h2 className="text-xl font-extrabold text-foreground">{currentTask.title}</h2>
+                  <h2 className="text-xl font-bold text-foreground">{currentTask.title}</h2>
                   {currentTask.description && (
                     <p className="text-sm text-muted-foreground">{currentTask.description}</p>
                   )}

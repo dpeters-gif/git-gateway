@@ -56,7 +56,7 @@ export default function SignupPage() {
         className="w-full max-w-form-max space-y-8"
       >
         <motion.div variants={slideUp} className="text-center space-y-2">
-          <h1 className="text-xl font-extrabold text-foreground">Familienzentrale</h1>
+          <h1 className="text-xl font-bold text-foreground">Familienzentrale</h1>
           <p className="text-base text-muted-foreground">{t("auth.signup")}</p>
         </motion.div>
 
