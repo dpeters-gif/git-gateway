@@ -210,7 +210,10 @@
     "passwordMismatch": "Passwörter stimmen nicht überein",
     "language": "Sprache",
     "notifications": "Benachrichtigungen",
-    "profileSaved": "Profil gespeichert"
+    "profileSaved": "Profil gespeichert",
+    "nudges": {
+      "untitled": "Unbenannte Erinnerung"
+    }
   },
   "rewards": {
     "title": "Belohnungen",
