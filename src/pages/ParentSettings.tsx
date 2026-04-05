@@ -185,7 +185,7 @@ function ProfileSection() {
           <Label>{t("common.name")}</Label>
           <div className="flex gap-2 mt-1">
             <Input value={name} onChange={e => setName(e.target.value)} />
-            <Button onClick={handleSaveName} disabled={saving || name.trim() === profile?.name} size="sm">
+            <Button onClick={handleSaveName} disabled={saving || name.trim() === profile?.name} size="sm" className="rounded-full">
               {t("common.save")}
             </Button>
           </div>
@@ -194,8 +194,8 @@ function ProfileSection() {
           <Label>{t("auth.email")}</Label>
           <Input value={user?.email ?? ""} disabled className="mt-1 opacity-60" />
         </div>
-        <Button variant="outline" onClick={() => setShowPwDialog(true)} className="gap-1">
-          <Key className="w-3.5 h-3.5" /> {t("settings.changePassword")}
+        <Button variant="ghost" onClick={() => setShowPwDialog(true)} className="gap-1.5 text-muted-foreground hover:text-foreground px-0">
+          <KeyRound className="w-4 h-4" /> {t("settings.changePassword")}
         </Button>
       </motion.div>
 
@@ -204,21 +204,32 @@ function ProfileSection() {
           <Globe className="w-4 h-4 text-muted-foreground" />
           <h2 className="text-md font-extrabold text-foreground">{t("settings.language")}</h2>
         </div>
-        <div className="flex gap-2">
-          <Button
-            variant={currentLocale === "de" ? "default" : "outline"}
-            size="sm"
+        <div
+          className="inline-flex rounded-full p-[3px]"
+          style={{ background: "#F3F0EB" }}
+        >
+          <button
             onClick={() => handleLanguage("de")}
+            className="h-9 w-[100px] rounded-full text-xs transition-all"
+            style={
+              currentLocale === "de"
+                ? { background: "white", color: "#2D3A32", fontWeight: 600, boxShadow: "0 1px 3px rgba(45,58,50,0.1)" }
+                : { background: "transparent", color: "#6B7B72", fontWeight: 400 }
+            }
           >
             Deutsch
-          </Button>
-          <Button
-            variant={currentLocale === "en" ? "default" : "outline"}
-            size="sm"
+          </button>
+          <button
             onClick={() => handleLanguage("en")}
+            className="h-9 w-[100px] rounded-full text-xs transition-all"
+            style={
+              currentLocale === "en"
+                ? { background: "white", color: "#2D3A32", fontWeight: 600, boxShadow: "0 1px 3px rgba(45,58,50,0.1)" }
+                : { background: "transparent", color: "#6B7B72", fontWeight: 400 }
+            }
           >
             English
-          </Button>
+          </button>
         </div>
       </motion.div>
 
