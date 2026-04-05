@@ -90,6 +90,10 @@ export default function NudgeConfig() {
         </Button>
       </div>
 
+      <p className="text-xs text-muted-foreground mb-4">
+        Erinnerungen schicken dir zur richtigen Zeit eine Benachrichtigung.
+      </p>
+
       {rules.length === 0 ? (
         <EmptyState
           icon={Bell}
