@@ -163,13 +163,13 @@ export default {
         "glow-levelup": "0 0 30px rgba(124,77,255,0.3)",
       },
       fontSize: {
-        xs: ["0.6875rem", { lineHeight: "1.2" }],
-        sm: ["0.8125rem", { lineHeight: "1.35" }],
-        base: ["0.9375rem", { lineHeight: "1.5" }],
-        md: ["1.0625rem", { lineHeight: "1.35" }],
-        lg: ["1.25rem", { lineHeight: "1.35" }],
-        xl: ["1.5rem", { lineHeight: "1.2" }],
-        "2xl": ["2rem", { lineHeight: "1.2" }],
+        xs: ["0.8125rem", { lineHeight: "1.35" }],    /* 13px — minimum */
+        sm: ["0.8125rem", { lineHeight: "1.35" }],     /* 13px secondary/meta */
+        base: ["0.9375rem", { lineHeight: "1.5" }],    /* 15px body */
+        md: ["1.0625rem", { lineHeight: "1.35" }],     /* 17px card titles / section headings */
+        lg: ["1.25rem", { lineHeight: "1.35" }],       /* 20px */
+        xl: ["1.5rem", { lineHeight: "1.2" }],         /* 24px page titles */
+        "2xl": ["2rem", { lineHeight: "1.0" }],        /* 32px achievement numbers */
         display: ["2.5rem", { lineHeight: "1.2" }],
       },
       spacing: {

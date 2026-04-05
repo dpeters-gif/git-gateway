@@ -48,7 +48,7 @@ export default function RewardsChallengesWidget() {
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <Trophy className="w-4 h-4 text-accent" />
-          <h2 className="text-sm font-semibold text-foreground">
+          <h2 className="text-md font-extrabold text-foreground">
             {t("home.rewardsAndChallenges")}
           </h2>
         </div>
@@ -73,13 +73,13 @@ export default function RewardsChallengesWidget() {
                 <span className="text-xs font-medium text-foreground">
                   {c.title}
                 </span>
-                <span className="text-[10px] text-muted-foreground">
+                <span className="text-xs text-muted-foreground">
                   {progress}/{c.target_count}
                 </span>
               </div>
               <Progress value={pct} className="h-2" />
               {c.end_date && (
-                <span className="text-[10px] text-muted-foreground">
+                <span className="text-xs text-muted-foreground">
                   bis {format(new Date(c.end_date), "dd.MM.")}
                 </span>
               )}
@@ -97,7 +97,7 @@ export default function RewardsChallengesWidget() {
               {r.title}
             </span>
             {r.xp_threshold && (
-              <span className="text-[10px] text-muted-foreground">
+              <span className="text-xs text-muted-foreground">
                 {r.xp_threshold} XP
               </span>
             )}

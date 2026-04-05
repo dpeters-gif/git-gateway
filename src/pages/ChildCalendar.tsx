@@ -71,7 +71,7 @@ export default function ChildCalendar() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-4">
       <motion.div variants={slideUp}>
-        <h1 className="text-xl font-extrabold text-foreground flex items-center gap-2">
+        <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
           <CalIcon className="w-5 h-5 text-primary" />
           {t("nav.calendar", "Kalender")}
         </h1>

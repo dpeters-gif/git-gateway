@@ -76,7 +76,7 @@ export default function ChildMyDay() {
     >
       {/* Greeting */}
       <motion.div variants={slideUp}>
-        <h1 className="text-xl font-extrabold text-foreground">
+        <h1 className="text-xl font-bold text-foreground">
           {t("child.greeting", { name: profile?.name })}
         </h1>
         <p className="text-sm text-muted-foreground">

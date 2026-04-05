@@ -84,7 +84,7 @@ export default function TodayTimelineWidget() {
     <div className="bg-card rounded-lg p-4 border border-border">
       <div className="flex items-center gap-2 mb-3">
         <Clock className="w-4 h-4 text-primary" />
-        <h2 className="text-sm font-semibold text-foreground">
+        <h2 className="text-md font-extrabold text-foreground">
           {t("home.todayTimeline", "Heute")}
         </h2>
       </div>
@@ -101,7 +101,7 @@ export default function TodayTimelineWidget() {
           return (
             <div key={item.id} className={`relative flex items-start gap-3 py-1.5 ${isPast ? "opacity-50" : ""}`}>
               {/* time */}
-              <span className="text-[10px] font-mono text-muted-foreground w-10 text-right shrink-0 pt-0.5">
+              <span className="text-xs font-mono text-muted-foreground w-10 text-right shrink-0 pt-0.5">
                 {item.time}
               </span>
               {/* dot */}
@@ -113,7 +113,7 @@ export default function TodayTimelineWidget() {
               <div className="flex-1 min-w-0">
                 <span className="text-xs text-foreground truncate block">{item.label}</span>
                 {item.memberName && (
-                  <span className="text-[10px] text-muted-foreground">{item.memberName}</span>
+                  <span className="text-xs text-muted-foreground">{item.memberName}</span>
                 )}
               </div>
             </div>

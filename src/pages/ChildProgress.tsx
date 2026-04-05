@@ -34,7 +34,7 @@ export default function ChildProgress() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-5">
       <motion.div variants={slideUp}>
-        <h1 className="text-xl font-extrabold text-foreground">{t("nav.progress")}</h1>
+        <h1 className="text-xl font-bold text-foreground">{t("nav.progress")}</h1>
       </motion.div>
 
       {/* Level badge */}

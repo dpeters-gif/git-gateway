@@ -30,7 +30,7 @@ export default function ChildQuests() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-4">
       <motion.div variants={slideUp}>
-        <h1 className="text-xl font-extrabold text-foreground">{t("nav.quests")}</h1>
+        <h1 className="text-xl font-bold text-foreground">{t("nav.quests")}</h1>
       </motion.div>
 
       <motion.div variants={slideUp} className="flex gap-2">

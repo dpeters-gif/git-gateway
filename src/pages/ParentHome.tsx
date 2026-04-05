@@ -41,7 +41,7 @@ export default function ParentHome() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-6">
       <motion.div variants={slideUp}>
-        <h1 className="text-xl font-extrabold text-foreground">
+        <h1 className="text-xl font-bold text-foreground">
           {t("home.welcome")}, {profile?.name}
         </h1>
       </motion.div>
@@ -87,7 +87,7 @@ export default function ParentHome() {
 
           {distribution.length > 0 && (
             <motion.div variants={slideUp} className="bg-card rounded-lg p-5 border border-border">
-              <h2 className="text-sm font-semibold text-foreground mb-3">{t("home.taskDistribution")}</h2>
+              <h2 className="text-md font-extrabold text-foreground mb-3">{t("home.taskDistribution")}</h2>
               <div className="flex items-center gap-6">
                 <ResponsiveContainer width={120} height={120}>
                   <PieChart>
@@ -135,9 +135,9 @@ function StatCard({ icon: Icon, label, value, color }: { icon: any; label: strin
     <div className="bg-card rounded-lg p-4 border border-border">
       <div className="flex items-center gap-2 mb-1">
         <Icon className={`w-4 h-4 ${color}`} />
-        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">{label}</span>
+        <span className="text-xs text-muted-foreground font-medium">{label}</span>
       </div>
-      <span className="text-2xl font-extrabold text-foreground">{value}</span>
+      <span className="text-2xl font-extrabold text-foreground tabular-nums">{value}</span>
     </div>
   );
 }

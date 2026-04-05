@@ -46,7 +46,7 @@ export default function ParentSettings() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-4">
       <motion.div variants={slideUp}>
-        <h1 className="text-xl font-extrabold text-foreground">{t("nav.settings")}</h1>
+        <h1 className="text-xl font-bold text-foreground">{t("nav.settings")}</h1>
       </motion.div>
 
       {isLoading ? (
@@ -171,7 +171,7 @@ function ProfileSection() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-4">
       <motion.div variants={slideUp} className="bg-card rounded-lg p-4 border border-border space-y-4">
-        <h2 className="text-sm font-semibold text-foreground">{t("settings.editProfile")}</h2>
+        <h2 className="text-md font-extrabold text-foreground">{t("settings.editProfile")}</h2>
         <div className="flex items-center gap-4">
           <button onClick={() => setShowAvatarPicker(true)} className="focus:outline-none group relative">
             <UserAvatar avatarUrl={profile?.avatar_url} name={profile?.name ?? "?"} className="h-16 w-16" />
@@ -202,7 +202,7 @@ function ProfileSection() {
       <motion.div variants={slideUp} className="bg-card rounded-lg p-4 border border-border space-y-3">
         <div className="flex items-center gap-2">
           <Globe className="w-4 h-4 text-muted-foreground" />
-          <h2 className="text-sm font-semibold text-foreground">{t("settings.language")}</h2>
+          <h2 className="text-md font-extrabold text-foreground">{t("settings.language")}</h2>
         </div>
         <div className="flex gap-2">
           <Button
@@ -309,7 +309,7 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground">
+        <h2 className="text-md font-extrabold text-foreground">
           {t("settings.members")} ({members.length}/{memberLimit})
         </h2>
       </div>
@@ -339,7 +339,7 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
               {m.role === "adult" && <UserCheck className="w-3 h-3 text-primary" />}
               {m.role === "child" && <User className="w-3 h-3 text-accent" />}
               {m.role === "baby" && <Baby className="w-3 h-3 text-secondary" />}
-              <span className="text-[10px] text-muted-foreground capitalize">{t(`settings.role${m.role.charAt(0).toUpperCase() + m.role.slice(1)}`)}</span>
+              <span className="text-xs text-muted-foreground capitalize">{t(`settings.role${m.role.charAt(0).toUpperCase() + m.role.slice(1)}`)}</span>
               {m.is_admin && <Shield className="w-3 h-3 text-primary ml-1" />}
             </div>
           </div>
@@ -524,7 +524,7 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground">{t("settings.timeBlocks")}</h2>
+        <h2 className="text-md font-extrabold text-foreground">{t("settings.timeBlocks")}</h2>
         <Button size="sm" variant="outline" onClick={() => setShowAdd(true)} className="gap-1">
           <Plus className="w-3 h-3" /> {t("common.create")}
         </Button>
@@ -635,7 +635,7 @@ function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground">{t("settings.routines")}</h2>
+        <h2 className="text-md font-extrabold text-foreground">{t("settings.routines")}</h2>
         <Button size="sm" variant="outline" onClick={() => setShowAdd(true)} className="gap-1">
           <Plus className="w-3 h-3" /> {t("common.create")}
         </Button>

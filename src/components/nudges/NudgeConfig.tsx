@@ -82,7 +82,7 @@ export default function NudgeConfig() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground flex items-center gap-1.5">
+        <h2 className="text-md font-extrabold text-foreground flex items-center gap-1.5">
           <Bell className="w-4 h-4" /> {t("nudge.title", "Erinnerungen")}
         </h2>
         <Button size="sm" variant="outline" onClick={() => setShowAdd(true)} className="gap-1" disabled={children.length === 0}>

@@ -87,7 +87,7 @@ export default function ShoppingList() {
     <PullToRefresh onRefresh={async () => { await refetch(); }}>
       <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="py-4 space-y-4">
         <motion.div variants={slideUp}>
-          <h1 className="text-xl font-extrabold text-foreground flex items-center gap-2">
+          <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
             <ShoppingCart className="w-5 h-5 text-primary" />
             {t("shopping.title")}
           </h1>

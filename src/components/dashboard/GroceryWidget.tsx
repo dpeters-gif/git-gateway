@@ -26,7 +26,7 @@ export default function GroceryWidget() {
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <ShoppingCart className="w-4 h-4 text-accent" />
-          <h2 className="text-sm font-semibold text-foreground">
+          <h2 className="text-md font-extrabold text-foreground">
             {t("home.groceryList")}
           </h2>
         </div>

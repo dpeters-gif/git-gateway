@@ -52,7 +52,7 @@ export default function WorkloadChartWidget() {
     <div className="bg-card rounded-lg p-4 border border-border">
       <div className="flex items-center gap-2 mb-3">
         <BarChart3 className="w-4 h-4 text-primary" />
-        <h2 className="text-sm font-semibold text-foreground">
+        <h2 className="text-md font-extrabold text-foreground">
           {t("home.workloadChart", "Wochenauslastung")}
         </h2>
       </div>
@@ -86,7 +86,7 @@ export default function WorkloadChartWidget() {
       {/* Legend */}
       <div className="flex flex-wrap gap-3 mt-2">
         {activeMembersList.map(m => (
-          <div key={m.id} className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+          <div key={m.id} className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: m.color }} />
             {m.display_name}
           </div>
