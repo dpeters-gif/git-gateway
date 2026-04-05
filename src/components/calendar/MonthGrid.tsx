@@ -204,19 +204,15 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
                           </div>
                         ))}
                         {dayTasks.map(tk => {
-                          const isCompleted = tk.status === "completed";
                           const ps = PRIORITY_STYLES[tk.priority] ?? PRIORITY_STYLES.normal;
                           return (
                             <div
                               key={tk.id}
-                              className={`flex items-center gap-0.5 px-1 py-0.5 rounded border-l-[3px] truncate ${isCompleted ? "opacity-50" : ""}`}
+                              className="flex items-center gap-0.5 px-1 py-0.5 rounded border-l-[3px] truncate"
                               style={{ backgroundColor: ps.bg, borderLeftColor: ps.border }}
                             >
-                              {isCompleted
-                                ? <CheckSquare className="w-2 h-2 text-success shrink-0" />
-                                : <Square className="w-2 h-2 text-muted-foreground shrink-0" />
-                              }
-                              <span className={`text-[9px] font-medium truncate ${isCompleted ? "line-through text-muted-foreground" : ""}`} style={{ color: isCompleted ? undefined : "#2D3A32" }}>{tk.title}</span>
+                              <Square className="w-2 h-2 text-muted-foreground shrink-0" />
+                              <span className="text-[9px] font-medium truncate" style={{ color: "#2D3A32" }}>{tk.title}</span>
                             </div>
                           );
                         })}

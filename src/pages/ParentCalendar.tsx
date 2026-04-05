@@ -162,20 +162,34 @@ export default function ParentCalendar() {
         <motion.div variants={slideUp} className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-foreground">{t("nav.calendar")}</h1>
           <div className="flex items-center gap-2">
-            <div className="flex bg-muted rounded-lg p-0.5">
+            <div className="flex p-[3px] rounded-full" style={{ backgroundColor: "#F3F0EB" }}>
               <button
                 onClick={() => setViewMode("week")}
-                className={`px-2 py-1 text-xs font-medium rounded-md transition-colors ${
-                  viewMode === "week" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
-                }`}
+                className="transition-all rounded-full"
+                style={{
+                  width: 80,
+                  height: 36,
+                  fontSize: 13,
+                  fontWeight: viewMode === "week" ? 600 : 400,
+                  color: viewMode === "week" ? "#2D3A32" : "#6B7B72",
+                  backgroundColor: viewMode === "week" ? "#FFFFFF" : "transparent",
+                  boxShadow: viewMode === "week" ? "0 1px 3px rgba(45,58,50,0.10)" : "none",
+                }}
               >
                 {t("calendar.weekView")}
               </button>
               <button
                 onClick={() => setViewMode("month")}
-                className={`px-2 py-1 text-xs font-medium rounded-md transition-colors ${
-                  viewMode === "month" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
-                }`}
+                className="transition-all rounded-full"
+                style={{
+                  width: 80,
+                  height: 36,
+                  fontSize: 13,
+                  fontWeight: viewMode === "month" ? 600 : 400,
+                  color: viewMode === "month" ? "#2D3A32" : "#6B7B72",
+                  backgroundColor: viewMode === "month" ? "#FFFFFF" : "transparent",
+                  boxShadow: viewMode === "month" ? "0 1px 3px rgba(45,58,50,0.10)" : "none",
+                }}
               >
                 {t("calendar.monthView")}
               </button>
