@@ -339,7 +339,6 @@ export default function WeekMatrix({
                 {member.display_name.charAt(0).toUpperCase()}
               </div>
               <span className="text-xs font-semibold text-foreground truncate">{member.display_name.split(" ")[0]}</span>
-              </div>
             </div>
           ))
         )}
