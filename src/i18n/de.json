@@ -302,6 +302,25 @@
     "quietHours": "Ruhezeiten",
     "parentAlert": "Eltern-Alarm"
   },
+  "nudges": {
+    "empty": {
+      "heading": "Noch keine Erinnerungen",
+      "body": "Richte Erinnerungen ein, die zur richtigen Zeit anklopfen.",
+      "cta": "Erinnerung erstellen"
+    }
+  },
+  "tasks": {
+    "empty": {
+      "heading": "Alles erledigt!",
+      "headingFiltered": "Keine Aufgaben gefunden",
+      "body": "Erstelle eine neue Aufgabe über den + Button.",
+      "cta": "Aufgabe erstellen"
+    }
+  },
+  "settings": {
+    "nudges": {
+      "untitled": "Unbenannte Erinnerung"
+    },
   "photo": {
     "title": "Beweis-Foto",
     "tooLarge": "Foto zu groß (max 5MB)",
