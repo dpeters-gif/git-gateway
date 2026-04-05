@@ -79,7 +79,7 @@ export default function RewardsChallengesWidget() {
               </div>
               <Progress value={pct} className="h-2" />
               {c.end_date && (
-                <span className="text-[10px] text-muted-foreground">
+                <span className="text-xs text-muted-foreground">
                   bis {format(new Date(c.end_date), "dd.MM.")}
                 </span>
               )}
