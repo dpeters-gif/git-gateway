@@ -231,7 +231,16 @@ export default function WeekMatrix({
         {/* Day header */}
         <div className={`flex items-center gap-2 px-3 py-2 border-b border-border ${isToday(day) ? "bg-primary/5 border-l-[3px] border-l-primary" : "bg-muted/30"}`}>
           <span className="text-[10px] text-muted-foreground font-medium uppercase">{format(day, "EEE", { locale: de })}</span>
-          <span className={`text-sm font-bold ${isToday(day) ? "text-primary" : "text-foreground"}`}>{format(day, "d. MMM", { locale: de })}</span>
+          {isToday(day) ? (
+            <span className="inline-flex items-center gap-1.5">
+              <span className="rounded-full flex items-center justify-center text-white" style={{ width: 24, height: 24, backgroundColor: "#5B7A6B", fontSize: 15, fontWeight: 700 }}>
+                {format(day, "d")}
+              </span>
+              <span className="text-sm font-semibold" style={{ color: "#2D3A32" }}>{format(day, "MMM", { locale: de })}</span>
+            </span>
+          ) : (
+            <span className="text-sm font-semibold" style={{ color: "#2D3A32" }}>{format(day, "d. MMM", { locale: de })}</span>
+          )}
         </div>
 
         {/* Untimed items section */}
