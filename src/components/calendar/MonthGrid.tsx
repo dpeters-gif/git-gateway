@@ -166,11 +166,17 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
               >
                 {/* Day label */}
                 <div
-                  className={`p-1.5 border-r border-border flex flex-col justify-start cursor-pointer hover:bg-muted/30 ${today ? "border-l-[3px] border-l-primary bg-primary/5" : ""}`}
+                  className={`p-1.5 border-r border-border flex flex-col justify-start cursor-pointer hover:bg-muted/30 ${today ? "border-l-[3px] border-l-primary" : ""}`}
                   onClick={() => onDayClick(day)}
                 >
-                  <span className="text-[9px] text-muted-foreground font-medium">{format(day, "EEE", { locale: de })}</span>
-                  <span className={`text-xs font-bold ${today ? "text-primary" : "text-foreground"}`}>{format(day, "d")}</span>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: "#6B7B72" }}>{format(day, "EEE", { locale: de })}</span>
+                  {today ? (
+                    <span className="rounded-full flex items-center justify-center text-white" style={{ width: 24, height: 24, backgroundColor: "#5B7A6B", fontSize: 15, fontWeight: 700 }}>
+                      {format(day, "d")}
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: 15, fontWeight: 700, color: "#2D3A32" }}>{format(day, "d")}</span>
+                  )}
                 </div>
 
                 {/* Member cells */}
