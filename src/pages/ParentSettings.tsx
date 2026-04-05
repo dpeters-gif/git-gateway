@@ -564,6 +564,10 @@ function TimeBlockManagement({ timeBlocks, members, onCreateBlock, onDeleteBlock
         </Button>
       </div>
 
+      <p className="text-xs text-muted-foreground" style={{ marginBottom: "16px" }}>
+        Zeitblöcke zeigen im Kalender, wann Familienmitglieder nicht verfügbar sind.
+      </p>
+
       {timeBlocks.length === 0 && (
         <EmptyState icon={Clock} title={t("settings.timeBlockEmpty")} body={t("settings.timeBlockEmptyBody")} />
       )}
