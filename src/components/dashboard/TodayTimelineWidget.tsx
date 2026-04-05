@@ -101,7 +101,7 @@ export default function TodayTimelineWidget() {
           return (
             <div key={item.id} className={`relative flex items-start gap-3 py-1.5 ${isPast ? "opacity-50" : ""}`}>
               {/* time */}
-              <span className="text-[10px] font-mono text-muted-foreground w-10 text-right shrink-0 pt-0.5">
+              <span className="text-xs font-mono text-muted-foreground w-10 text-right shrink-0 pt-0.5">
                 {item.time}
               </span>
               {/* dot */}
