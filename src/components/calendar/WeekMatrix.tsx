@@ -329,7 +329,7 @@ export default function WeekMatrix({
       {/* Member header row */}
       <div
         className="grid border-b border-border bg-muted/50 sticky top-0 z-20"
-        style={{ gridTemplateColumns: `48px repeat(${activeMembers.length || 1}, 1fr)` }}
+        style={{ gridTemplateColumns: `52px repeat(${activeMembers.length || 1}, 1fr)` }}
       >
         <div className="p-2 border-r border-border" />
         {activeMembers.length === 0 ? (
