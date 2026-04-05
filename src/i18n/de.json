@@ -256,6 +256,11 @@
     "addPlaceholder": "Artikel hinzufügen…",
     "emptyTitle": "Alles eingekauft! 🛒",
     "emptyBody": "Füge Artikel über das Feld oben hinzu.",
+    "empty": {
+      "heading": "Liste ist leer",
+      "body": "Tippe oben, um den ersten Artikel hinzuzufügen.",
+      "cta": "Artikel hinzufügen"
+    },
     "checked": "Erledigt",
     "clearChecked": "Erledigte löschen",
     "clearConfirm": "Alle erledigten Einträge löschen?",
