@@ -171,7 +171,7 @@ function ProfileSection() {
   return (
     <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-4">
       <motion.div variants={slideUp} className="bg-card rounded-lg p-4 border border-border space-y-4">
-        <h2 className="text-sm font-semibold text-foreground">{t("settings.editProfile")}</h2>
+        <h2 className="text-md font-extrabold text-foreground">{t("settings.editProfile")}</h2>
         <div className="flex items-center gap-4">
           <button onClick={() => setShowAvatarPicker(true)} className="focus:outline-none group relative">
             <UserAvatar avatarUrl={profile?.avatar_url} name={profile?.name ?? "?"} className="h-16 w-16" />
