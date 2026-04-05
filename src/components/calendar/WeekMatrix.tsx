@@ -293,13 +293,18 @@ export default function WeekMatrix({
                 }}
                 onClick={() => onCellClick(day, member.user_id)}
               >
-                {/* Hour grid lines */}
+                {/* Hour grid lines + half-hour sub-lines */}
                 {hourLabels.map(h => (
-                  <div
-                    key={h}
-                    className="absolute left-0 right-0 border-t border-border/20"
-                    style={{ top: (h - START_HOUR) * PX_PER_HOUR }}
-                  />
+                  <div key={h}>
+                    <div
+                      className="absolute left-0 right-0"
+                      style={{ top: (h - START_HOUR) * PX_PER_HOUR, borderTop: "1px solid rgba(45, 58, 50, 0.08)" }}
+                    />
+                    <div
+                      className="absolute left-0 right-0"
+                      style={{ top: (h - START_HOUR) * PX_PER_HOUR + PX_PER_HOUR / 2, borderTop: "1px dashed rgba(45, 58, 50, 0.04)" }}
+                    />
+                  </div>
                 ))}
 
                 {/* Time block backgrounds */}
