@@ -1,18 +1,18 @@
 ---
 document: tasks
 project: "Familienzentrale"
-version: 2.0.0
+version: 2.1.0
 status: Draft
-last-updated: "2026-03-31"
+last-updated: "2026-04-05"
 depends-on:
   - constitution.md v2.0.0
   - All spec files
 supersedes: tasks.md v1 (Replit-oriented, 189 tasks)
 builder-tool: Lovable
 ---
-
+ 
 # Build Tasks v2 — Lovable + Supabase
-
+ 
 > Work top-to-bottom. Never skip phases. Each task references its spec.
 > After completing each task, verify the Interaction Defaults Checklist
 > from the Lovable Builder Prompt.
@@ -23,211 +23,227 @@ builder-tool: Lovable
 > **Key difference from Replit tasks:** Lovable handles scaffolding,
 > routing, and Supabase integration automatically. Focus on FEATURES
 > and DESIGN QUALITY, not boilerplate.
-
+ 
 ---
-
+ 
 ## Phase A: Project Setup + Supabase Schema
-
+ 
 ### A1: Initialize Lovable Project
-
+ 
 - [x] TASK-A01: Create new Lovable project "Familienzentrale". Connect Supabase. Enable Tailwind. Install framer-motion, react-hook-form, zod, @tanstack/react-query, lucide-react, recharts, date-fns, react-i18next, @dnd-kit/core, @dnd-kit/sortable, sonner. | type: setup
-
+ 
 - [x] TASK-A02: Configure Tailwind with full design token palette from design-tokens.md v2.0.0. DM Sans font from Google Fonts. Custom colors: primary (forest sage), secondary (terracotta), accent (amber), background (warm linen), child palette, gamification colors, semantic colors. | spec: design-tokens §1 | type: setup
-
+ 
 - [x] TASK-A03: Create Framer Motion animation presets file (`src/lib/animations.ts`): fadeIn, slideUp, slideInRight, scaleIn, popIn, bounceIn, progressFill, shake, pulse, glow, confetti, slideDown, fadeOut, strikethrough, float, wobble, flame. All with values from design-tokens §8. | spec: design-tokens §8 | type: setup
-
+ 
 - [x] TASK-A04: Create SoundEngine service (`src/services/soundEngine.ts`): Web Audio API procedural sounds. 14 functions: playComplete, playXPAward, playGoldDrop, playLevelUp, playStreakFire, playStreakMilestone, playDropChest, playDropOpen, playBadgeEarn, playBossHit, playBossDefeat, playError, playFlowStep, playFlowDone. ±2 semitone randomization. Master volume + mute. | spec: S-3-ENHANCED §3.2, constitution §5 | type: setup
-
+ 
 - [x] TASK-A05: Create i18n setup: de.json + en.json with section structure. DE default. All keys organized by page/component. | spec: constitution §4 | type: setup
-
+ 
 - [x] TASK-A06: Create PWA manifest (manifest.json): app name "Familienzentrale", theme_color #4E6E5D, background_color #FBF7F0, display standalone. | spec: constitution §2 | type: setup
-
+ 
 ### A2: Database Schema
-
+ 
 - [x] TASK-A07: Create Supabase migration `001_core.sql`: users (profile table linked to auth.users), families, family_members (role enum: adult/child/baby, managed_by_user_id), family_invites, child_permissions (can_create_tasks, can_create_events). RLS policies for all tables. | spec: P-5, constitution §3 | type: schema
-
+ 
 - [x] TASK-A08: Create migration `002_tasks_routines.sql`: tasks (title, description, family_id, assigned_to_user_id, visibility, priority, due_date, start_time, end_time, xp_value, icon, photo_required, status, challenge_id, created_by_user_id, timestamps), family_tags, task_tags, task_comments, routines (flow_mode, flow_target_minutes, flow_step_order, photo_required), routine_task_instances. RLS. | spec: P-2, P-3, P-8 | type: schema
-
+ 
 - [x] TASK-A09: Create migration `003_events_timeblocks.sql`: events (title, description, family_id, start_at, end_at, is_all_day, assigned_to_user_ids, icon, status enum active/pending, created_by_user_id), time_blocks (family_id, user_id, type enum school/work/nap/unavailable, weekdays, start_time, end_time, label). RLS. | spec: P-2, P-3 | type: schema
-
+ 
 - [x] TASK-A10: Create migration `004_gamification.sql`: points_ledger (append-only, user_id, task_id, xp_awarded, gold_awarded, reason, created_at — NO update/delete policy), rewards, reward_fulfillments, streaks, levels, badges, user_badges, challenges (type, target_count, boss_creature_type, boss_hp, boss_current_hp), challenge_progress, family_quests, leaderboard_snapshots, drop_events, streak_freezes, companion_creatures (creature_type, stage enum egg/baby/juvenile/adult, feed_count, hatch_progress), gold_transactions. RLS. | spec: S-3-ENHANCED | type: schema
-
+ 
 - [x] TASK-A11: Create migration `005_features.sql`: nudge_rules, task_completion_photos, weekly_recaps, shopping_lists, shopping_items (with category field), child_avatars, avatar_items (with available_from/until for seasonal), board_notes (with image_url, expires_at), notifications, caregiver_links (token, expires_at, visible_member_ids). RLS. | spec: P-8 through P-13, C-5, C-6, S-5 | type: schema
-
+ 
 - [x] TASK-A12: Create migration `006_sync_subscriptions.sql`: calendar_connections, external_calendar_events, family_link_requests, care_share_snapshots, subscriptions (family_id, tier enum free/family/familyplus, status, expires_at), email_inbox_items. RLS. | spec: P-6, P-7, S-2, M-1, P-14 | type: schema
-
+ 
 - [x] TASK-A13: Create migration `007_functions.sql`: Database functions get_leaderboard, get_care_share, get_gold_balance. | spec: api-contracts §4 | type: schema
-
+ 
 - [x] TASK-A14: Seed data: 12 badges (9 standard + 3 streak milestones), 14 starter avatar items, 6 boss creature types, 6 companion creature types. All via INSERT statements. | spec: S-3-ENHANCED, C-6 | type: seed
-
+ 
 - [x] TASK-A15: **CHECKPOINT** — All tables created, RLS policies active, seed data loaded, Supabase types generated. | type: verification
-
+ 
 ---
-
+ 
 ## Phase B: Auth + App Shell
-
+ 
 - [x] TASK-B01: Build auth pages: Login (adults: email+password via Supabase Auth, children: username+PIN via Edge Function — tab switch between modes). Signup (adults only: name, email, password). shadcn/ui form components, Zod validation, warm linen background, DM Sans font. Framer Motion page transitions. | spec: constitution §2, §5 | type: ui+auth
-
+ 
 - [x] TASK-B02: Create Edge Function `child-auth`: username + PIN verification, JWT generation with custom claims {userId, familyId, role:'child'}. | spec: api-contracts §2 | type: edge-function
-
+ 
 - [x] TASK-B03: Build AppShell: role-aware layout (parent=sage green nav + warm linen bg, child=honey bg + orange accents). Bottom nav (5 items parent, 4 items child) with Framer Motion scale on tap. App bar (family name, notification bell, user avatar, gold counter for children). Desktop sidebar at ≥1280px. | spec: design-constraints §1, §6, §9 | type: ui
-
+ 
 - [x] TASK-B04: Build FAB component: 56px circle, primary color, positioned bottom-right above bottom nav. Opens radial menu (Task, Event, Routine, Board Note) with stagger slideUp. Present on ALL authenticated pages. | spec: design-constraints §1 | type: ui
-
+ 
 - [x] TASK-B05: Build reusable state components: SkeletonLoader (matching content shapes), EmptyState (icon + heading + body + CTA), ErrorState (friendly message + retry), SuccessToast (sonner, 4s). | spec: design-constraints §7 | type: ui
-
+ 
 - [x] TASK-B06: Build notification menu: dropdown from bell icon, list of notifications, mark read, empty state. Supabase Realtime subscription for new notifications. | spec: all | type: ui
-
+ 
 - [x] TASK-B07: Create useAuth hook, useFamily hook, useSubscription hook. Protected routes (redirect to login if unauth, redirect to onboarding if no family). Role-based routing (parent pages vs child pages). | spec: constitution §2 | type: hooks
-
+ 
 - [x] TASK-B08: **CHECKPOINT** — Auth works (adult + child), app shell renders correctly at 768px and 375px, FAB visible, bottom nav functional, role-based routing works. | type: verification
-
+ 
 ---
-
+ 
 ## Phase C: Sprint 1 — Parent Calendar + Tasks (Waves 1-2)
-
+ 
 ### Wave 1: Parent Screens
-
+ 
 - [x] TASK-C01: Build WeekMatrix component: family members as rows, days (Mon-Sun) as columns. Today highlighted (primary-light bg). Time block bands rendered BEHIND cards (lower z-index). Baby members shown with pacifier avatar. Responsive: full matrix ≥768px, day tabs <768px. | spec: P-1, design-constraints §3 | type: ui
-
+ 
 - [x] TASK-C02: Build calendar item components: CalendarEventCard (info-blue accent, time range, assignee avatar), CalendarTaskCard (priority accent, XP chip, checkbox inline, assignee avatar, strikethrough when complete). Both clickable → detail popover. Both draggable (dnd-kit). | spec: P-1, design-constraints §2, §3 | type: ui
-
+ 
 - [x] TASK-C03: Build TimeBlockBand component: colored background band (school=info, work=primary, nap=secondary, unavailable=gray). Renders behind calendar items. | spec: P-1, design-tokens §1 | type: ui
-
+ 
 - [x] TASK-C04: Build DayTabSelector + DayView (phone <768px): horizontal swipeable day tabs, single-column view, swipe gestures for day navigation. | spec: P-1 | type: ui
-
+ 
 - [x] TASK-C05: Build calendar drag-and-drop: DndContext wrapping calendar, items draggable to new day (reschedule) or new person row (reassign). DragOverlay shows cloned item. On drop: optimistic update + undo toast (5s). | spec: P-2, design-constraints §3 | type: ui
-
+ 
 - [x] TASK-C06: Build QuickCreatePopover: triggered by tapping empty calendar cell. Title input (auto-focus), type toggle (Task/Event), submit. Pre-fills date + person from clicked cell. | spec: P-2, design-constraints §3 | type: ui
-
+ 
 - [x] TASK-C07: Build ItemDetailPopover: shown on item click. Title, full time range, description, assignee, action buttons (Edit, Delete, Complete for tasks). Edit opens full form. Delete shows confirmation + undo toast. | spec: P-2 | type: ui
-
+ 
 - [x] TASK-C08: Build conflict detection: scan calendar items for time overlaps per person. Red dot (8px) indicator at overlap point. Tap reveals popover with both conflicting items. | spec: P-1 amendment AC-026 | type: ui
-
+ 
 - [x] TASK-C09: Build EventCreateForm: dialog (≥768px) or bottom sheet (<768px). Fields: title*, icon picker (default: Calendar), date picker, time pickers, all-day toggle, description, assign to member(s). Pre-fill from calendar cell click. | spec: P-2 | type: ui
-
+ 
 - [x] TASK-C10: Build TaskCreateForm: dialog/bottom sheet. Fields: title*, icon picker (default: CheckSquare NOT heart), due date, start/end time, priority select, XP value (default: 10), assignee, description, photo required toggle, challenge link (if challenges exist). | spec: P-2, amendment AC-012 | type: ui
-
+ 
 - [x] TASK-C11: Build IconPicker: grid of Lucide icons in bottom sheet. Search/filter. Selected icon shown next to title field. | spec: P-2 | type: ui
-
+ 
 - [x] TASK-C12: Build parent Home page: quick stats row (open tasks, completed, streak, gold — large numbers), member filter chips, weekly summary card, task distribution donut (recharts), Pinnwand preview (3 notes), calendar preview (compact week matrix). Wire to Supabase queries. All 4 states. Stagger entrance animations. | spec: P-1, P-13, design-constraints §7 | type: ui+wiring
-
+ 
 - [x] TASK-C13: Build parent Calendar page: view mode toggle (Day/Week/Month), WeekMatrix as default, member filter, all calendar interactions (click, drag, quick-create, conflict dots). Wire to Supabase. | spec: P-1, P-2 | type: ui+wiring
-
+ 
 - [x] TASK-C14: Build parent Tasks page: list of all tasks with filters (open/completed/all, by member, by priority). Task cards with inline completion checkbox. Create via FAB. | spec: P-2 | type: ui+wiring
-
+ 
 - [x] TASK-C15: Build time block + routine management: list view in Settings, create/edit forms, day+time selection, routine with task steps (reorderable via drag), flow mode toggle. | spec: P-3, P-8 | type: ui+wiring
-
+ 
 - [x] TASK-C16: Build family management in Settings: member list (adults, children, babies), add member (3 role options), edit member, promote baby→child (via Edge Function), invite adult, child permissions toggles. Subscription member limit check. | spec: P-5, amendment | type: ui+wiring
-
+ 
 - [x] TASK-C17: Create Edge Function `promote-baby`: creates User, updates role, creates permissions, awards creature egg. | spec: P-5 amendment, api-contracts §2 | type: edge-function
-
+ 
 - [x] TASK-C18: **HANDOVER TEST — Sprint 1 Parent** — Weekly overview loads with data, calendar items clickable + draggable, quick-create works, events/tasks CRUD complete, time blocks render as bands, baby members visible, conflict dots shown, FAB on every page, all 4 states handled, responsive at 768px + 375px, skeleton loaders on all async. | type: verification
-
+ 
 ### Wave 2: Child UI + Basic Gamification
-
+ 
 - [x] TASK-C19: Build child My Day page: personalized greeting (name + date + quest count), streak card (flame icon + count, glow when active, dim when 0), quest list (today's tasks as quest cards with XP badges + large 48px checkboxes), XP/level section (circular badge + progress bar + fraction text), challenge preview card, reward preview card, companion creature display, board note preview. All with stagger slideUp entrance. Honey background. | spec: C-1 | type: ui
-
+ 
 - [x] TASK-C20: Create Edge Function `complete-task`: FULL gamification transaction (XP + Gold + drops + streak + creature + badges + challenge). See api-contracts §2 for complete logic. This is the most complex Edge Function. | spec: C-2, S-3-ENHANCED, api-contracts §2 | type: edge-function
-
+ 
 - [x] TASK-C21: Build dopamine loop animation sequence: triggered on task completion response. Choreographed per design-tokens §8 timing (T+0ms through T+1200ms). Haptic → sound → card pulse → XP/Gold popIn → streak check → XP bar fill → drop chance → level-up check → card strikethrough. Queue animations sequentially, never overlap. | spec: C-2, S-3-ENHANCED, design-tokens §8 | type: ui
-
+ 
 - [x] TASK-C22: Build level-up celebration overlay: full-screen, bounceIn level number, confetti particles, playLevelUp() sound. Auto-dismiss after 3s or tap to dismiss. | spec: C-2 | type: ui
-
+ 
 - [x] TASK-C23: Build child Progress page: large level badge (80px, bounceIn), streak history (30-day calendar heat map), badge collection (grid, earned=glow, unearned=gray silhouette, tap=detail), family leaderboard (weekly/monthly tabs, position change arrows, current child highlighted, never "last place" framing). | spec: C-3 | type: ui
-
+ 
 - [x] TASK-C24: Build child Quests page: full quest list (all assigned tasks, sorted: today first, then upcoming), quest cards with completion checkbox, filter by status. | spec: C-1 | type: ui
-
+ 
 - [x] TASK-C25: Build child Rewards page: available rewards (XP threshold met), upcoming rewards (progress shown), reward history. | spec: P-4 (child view) | type: ui
-
+ 
 - [x] TASK-C26: Wire all child pages to Supabase. Use complete-task Edge Function for completions. | type: wiring
-
+ 
 - [x] TASK-C27: **HANDOVER TEST — Sprint 1 Child** — Child login works (username+PIN), My Day loads with quest data, task completion triggers full dopamine loop (sound + animation + XP + Gold), streak updates, level-up celebration fires, progress page shows badges + leaderboard, responsive at 768px + 375px. | type: verification
-
+ 
 ---
-
+ 
 ## Phase D: Sprint 2 — Gamification Deep + Onboarding (Waves 3-4)
-
+ 
 - [x] TASK-D01: Create Edge Function `spend-gold`: atomic balance check + deduction + item award. | spec: S-3-ENHANCED §2.1, api-contracts §2 | type: edge-function
-
+ 
 - [x] TASK-D02: Build Gold Shop: list of purchasable items (streak freezes, avatar items). Gold balance display. Purchase confirmation dialog. Insufficient gold message. | spec: S-3-ENHANCED §2.1 | type: ui
-
+ 
 - [x] TASK-D03: Build drop event display: treasure chest bounceIn animation after task completion (20% chance). Chest opens → item reveal popIn. Drop types: bonus XP, bonus Gold, streak freeze, avatar item, creature food. | spec: S-3-ENHANCED §2.2 | type: ui
-
+ 
 - [x] TASK-D04: Build streak freeze system: freeze icon in streak card when freeze available. Auto-activate when streak would break. Purchase in Gold Shop (10 Gold). Freeze crystal animation. | spec: S-3-ENHANCED §2.3 | type: ui
-
+ 
 - [x] TASK-D05: Build challenge detail + boss battle view: progress bar, contributor list, boss creature SVG silhouette, HP bar, attack animation on task contribution, boss defeat celebration. | spec: C-4, S-3-ENHANCED §2.6 | type: ui
-
+ 
 - [x] TASK-D06: Build parent Rewards page: create/edit rewards (XP threshold + optional Gold price), create/edit challenges (individual/family, boss battle type), fulfill rewards, view challenge progress. | spec: P-4 | type: ui+wiring
-
+ 
 - [x] TASK-D07: Build companion creature display: 3 growth stages (egg → baby → juvenile → adult), feeding animation (heart float), evolution animation, creature visible on My Day. SVG placeholder creatures (6 types, geometric style). | spec: S-3-ENHANCED §2.7, C-6 | type: ui
-
+ 
 - [x] TASK-D08: Build avatar editor: category tabs, item grid, preview, locked items with level/badge requirements shown. Purchase with Gold. Avatar displayed in app bar + nav + leaderboard. | spec: C-6 | type: ui
-
+ 
 - [x] TASK-D09: **HANDOVER TEST — Gamification** — Gold economy works (earn + spend), drops trigger randomly, streak freezes activate, boss battles track HP, creatures grow, avatar items purchasable, all animations fire correctly. | type: verification
-
+ 
 - [x] TASK-D10: Build onboarding flow (6 steps): Welcome → Family name → Members (child + baby options) → School/daycare times → First task (with suggestions) → Complete (creature egg + calendar preview). Each step on one screen, slideInRight transitions, skip options on optional steps. Resume on re-login. | spec: S-1, amendments | type: ui+wiring
-
+ 
 - [x] TASK-D11: **HANDOVER TEST — Onboarding** — New user completes flow in <5 min, baby creation works, calendar populates, creature egg appears, resume works after abandon. | type: verification
-
+ 
 ---
-
+ 
 ## Phase E: Sprint 3 — Full Feature Set (Waves 5-7)
-
+ 
 - [x] TASK-E01: Build Family Board: section on Home (3 recent notes + add button), full view (scrollable, all notes), note creation (text + image upload to Supabase Storage + expiry date), delete (author or admin), image lightbox. Board visible on child My Day too. | spec: P-13 | type: ui+wiring
-
+ 
 - [x] TASK-E02: Build Shopping List: sticky add field with auto-complete from history, items with category icons (auto-categorized), grouped by category with headers, check/uncheck with slide animation, clear checked, drag-to-reorder. Supabase Realtime for instant cross-device sync. | spec: P-11, amendments | type: ui+wiring
-
+ 
 - [x] TASK-E03: Build Routine Flow Mode: full-screen single-step view, countdown timer, progress bar, step-complete sound (playFlowStep), XP per step, completion summary (total XP, time, under-time bonus). Accessible from routine detail + child My Day. | spec: P-8 | type: ui+wiring
-
+ 
 - [x] TASK-E04: Build Smart Nudge system: Edge Function `evaluate-nudges` (scheduled), nudge config UI in Settings (per-child times, enable/disable, parent alert toggle, quiet hours). Push notification support for Family+ tier. | spec: P-9, amendments | type: ui+edge-function
-
+ 
 - [x] TASK-E05: Build Photo Proof: camera capture UI (Capacitor camera or file input fallback), upload to Supabase Storage, photo required toggle on task/routine forms, photo display in task detail with lightbox. | spec: C-5 | type: ui+wiring
-
+ 
 - [x] TASK-E06: Build Weekly Recap: Edge Function `weekly-recap` (Monday generation), recap card on Home, full detail view (per-member stats, streak status, badges, challenge progress, week-over-week comparison), child mini-recap on My Day. Share button → generates summary image. | spec: P-10, amendments | type: ui+edge-function
-
+ 
 - [x] TASK-E07: Build AI Task Suggestions: Edge Function `ai-suggestions` (Claude API call), suggestion chips in TaskCreateForm (3 suggestions, shimmer loading, tap to pre-fill), contextual reasons. Privacy: anonymized data only. | spec: P-12 | type: ui+edge-function
-
+ 
 - [x] TASK-E08: **HANDOVER TEST — Full Features** — Board, shopping list (realtime sync), flow mode, nudges, photo proof, recap, AI suggestions all functional. | type: verification
-
+ 
 ---
-
+ 
 ## Phase F: Sprint 4 — Platform + Polish (Waves 8-10)
-
+ 
 - [ ] TASK-F01: Build Calendar Sync: Google OAuth via Edge Function, connection UI in Settings, external event display (dashed border, Google icon, read-only), sync trigger. | spec: P-6 | type: ui+edge-function
-
+ 
 - [ ] TASK-F02: Build Multi-Household: household switcher in app bar, link-child flow (username + PIN confirm), context switching, unified gamification across households. | spec: S-2 | type: ui+wiring
-
+ 
 - [x] TASK-F03: Build Adult Member restrictions: same parent UI but restricted editing (own items only), hidden admin sections. API-level enforcement via RLS. | spec: A-1/A-2 | type: ui+rls
-
+ 
 - [x] TASK-F04: Build Care-Share: donut chart (recharts, warm palette), adult distribution, weekly/monthly toggle, adults-only access. | spec: P-7 | type: ui+wiring
-
+ 
 - [x] TASK-F05: Build Grandparent View: share link generation in Settings (token, label, expiry, member selection), public read-only page (simplified week matrix, no auth required, no gamification data). | spec: S-5 | type: ui+wiring
-
+ 
 - [x] TASK-F06: Build subscription management: plan comparison in Settings, upgrade flow (in-app purchase), upgrade prompts at feature gates (positive language, never interruptive), tier checking in hooks + RLS. | spec: M-1 | type: ui+wiring
-
+ 
 - [ ] TASK-F07: Build Email-to-Calendar: family inbox address display in Settings, Edge Function `email-to-calendar` (webhook + Claude API), Posteingang section on Home (pending items, add/dismiss), one-tap event creation from extracted data. | spec: P-14 | type: ui+edge-function
-
+ 
 - [x] TASK-F08: States audit: verify every screen has all 4 states (loading/empty/error/success). Add missing skeleton loaders, empty states, error states. | type: quality
-
+ 
 - [x] TASK-F09: i18n audit: verify every visible string is in t(). Complete en.json translation. Verify locale toggle in Settings works. | type: quality
-
+ 
 - [x] TASK-F10: Animation audit: verify every state change has animation. Add missing entrance/exit animations. Verify dopamine loop timing. | type: quality
-
+ 
 - [x] TASK-F11: Responsive audit: test every screen at 768px (tablet), 375px (phone), 1280px (desktop). Fix any overflow, touch target, or layout issues. | type: quality
-
+ 
 - [x] TASK-F12: Security audit: verify all RLS policies, test cross-family access (must fail), test child accessing adult endpoints (must fail), verify points_ledger immutability. | type: security
-
+ 
 - [x] TASK-F13: Performance: verify LCP <2.5s on 4G for Home and My Day. Optimize Supabase queries (indexes, select columns). | type: performance
-
+ 
 - [x] TASK-F14: PWA: service worker with workbox (offline shell, asset caching), test install flow on iOS Safari + Android Chrome. | type: platform
-
+ 
 - [x] TASK-F15: **FINAL HANDOVER** — All 27 journeys functional, all states handled, all animations working, responsive at all breakpoints, i18n complete, security verified, performance within targets. App ready for user testing. | type: verification
-
+ 
+### Design Overhaul (UI/UX Polish — execute in order F16 → F18 → F19 → F17 → F20 → F21 → F22)
+ 
+- [ ] TASK-F16: Typography system overhaul — update all text across the app to implement the full token scale from design-tokens.md §2. Section headings (e.g. "Aufgaben heute", "Belohnungen & Challenges", "Mitglieder", "Zeitblöcke") to 17px weight-800. Page titles to 24px weight-700. Stat card numbers on Home (open tasks, completed, events, members) to 32px weight-800 tabular-nums. Body text 15px weight-400. Meta/date text 13px weight-400 color #6B7B72. No text below 13px. No uppercase labels. Do not change any colors or font family (DM Sans stays). | spec: design-tokens §2, design-constraints §8 | type: polish
+ 
+- [ ] TASK-F18: Task card redesign — apply to TaskCard component used on Tasks page and Home. Card bg #FEFEFB, border-radius 12px, left-border accent 4px (high=#C25B4E, normal=#5B7A6B, low=#9BA89F, routine=#C67B5C). Completion zone: full 48px-wide left strip is the tap target; Framer Motion scale animation (1→1.2→1, 200ms) on checkbox on completion. XP badge redesign: 32px height pill, bg rgba(255,176,32,0.15), border 1px solid rgba(255,176,32,0.4), text "+{n} XP" 13px weight-700 color #B8860B. Overdue tasks: title weight-600, due date color #C25B4E. Completed tasks: title strikethrough color #9BA89F. Routine variant: terracotta left-border + RefreshCw lucide icon (14px) after title. Desktop hover: Framer Motion whileHover box-shadow 0 4px 12px rgba(45,58,50,0.08). Do not change CalendarTaskCard, task data model, or API calls. | spec: design-constraints §2 §3 §9, design-tokens §1 | type: polish
+ 
+- [ ] TASK-F19: Empty states audit and repair — (1) Fix bug: nudge items rendering title "?" when title is null — add null-safe fallback displaying "Unbenannte Erinnerung". (2) Apply the existing EmptyState component (built in B05) to four locations where it is missing: Tasks page when filtered list is empty (icon: CheckSquare, heading: "Alles erledigt!", body: "Erstelle eine neue Aufgabe über den + Button.", CTA: "Aufgabe erstellen"); Rewards tab when empty (icon: Gift, heading: "Noch keine Belohnungen", body: "Füge Belohnungen hinzu, auf die eure Familie hinarbeiten kann.", CTA: "Belohnung erstellen"); Shopping List when zero unchecked items (icon: ShoppingCart, heading: "Liste ist leer", body: "Tippe oben, um den ersten Artikel hinzuzufügen.", CTA focuses add-input); Nudges tab when empty (icon: Bell, heading: "Noch keine Erinnerungen", body: "Richte Erinnerungen ein, die zur richtigen Zeit anklopfen.", CTA: "Erinnerung erstellen"). Add i18n keys for all new strings. Do not apply EmptyState to the calendar. | spec: design-constraints §7 | type: polish
+ 
+- [ ] TASK-F17: Dashboard information architecture refactor — restructure the parent Home page to exactly 4 sections in this order: (1) FamilyStatusBar: horizontal row of avatar chips (40px avatar + first name + today's open-task count badge per member, badge bg #EEF2EE text #5B7A6B); (2) TodayFocus: heading "Heute für die Familie" 17px weight-800, max 5 tasks shown with "[X] weitere →" overflow link, each row 56px min-height, assignee as 28px avatar at right, 48px-wide completion tap zone, priority left-border accent; (3) ActiveChallenges: heading "Aktive Challenges" 17px weight-800, max 2 cards with challenge name, progress bar (fill #00BFA5 bg rgba(0,191,165,0.12) height 8px), fraction text "{n}/{total} Aufgaben" weight-700 color #0F6E56, due date "bis DD.MM." color #6B7B72; (4) WeeklyChart: heading "Eure Woche" 17px weight-800, existing recharts bar chart reduced to 160px height. Remove entirely from Home JSX (do not hide — delete): Einkaufsliste preview, "Heute" day timeline, Aufgabenverteilung donut chart, Pinnwand section. Those pages remain accessible via navigation. Do not change any other pages. Do not add new API calls. | spec: P-1, design-constraints §1 §7 §8 | type: polish
+ 
+- [ ] TASK-F20: Rewards page redesign — replace list rows with card grid on both tabs. Belohnungen tab: 2-column grid ≥768px, 1-column <768px, gap 16px/12px. Each reward card: bg #FEFEFB, border 1px solid rgba(45,58,50,0.08), border-radius 16px, padding 20px, Framer Motion whileHover shadow. Card content: reward name 17px weight-600 (2-line max ellipsis); cost badges row — XP badge (height 28px, bg rgba(255,176,32,0.15), border rgba(255,176,32,0.4), text "+{n} XP" 13px weight-700 #B8860B, border-radius 9999px) and Gold badge if applicable (height 28px, bg rgba(212,148,58,0.12), border rgba(212,148,58,0.4), text "{n} Gold" 13px weight-700 #854F0B); delete icon button bottom-right. Challenges tab: keep existing cards, add inside each: progress bar (height 8px, fill #00BFA5, track rgba(0,191,165,0.12)), fraction text "{current}/{target} Aufgaben" 13px weight-700 #0F6E56 right-aligned, due date "bis DD.MM." 11px #6B7B72, "Aktiv" chip top-right (bg rgba(0,191,165,0.12), text #0F6E56, 12px weight-600, height 22px, border-radius 9999px). Create button on both tabs: pill shape border-radius 9999px, label "+ Belohnung erstellen" / "+ Challenge erstellen". Do not change forms, API calls, or delete logic. | spec: P-4, design-constraints §9 | type: polish
+ 
+- [ ] TASK-F21: Settings pages typography and density uplift — (1) All Settings section headings to 17px weight-800 #2D3A32: "Profil bearbeiten", "Sprache", "Mitglieder", "Zeitblöcke", "Routinen", "Erinnerungen". (2) Familie tab: replace ListItem rows with Cards per member (bg #FEFEFB, border 1px solid rgba(45,58,50,0.08), border-radius 12px, padding 16px, flex row gap 16px). Card: 48px avatar left; center = name 17px weight-600 + role chip ("Kind" bg #EEF2EE text #5B7A6B / "Erwachsene/R" bg #F3F0EB text #6B7B72 / "Baby" bg rgba(198,123,92,0.12) text #A65F3F — all 12px weight-600 height 22px border-radius 9999px); Trash2 delete icon right (hidden for current user). (3) Zeiten tab: add description paragraph below heading — "Zeitblöcke zeigen im Kalender, wann Familienmitglieder nicht verfügbar sind." 13px weight-400 #6B7B72. (4) Routinen tab: add — "Routinen erstellen automatisch wiederkehrende Aufgaben für deine Familie." (5) Nudges tab: add — "Erinnerungen schicken dir zur richtigen Zeit eine Benachrichtigung." (6) Profil tab: "Speichern" button border-radius 9999px width auto; "Passwort ändern" → text button with KeyRound lucide icon. (7) Language switcher: segmented control — outer bg #F3F0EB border-radius 9999px padding 3px; active inner button bg white weight-600 shadow-sm; inactive bg transparent text #6B7B72. Do not change any form logic, API calls, or tab structure. | spec: design-constraints §5 §8, A-1/A-2 | type: polish
+ 
+- [ ] TASK-F22: **HANDOVER TEST — Design Overhaul** — Verify all 6 design tasks: (F16) stat card numbers 32px weight-800, all section headings 17px weight-800, no text below 13px; (F17) Home has exactly 4 sections, Today's Focus above fold at 768px, shopping/donut/timeline/pinnwand removed from Home; (F18) XP badges 32px amber pills, overdue tasks show weight-600 title + red date, completion animation fires, 48px tap zone on checkbox; (F19) all 4 empty states present, no "?" nudge titles; (F20) Rewards shows 2-col card grid at 768px, challenges show progress bars; (F21) section headings weight-800, Familie tab shows member cards with role chips, language switcher is segmented control. Responsive check: no overflow at 375px/768px/1280px, all touch targets ≥44px. | type: verification
+ 
 ---
-
-## Total: 67 tasks across 6 phases
-
+ 
+## Total: 74 tasks across 6 phases
+ 
 | Phase | Tasks | Focus |
 |-------|-------|-------|
 | A (Setup) | 15 | Project + schema + seed data |
@@ -235,13 +251,15 @@ builder-tool: Lovable
 | C (Sprint 1) | 27 | Parent calendar + tasks + child UI + basic gamification |
 | D (Sprint 2) | 11 | Deep gamification + onboarding |
 | E (Sprint 3) | 8 | Full feature set (board, shopping, flow, nudges, AI) |
-| F (Sprint 4) | 15 | Platform, polish, audits, launch readiness |
-
+| F (Sprint 4) | 22 | Platform, polish, audits, launch readiness, design overhaul |
+ 
 ---
-
+ 
 ## Changelog
-
+ 
 | Version | Date | Change | Author |
 |---------|------|--------|--------|
 | 1.0.0 | 2026-03-29 | Initial tasks (Replit, 189 tasks, 10 waves) | PM + VEGA |
 | 2.0.0 | 2026-03-31 | Complete rewrite for Lovable. 67 tasks, 6 phases. Consolidated from 189 → 67 by grouping related work into prompt-sized units. Added interaction defaults verification to every handover test. | PM + Atlas |
+| 2.1.0 | 2026-04-05 | Added TASK-F16–F22: UI/UX design overhaul (typography, dashboard IA, task cards, empty states, rewards shop, settings uplift). Total: 74 tasks. Phase F: 15 → 22 tasks. | PM + Atlas |
+ 
