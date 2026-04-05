@@ -73,7 +73,7 @@ export default function RewardsChallengesWidget() {
                 <span className="text-xs font-medium text-foreground">
                   {c.title}
                 </span>
-                <span className="text-[10px] text-muted-foreground">
+                <span className="text-xs text-muted-foreground">
                   {progress}/{c.target_count}
                 </span>
               </div>
