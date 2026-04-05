@@ -19,6 +19,14 @@ const TOTAL_HOURS = END_HOUR - START_HOUR; // 16 hours
 const PX_PER_HOUR = 60;
 const GRID_HEIGHT = TOTAL_HOURS * PX_PER_HOUR;
 
+const PRIORITY_STYLES: Record<string, { bg: string; border: string }> = {
+  high: { bg: "rgba(194, 91, 78, 0.08)", border: "#C25B4E" },
+  normal: { bg: "rgba(91, 122, 107, 0.08)", border: "#5B7A6B" },
+  low: { bg: "#FEFEFB", border: "#9BA89F" },
+};
+
+const EVENT_STYLE = { bg: "rgba(91, 138, 155, 0.10)", border: "#5B8A9B" };
+
 interface WeekMatrixProps {
   tasks: Task[];
   events: Event[];
@@ -46,6 +54,12 @@ function minutesToTop(minutes: number): number {
 function durationPx(startMin: number, endMin: number): number {
   const dur = endMin - startMin;
   return Math.max(20, (dur / 60) * PX_PER_HOUR);
+}
+
+/** Strip seconds: "09:00:00" → "09:00", "09:00" unchanged */
+function stripSeconds(time: string): string {
+  const parts = time.split(":");
+  return `${parts[0]}:${parts[1]}`;
 }
 
 export default function WeekMatrix({
@@ -95,25 +109,23 @@ export default function WeekMatrix({
     return { untimed, timed };
   }, [tasks, events]);
 
-  const priorityBorderColor = (priority: string) => {
-    switch (priority) {
-      case "high": return "border-l-red-500";
-      case "low": return "border-l-blue-500";
-      default: return "border-l-amber-500";
-    }
-  };
-
   const renderTaskPill = (task: Task, positioned: boolean = false) => {
     const isCompleted = task.status === "completed";
+    const ps = PRIORITY_STYLES[task.priority] ?? PRIORITY_STYLES.normal;
     return (
       <div
         key={`task-${task.id}`}
         onClick={(e) => { e.stopPropagation(); onTaskClick(task); }}
-        className={`flex items-center gap-1 px-1.5 py-1 rounded border-l-[3px] ${priorityBorderColor(task.priority)} bg-card cursor-pointer hover:shadow-sm transition-shadow group ${isCompleted ? "opacity-50" : ""} ${positioned ? "absolute left-0 right-0 mx-0.5 overflow-hidden z-10" : ""}`}
-        style={positioned && task.start_time ? {
-          top: minutesToTop(timeToMinutes(task.start_time)),
-          height: durationPx(timeToMinutes(task.start_time), task.end_time ? timeToMinutes(task.end_time) : timeToMinutes(task.start_time) + 30),
-        } : undefined}
+        className={`flex items-center gap-1 px-1.5 py-1 rounded border-l-[4px] cursor-pointer hover:shadow-sm transition-shadow group ${isCompleted ? "opacity-50" : ""} ${positioned ? "absolute left-0 right-0 mx-0.5 overflow-hidden" : ""}`}
+        style={{
+          backgroundColor: ps.bg,
+          borderLeftColor: ps.border,
+          zIndex: 3,
+          ...(positioned && task.start_time ? {
+            top: minutesToTop(timeToMinutes(task.start_time)),
+            height: durationPx(timeToMinutes(task.start_time), task.end_time ? timeToMinutes(task.end_time) : timeToMinutes(task.start_time) + 30),
+          } : {}),
+        }}
       >
         <button
           onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }}
@@ -125,17 +137,17 @@ export default function WeekMatrix({
           }
         </button>
         <div className="flex-1 min-w-0">
-          <span className={`text-[10px] font-semibold block truncate leading-tight ${isCompleted ? "line-through text-muted-foreground" : "text-foreground"}`}>
+          <span className={`block truncate leading-tight ${isCompleted ? "line-through text-muted-foreground" : ""}`} style={{ fontSize: 13, fontWeight: 600, color: isCompleted ? undefined : "#2D3A32" }}>
             {task.title}
           </span>
           {task.start_time && (
-            <span className="text-[9px] text-muted-foreground leading-none">
-              {task.start_time}{task.end_time ? `–${task.end_time}` : ""}
+            <span style={{ fontSize: 12, color: "#6B7B72" }} className="leading-none">
+              {stripSeconds(task.start_time)}{task.end_time ? `–${stripSeconds(task.end_time)}` : ""}
             </span>
           )}
         </div>
         {task.xp_value > 0 && (
-          <span className="flex items-center gap-0.5 text-[9px] text-xp font-medium shrink-0">
+          <span className="flex items-center gap-0.5 text-xp font-medium shrink-0" style={{ fontSize: 12 }}>
             <Sparkles className="w-2.5 h-2.5" />{task.xp_value}
           </span>
         )}
@@ -153,17 +165,22 @@ export default function WeekMatrix({
       <div
         key={`event-${event.id}`}
         onClick={(e) => { e.stopPropagation(); onEventClick(event); }}
-        className={`flex items-center gap-1 px-1.5 py-1 rounded border-l-[3px] border-l-info bg-info/10 cursor-pointer hover:shadow-sm transition-shadow ${positioned ? "absolute left-0 right-0 mx-0.5 overflow-hidden z-10" : ""}`}
-        style={positioned && startTime ? {
-          top: minutesToTop(startMin),
-          height: durationPx(startMin, endMin),
-        } : undefined}
+        className={`flex items-center gap-1 px-1.5 py-1 rounded border-l-[4px] cursor-pointer hover:shadow-sm transition-shadow ${positioned ? "absolute left-0 right-0 mx-0.5 overflow-hidden" : ""}`}
+        style={{
+          backgroundColor: EVENT_STYLE.bg,
+          borderLeftColor: EVENT_STYLE.border,
+          zIndex: 4,
+          ...(positioned && startTime ? {
+            top: minutesToTop(startMin),
+            height: durationPx(startMin, endMin),
+          } : {}),
+        }}
       >
-        <Calendar className="w-2.5 h-2.5 text-info shrink-0" />
+        <Calendar className="w-2.5 h-2.5 shrink-0" style={{ color: "#5B8A9B" }} />
         <div className="flex-1 min-w-0">
-          <span className="text-[10px] font-semibold text-foreground block truncate leading-tight">{event.title}</span>
+          <span className="block truncate leading-tight" style={{ fontSize: 13, fontWeight: 600, color: "#2D3A32" }}>{event.title}</span>
           {startTime && (
-            <span className="text-[9px] text-muted-foreground leading-none">
+            <span style={{ fontSize: 12, color: "#6B7B72" }} className="leading-none">
               {startTime}{endTime ? `–${endTime}` : ""}
             </span>
           )}
@@ -290,7 +307,7 @@ export default function WeekMatrix({
   };
 
   const renderDesktop = () => (
-    <div className="hidden md:block border border-border rounded-lg overflow-hidden">
+    <div className="hidden md:block overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid rgba(45, 58, 50, 0.08)", borderRadius: 12 }}>
       {/* Member header row */}
       <div
         className="grid border-b border-border bg-muted/50 sticky top-0 z-20"
@@ -342,7 +359,7 @@ export default function WeekMatrix({
             const isEmpty = untimed.length === 0 && timed.length === 0;
 
             return (
-              <div key={member.id} className="border border-border rounded-lg overflow-hidden">
+              <div key={member.id} className="overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid rgba(45, 58, 50, 0.08)", borderRadius: 12 }}>
                 {/* Member header */}
                 <div className="flex items-center gap-2 px-3 py-2 bg-muted/50 border-b border-border">
                   <div
@@ -394,8 +411,8 @@ export default function WeekMatrix({
                             return (
                               <div
                                 key={`task-${item.task.id}`}
-                                className="absolute left-8 right-1 z-10"
-                                style={{ top, height: Math.max(height, 18) }}
+                                className="absolute left-8 right-1"
+                                style={{ top, height: Math.max(height, 18), zIndex: 3 }}
                               >
                                 {renderTaskPill(item.task)}
                               </div>
@@ -405,8 +422,8 @@ export default function WeekMatrix({
                             return (
                               <div
                                 key={`event-${item.event.id}`}
-                                className="absolute left-8 right-1 z-10"
-                                style={{ top, height: Math.max(height, 18) }}
+                                className="absolute left-8 right-1"
+                                style={{ top, height: Math.max(height, 18), zIndex: 4 }}
                               >
                                 {renderEventPill(item.event)}
                               </div>

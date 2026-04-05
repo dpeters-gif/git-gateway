@@ -13,10 +13,10 @@ interface CalendarTaskCardProps {
   onComplete: () => void;
 }
 
-const priorityColors: Record<string, string> = {
-  high: "border-priority-high",
-  normal: "border-priority-normal",
-  low: "border-priority-low",
+const priorityStyles: Record<string, { bg: string; border: string }> = {
+  high: { bg: "rgba(194, 91, 78, 0.08)", border: "#C25B4E" },
+  normal: { bg: "rgba(91, 122, 107, 0.08)", border: "#5B7A6B" },
+  low: { bg: "#FEFEFB", border: "#9BA89F" },
 };
 
 export default function CalendarTaskCard({ task, onClick, onComplete }: CalendarTaskCardProps) {
@@ -25,6 +25,8 @@ export default function CalendarTaskCard({ task, onClick, onComplete }: Calendar
   const isCompleted = task.status === "completed";
   const assignee = members.find(m => m.user_id === task.assigned_to_user_id);
   const priorityLabels: Record<string, string> = { high: t("task.priorityHigh"), normal: t("task.priorityNormal"), low: t("task.priorityLow") };
+
+  const ps = priorityStyles[task.priority] ?? priorityStyles.normal;
 
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: `task-${task.id}`,
@@ -35,7 +37,13 @@ export default function CalendarTaskCard({ task, onClick, onComplete }: Calendar
     transform: CSS.Translate.toString(transform),
     opacity: isDragging ? 0.5 : 1,
     zIndex: isDragging ? 50 : 3,
-  } : { zIndex: 3 };
+    backgroundColor: ps.bg,
+    borderLeftColor: ps.border,
+  } : {
+    zIndex: 3,
+    backgroundColor: ps.bg,
+    borderLeftColor: ps.border,
+  };
 
   return (
     <motion.div
@@ -44,7 +52,7 @@ export default function CalendarTaskCard({ task, onClick, onComplete }: Calendar
       variants={scaleIn}
       whileTap={{ scale: 0.97 }}
       onClick={(e) => { e.stopPropagation(); onClick(); }}
-      className={`bg-card border-l-[3px] ${priorityColors[task.priority] ?? "border-priority-normal"} rounded-md p-2 cursor-pointer hover:shadow-sm transition-shadow ${
+      className={`border-l-[4px] rounded-md p-2 cursor-pointer hover:shadow-sm transition-shadow ${
         isCompleted ? "opacity-60" : ""
       } group relative`}
     >
@@ -67,21 +75,21 @@ export default function CalendarTaskCard({ task, onClick, onComplete }: Calendar
             <Square className="w-4 h-4 text-muted-foreground hover:text-primary transition-colors" />
           )}
         </button>
-        <span className={`text-xs font-semibold truncate ${isCompleted ? "line-through text-muted-foreground" : "text-foreground"}`}>
+        <span className={`truncate ${isCompleted ? "line-through text-muted-foreground" : ""}`} style={{ fontSize: 13, fontWeight: 600, color: isCompleted ? undefined : "#2D3A32" }}>
           {task.title}
         </span>
       </div>
       <div className="flex items-center gap-2 mt-0.5 ml-[30px] flex-wrap">
         {assignee && (
-          <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground">
+          <span className="flex items-center gap-0.5" style={{ fontSize: 12, color: "#6B7B72" }}>
             <User className="w-2.5 h-2.5" /> {assignee.name}
           </span>
         )}
-        <span className={`text-[10px] font-medium ${task.priority === "high" ? "text-red-500" : task.priority === "low" ? "text-blue-500" : "text-yellow-600"}`}>
+        <span style={{ fontSize: 12, fontWeight: 500, color: task.priority === "high" ? "#C25B4E" : task.priority === "low" ? "#9BA89F" : "#5B7A6B" }}>
           {priorityLabels[task.priority]}
         </span>
         {task.xp_value > 0 && (
-          <span className="flex items-center gap-0.5 text-[10px] font-medium text-xp">
+          <span className="flex items-center gap-0.5 text-xp font-medium" style={{ fontSize: 12 }}>
             <Sparkles className="w-3 h-3" /> {task.xp_value} XP
           </span>
         )}
