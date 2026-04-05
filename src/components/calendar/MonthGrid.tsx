@@ -51,11 +51,19 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
     return result;
   }, [month]);
 
+  const DATE_PATTERN = /^\d{2}\.\d{2}\.\d{4}$/;
+
   const getItemsForDay = useCallback((dayStr: string, userId: string | null) => {
-    const cellTasks = tasks.filter(t => t.due_date === dayStr && t.assigned_to_user_id === userId);
+    const cellTasks = tasks.filter(t =>
+      t.due_date === dayStr &&
+      t.assigned_to_user_id === userId &&
+      t.status !== "completed" &&
+      !DATE_PATTERN.test(t.title)
+    );
     const cellEvents = events.filter(e => {
       const eDate = format(new Date(e.start_at), "yyyy-MM-dd");
       const ids = e.assigned_to_user_ids ?? [];
+      if (DATE_PATTERN.test(e.title)) return false;
       return eDate === dayStr && (ids.includes(userId ?? "") || (ids.length === 0 && !userId));
     });
     return { tasks: cellTasks, events: cellEvents };
@@ -158,11 +166,17 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
               >
                 {/* Day label */}
                 <div
-                  className={`p-1.5 border-r border-border flex flex-col justify-start cursor-pointer hover:bg-muted/30 ${today ? "border-l-[3px] border-l-primary bg-primary/5" : ""}`}
+                  className={`p-1.5 border-r border-border flex flex-col justify-start cursor-pointer hover:bg-muted/30 ${today ? "border-l-[3px] border-l-primary" : ""}`}
                   onClick={() => onDayClick(day)}
                 >
-                  <span className="text-[9px] text-muted-foreground font-medium">{format(day, "EEE", { locale: de })}</span>
-                  <span className={`text-xs font-bold ${today ? "text-primary" : "text-foreground"}`}>{format(day, "d")}</span>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: "#6B7B72" }}>{format(day, "EEE", { locale: de })}</span>
+                  {today ? (
+                    <span className="rounded-full flex items-center justify-center text-white" style={{ width: 24, height: 24, backgroundColor: "#5B7A6B", fontSize: 15, fontWeight: 700 }}>
+                      {format(day, "d")}
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: 15, fontWeight: 700, color: "#2D3A32" }}>{format(day, "d")}</span>
+                  )}
                 </div>
 
                 {/* Member cells */}
@@ -190,19 +204,15 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
                           </div>
                         ))}
                         {dayTasks.map(tk => {
-                          const isCompleted = tk.status === "completed";
                           const ps = PRIORITY_STYLES[tk.priority] ?? PRIORITY_STYLES.normal;
                           return (
                             <div
                               key={tk.id}
-                              className={`flex items-center gap-0.5 px-1 py-0.5 rounded border-l-[3px] truncate ${isCompleted ? "opacity-50" : ""}`}
+                              className="flex items-center gap-0.5 px-1 py-0.5 rounded border-l-[3px] truncate"
                               style={{ backgroundColor: ps.bg, borderLeftColor: ps.border }}
                             >
-                              {isCompleted
-                                ? <CheckSquare className="w-2 h-2 text-success shrink-0" />
-                                : <Square className="w-2 h-2 text-muted-foreground shrink-0" />
-                              }
-                              <span className={`text-[9px] font-medium truncate ${isCompleted ? "line-through text-muted-foreground" : ""}`} style={{ color: isCompleted ? undefined : "#2D3A32" }}>{tk.title}</span>
+                              <Square className="w-2 h-2 text-muted-foreground shrink-0" />
+                              <span className="text-[9px] font-medium truncate" style={{ color: "#2D3A32" }}>{tk.title}</span>
                             </div>
                           );
                         })}
