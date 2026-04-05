@@ -23,7 +23,7 @@ import NudgeConfig from "@/components/nudges/NudgeConfig";
 import GrandparentLinks from "@/components/settings/GrandparentLinks";
 import SubscriptionManagement from "@/components/subscription/SubscriptionManagement";
 import {
-  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield, Bell, CreditCard, Link2, UserPlus, Key, Globe
+  Users, Clock, RotateCcw, Plus, Trash2, Baby, User, UserCheck, Shield, Bell, CreditCard, Link2, UserPlus, KeyRound, Globe
 } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
