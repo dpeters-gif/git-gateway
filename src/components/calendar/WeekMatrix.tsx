@@ -318,18 +318,14 @@ export default function WeekMatrix({
           <div className="p-2 text-center text-sm text-muted-foreground">{t("common.noData")}</div>
         ) : (
           activeMembers.map(member => (
-            <div key={member.id} className="p-2 border-r border-border last:border-r-0 flex items-center gap-2 justify-center">
+            <div key={member.id} className="p-2 flex items-center gap-2 justify-center" style={{ borderRight: "1px solid rgba(45, 58, 50, 0.12)" }}>
               <div
-                className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
-                style={{ backgroundColor: member.color }}
+                className="rounded-full flex items-center justify-center text-white font-bold shrink-0"
+                style={{ width: 40, height: 40, fontSize: 16, backgroundColor: member.color }}
               >
                 {member.display_name.charAt(0).toUpperCase()}
               </div>
-              <div className="min-w-0">
-                <span className="text-xs font-semibold text-foreground block truncate">{member.display_name}</span>
-                {member.user_id === user?.id && (
-                  <span className="text-[9px] text-primary font-medium">Du</span>
-                )}
+              <span className="text-xs font-semibold text-foreground truncate">{member.display_name.split(" ")[0]}</span>
               </div>
             </div>
           ))
