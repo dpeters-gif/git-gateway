@@ -202,7 +202,7 @@ function ProfileSection() {
       <motion.div variants={slideUp} className="bg-card rounded-lg p-4 border border-border space-y-3">
         <div className="flex items-center gap-2">
           <Globe className="w-4 h-4 text-muted-foreground" />
-          <h2 className="text-sm font-semibold text-foreground">{t("settings.language")}</h2>
+          <h2 className="text-md font-extrabold text-foreground">{t("settings.language")}</h2>
         </div>
         <div className="flex gap-2">
           <Button
