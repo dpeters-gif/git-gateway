@@ -251,7 +251,7 @@ export default function WeekMatrix({
               {activeMembers.map(member => {
                 const { untimed } = getItemsForCell(dayStr, member.user_id);
                 return (
-                  <div key={member.id} className="px-0.5 space-y-0.5 border-l border-border">
+                  <div key={member.id} className="px-0.5 space-y-0.5" style={{ borderLeft: "1px solid rgba(45, 58, 50, 0.12)" }}>
                     {untimed.map(item => {
                       if (item.type === "task" && item.task) return renderTaskPill(item.task);
                       if (item.type === "event" && item.event) return renderEventPill(item.event);
