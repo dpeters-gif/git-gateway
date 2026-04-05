@@ -135,9 +135,9 @@ function StatCard({ icon: Icon, label, value, color }: { icon: any; label: strin
     <div className="bg-card rounded-lg p-4 border border-border">
       <div className="flex items-center gap-2 mb-1">
         <Icon className={`w-4 h-4 ${color}`} />
-        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">{label}</span>
+        <span className="text-xs text-muted-foreground font-medium">{label}</span>
       </div>
-      <span className="text-2xl font-extrabold text-foreground">{value}</span>
+      <span className="text-2xl font-extrabold text-foreground tabular-nums">{value}</span>
     </div>
   );
 }
