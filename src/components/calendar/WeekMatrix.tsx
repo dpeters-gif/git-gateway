@@ -350,7 +350,7 @@ export default function WeekMatrix({
       </div>
 
       {/* Day sections with time grids */}
-      <div className="overflow-y-auto max-h-[70vh]">
+      <div className="overflow-y-auto">
         {days.map(day => renderDesktopDay(day))}
       </div>
     </div>
