@@ -16,7 +16,7 @@ import { CheckSquare, Square, Calendar, Sparkles } from "lucide-react";
 const START_HOUR = 6;
 const END_HOUR = 22;
 const TOTAL_HOURS = END_HOUR - START_HOUR; // 16 hours
-const PX_PER_HOUR = 60;
+const PX_PER_HOUR = 44;
 const GRID_HEIGHT = TOTAL_HOURS * PX_PER_HOUR;
 
 const PRIORITY_STYLES: Record<string, { bg: string; border: string }> = {
@@ -246,7 +246,7 @@ export default function WeekMatrix({
         {/* Untimed items section */}
         {allUntimed.length > 0 && (
           <div className="border-b border-border bg-muted/10 px-1 py-1">
-            <div className="grid" style={{ gridTemplateColumns: `48px repeat(${activeMembers.length}, 1fr)` }}>
+            <div className="grid" style={{ gridTemplateColumns: `52px repeat(${activeMembers.length}, 1fr)` }}>
               <div className="text-[8px] text-muted-foreground px-1 py-0.5 flex items-start">Ganztag</div>
               {activeMembers.map(member => {
                 const { untimed } = getItemsForCell(dayStr, member.user_id);
@@ -265,14 +265,14 @@ export default function WeekMatrix({
         )}
 
         {/* Time grid */}
-        <div className="grid" style={{ gridTemplateColumns: `48px repeat(${activeMembers.length}, 1fr)` }}>
+        <div className="grid" style={{ gridTemplateColumns: `52px repeat(${activeMembers.length}, 1fr)` }}>
           {/* Time axis */}
           <div className="relative" style={{ height: GRID_HEIGHT }}>
             {hourLabels.map(h => (
               <div
                 key={h}
-                className="absolute left-0 right-0 text-[9px] text-muted-foreground px-1 border-t border-border/30"
-                style={{ top: (h - START_HOUR) * PX_PER_HOUR }}
+                className="absolute left-0 right-0 px-1"
+                style={{ top: (h - START_HOUR) * PX_PER_HOUR, fontSize: 13, fontWeight: 500, color: "#6B7B72", borderTop: "1px solid rgba(45, 58, 50, 0.08)" }}
               >
                 {String(h).padStart(2, "0")}:00
               </div>
@@ -293,13 +293,18 @@ export default function WeekMatrix({
                 }}
                 onClick={() => onCellClick(day, member.user_id)}
               >
-                {/* Hour grid lines */}
+                {/* Hour grid lines + half-hour sub-lines */}
                 {hourLabels.map(h => (
-                  <div
-                    key={h}
-                    className="absolute left-0 right-0 border-t border-border/20"
-                    style={{ top: (h - START_HOUR) * PX_PER_HOUR }}
-                  />
+                  <div key={h}>
+                    <div
+                      className="absolute left-0 right-0"
+                      style={{ top: (h - START_HOUR) * PX_PER_HOUR, borderTop: "1px solid rgba(45, 58, 50, 0.08)" }}
+                    />
+                    <div
+                      className="absolute left-0 right-0"
+                      style={{ top: (h - START_HOUR) * PX_PER_HOUR + PX_PER_HOUR / 2, borderTop: "1px dashed rgba(45, 58, 50, 0.04)" }}
+                    />
+                  </div>
                 ))}
 
                 {/* Time block backgrounds */}
@@ -324,7 +329,7 @@ export default function WeekMatrix({
       {/* Member header row */}
       <div
         className="grid border-b border-border bg-muted/50 sticky top-0 z-20"
-        style={{ gridTemplateColumns: `48px repeat(${activeMembers.length || 1}, 1fr)` }}
+        style={{ gridTemplateColumns: `52px repeat(${activeMembers.length || 1}, 1fr)` }}
       >
         <div className="p-2 border-r border-border" />
         {activeMembers.length === 0 ? (
@@ -345,7 +350,7 @@ export default function WeekMatrix({
       </div>
 
       {/* Day sections with time grids */}
-      <div className="overflow-y-auto max-h-[70vh]">
+      <div className="overflow-y-auto">
         {days.map(day => renderDesktopDay(day))}
       </div>
     </div>
