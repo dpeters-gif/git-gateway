@@ -25,10 +25,14 @@ function MemberAvatar({ name, color, size = 20 }: { name: string; color: string;
   );
 }
 
+function formatTimeShort(dateStr: string): string {
+  return format(new Date(dateStr), "HH:mm");
+}
+
 export default function CalendarEventCard({ event, onClick }: CalendarEventCardProps) {
   const { members } = useFamily();
-  const startTime = event.is_all_day ? "Ganztägig" : format(new Date(event.start_at), "HH:mm");
-  const endTime = event.end_at && !event.is_all_day ? format(new Date(event.end_at), "HH:mm") : null;
+  const startTime = event.is_all_day ? "Ganztägig" : formatTimeShort(event.start_at);
+  const endTime = event.end_at && !event.is_all_day ? formatTimeShort(event.end_at) : null;
 
   const assignedMembers = members.filter(m => (event.assigned_to_user_ids ?? []).includes(m.user_id ?? ""));
   const visibleMembers = assignedMembers.slice(0, 2);
@@ -48,11 +52,11 @@ export default function CalendarEventCard({ event, onClick }: CalendarEventCardP
   return (
     <motion.div
       ref={setNodeRef}
-      style={style}
+      style={{ ...style, backgroundColor: "rgba(91, 138, 155, 0.10)", borderLeftColor: "#5B8A9B" }}
       variants={scaleIn}
       whileTap={{ scale: 0.97 }}
       onClick={(e) => { e.stopPropagation(); onClick(); }}
-      className="bg-info-light border-l-[3px] border-info rounded-md p-2 cursor-pointer hover:shadow-sm transition-shadow group relative flex flex-col"
+      className="border-l-[4px] rounded-md p-2 cursor-pointer hover:shadow-sm transition-shadow group relative flex flex-col"
     >
       <div className="flex items-center gap-1.5">
         <button
@@ -63,11 +67,11 @@ export default function CalendarEventCard({ event, onClick }: CalendarEventCardP
         >
           <GripVertical className="w-3.5 h-3.5 text-muted-foreground" />
         </button>
-        <Calendar className="w-3 h-3 text-info shrink-0" />
-        <span className="text-xs font-semibold text-foreground truncate">{event.title}</span>
+        <Calendar className="w-3 h-3 shrink-0" style={{ color: "#5B8A9B" }} />
+        <span className="truncate" style={{ fontSize: 13, fontWeight: 600, color: "#2D3A32" }}>{event.title}</span>
       </div>
       <div className="flex items-center justify-between mt-0.5 ml-[30px]">
-        <span className="text-[10px] text-muted-foreground">
+        <span style={{ fontSize: 12, fontWeight: 400, color: "#6B7B72" }}>
           {startTime}{endTime ? ` – ${endTime}` : ""}
         </span>
         {assignedMembers.length > 0 && (

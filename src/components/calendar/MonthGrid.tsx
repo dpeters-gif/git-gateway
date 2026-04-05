@@ -12,6 +12,14 @@ import type { Task } from "@/hooks/useTasks";
 import type { Event } from "@/hooks/useEvents";
 import { CheckSquare, Square, Calendar, Sparkles } from "lucide-react";
 
+const PRIORITY_STYLES: Record<string, { bg: string; border: string }> = {
+  high: { bg: "rgba(194, 91, 78, 0.08)", border: "#C25B4E" },
+  normal: { bg: "rgba(91, 122, 107, 0.08)", border: "#5B7A6B" },
+  low: { bg: "#FEFEFB", border: "#9BA89F" },
+};
+
+const EVENT_STYLE = { bg: "rgba(91, 138, 155, 0.10)", border: "#5B8A9B" };
+
 interface MonthGridProps {
   month: Date;
   tasks: Task[];
@@ -55,7 +63,7 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
 
   const dayHeaders = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
-  // Mobile: compact dot view (original style)
+  // Mobile: compact dot view
   if (isMobile) {
     const hasDots = (day: Date) => {
       const ds = format(day, "yyyy-MM-dd");
@@ -101,10 +109,10 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
     );
   }
 
-  // Desktop: Person-lane month grid — days as rows, persons as columns, items shown as pills
+  // Desktop: Person-lane month grid
   return (
-    <div className="border border-border rounded-lg overflow-hidden">
-      {/* Header: day-of-week labels across top for context, then member headers */}
+    <div className="overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid rgba(45, 58, 50, 0.08)", borderRadius: 12 }}>
+      {/* Header */}
       <div
         className="grid border-b border-border bg-muted/50 sticky top-0 z-20"
         style={{ gridTemplateColumns: `80px repeat(${activeMembers.length || 1}, 1fr)` }}
@@ -169,21 +177,29 @@ export default function MonthGrid({ month, tasks, events, onDayClick }: MonthGri
                         onClick={() => onDayClick(day)}
                       >
                         {dayEvents.map(e => (
-                          <div key={e.id} className="flex items-center gap-0.5 px-1 py-0.5 rounded bg-info/10 border-l-2 border-l-info truncate">
-                            <Calendar className="w-2 h-2 text-info shrink-0" />
-                            <span className="text-[9px] font-medium text-foreground truncate">{e.title}</span>
+                          <div
+                            key={e.id}
+                            className="flex items-center gap-0.5 px-1 py-0.5 rounded border-l-[3px] truncate"
+                            style={{ backgroundColor: EVENT_STYLE.bg, borderLeftColor: EVENT_STYLE.border }}
+                          >
+                            <Calendar className="w-2 h-2 shrink-0" style={{ color: "#5B8A9B" }} />
+                            <span className="text-[9px] font-medium truncate" style={{ color: "#2D3A32" }}>{e.title}</span>
                           </div>
                         ))}
                         {dayTasks.map(tk => {
                           const isCompleted = tk.status === "completed";
-                          const borderColor = tk.priority === "high" ? "border-l-red-500" : tk.priority === "low" ? "border-l-blue-500" : "border-l-amber-500";
+                          const ps = PRIORITY_STYLES[tk.priority] ?? PRIORITY_STYLES.normal;
                           return (
-                            <div key={tk.id} className={`flex items-center gap-0.5 px-1 py-0.5 rounded bg-card border-l-2 ${borderColor} truncate ${isCompleted ? "opacity-50" : ""}`}>
+                            <div
+                              key={tk.id}
+                              className={`flex items-center gap-0.5 px-1 py-0.5 rounded border-l-[3px] truncate ${isCompleted ? "opacity-50" : ""}`}
+                              style={{ backgroundColor: ps.bg, borderLeftColor: ps.border }}
+                            >
                               {isCompleted
                                 ? <CheckSquare className="w-2 h-2 text-success shrink-0" />
                                 : <Square className="w-2 h-2 text-muted-foreground shrink-0" />
                               }
-                              <span className={`text-[9px] font-medium truncate ${isCompleted ? "line-through text-muted-foreground" : "text-foreground"}`}>{tk.title}</span>
+                              <span className={`text-[9px] font-medium truncate ${isCompleted ? "line-through text-muted-foreground" : ""}`} style={{ color: isCompleted ? undefined : "#2D3A32" }}>{tk.title}</span>
                             </div>
                           );
                         })}
