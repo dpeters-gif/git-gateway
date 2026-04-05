@@ -305,6 +305,21 @@
     "quietHours": "Quiet hours",
     "parentAlert": "Parent alert"
   },
+  "nudges": {
+    "empty": {
+      "heading": "No reminders yet",
+      "body": "Set up reminders that knock at the right time.",
+      "cta": "Create reminder"
+    }
+  },
+  "tasks": {
+    "empty": {
+      "heading": "All done!",
+      "headingFiltered": "No tasks found",
+      "body": "Create a new task using the + button.",
+      "cta": "Create task"
+    }
+  },
   "photo": {
     "title": "Proof Photo",
     "tooLarge": "Photo too large (max 5MB)",
