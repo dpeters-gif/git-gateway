@@ -108,7 +108,7 @@ export default function ParentRewards() {
         <SkeletonLoader type="list" count={3} />
       ) : tab === "rewards" ? (
         rewards.length === 0 ? (
-          <EmptyState icon={Gift} title={t("rewards.empty")} body={t("rewards.emptyBody")} ctaLabel={t("rewards.create")} onCta={() => setShowCreate(true)} />
+          <EmptyState icon={Gift} title={t("rewards.empty.heading", "Noch keine Belohnungen")} body={t("rewards.empty.body", "Füge Belohnungen hinzu, auf die eure Familie hinarbeiten kann.")} ctaLabel={t("rewards.empty.cta", "Belohnung erstellen")} onCta={() => setShowCreate(true)} />
         ) : (
           <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-2">
             {rewards.map((r: any) => (

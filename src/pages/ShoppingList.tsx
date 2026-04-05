@@ -130,8 +130,10 @@ export default function ShoppingList() {
         ) : items.length === 0 ? (
           <EmptyState
             icon={ShoppingCart}
-            title={t("shopping.emptyTitle")}
-            body={t("shopping.emptyBody")}
+            title={t("shopping.empty.heading", "Liste ist leer")}
+            body={t("shopping.empty.body", "Tippe oben, um den ersten Artikel hinzuzufügen.")}
+            ctaLabel={t("shopping.empty.cta", "Artikel hinzufügen")}
+            onCta={() => inputRef.current?.focus()}
           />
         ) : (
           <>

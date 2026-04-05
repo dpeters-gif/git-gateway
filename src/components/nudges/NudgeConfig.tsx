@@ -103,7 +103,7 @@ export default function NudgeConfig() {
           <motion.div key={rule.id} variants={slideUp} className="bg-card rounded-lg p-3 border border-border">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-sm font-medium text-foreground">{getChildName(rule.child_user_id)}</span>
+                <span className="text-sm font-medium text-foreground">{getChildName(rule.child_user_id)} — {(rule as any).title || t("settings.nudges.untitled", "Unbenannte Erinnerung")}</span>
                 <div className="text-xs text-muted-foreground mt-0.5">
                   {(rule.times as string[]).join(", ")}
                   {rule.parent_alert && ` · ${t("nudge.parentAlert", "Eltern-Alarm")}`}
