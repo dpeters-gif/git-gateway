@@ -246,7 +246,7 @@ export default function WeekMatrix({
         {/* Untimed items section */}
         {allUntimed.length > 0 && (
           <div className="border-b border-border bg-muted/10 px-1 py-1">
-            <div className="grid" style={{ gridTemplateColumns: `48px repeat(${activeMembers.length}, 1fr)` }}>
+            <div className="grid" style={{ gridTemplateColumns: `52px repeat(${activeMembers.length}, 1fr)` }}>
               <div className="text-[8px] text-muted-foreground px-1 py-0.5 flex items-start">Ganztag</div>
               {activeMembers.map(member => {
                 const { untimed } = getItemsForCell(dayStr, member.user_id);
