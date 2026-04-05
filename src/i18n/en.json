@@ -222,8 +222,11 @@
     "xpThreshold": "XP threshold",
     "active": "Active",
     "fulfill": "Redeem",
-    "empty": "No rewards yet",
-    "emptyBody": "Create rewards for the children."
+    "empty": {
+      "heading": "No rewards yet",
+      "body": "Add rewards for your family to work towards.",
+      "cta": "Create reward"
+    }
   },
   "notifications": {
     "title": "Notifications",
