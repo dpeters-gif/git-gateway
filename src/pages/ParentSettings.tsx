@@ -679,6 +679,10 @@ function RoutineManagement({ routines, members, onCreateRoutine, onDeleteRoutine
         </Button>
       </div>
 
+      <p className="text-xs text-muted-foreground" style={{ marginBottom: "16px" }}>
+        Routinen erstellen automatisch wiederkehrende Aufgaben für deine Familie.
+      </p>
+
       {routines.length === 0 && (
         <EmptyState icon={RotateCcw} title={t("settings.routineEmpty")} body={t("settings.routineEmptyBody")} />
       )}
