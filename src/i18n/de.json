@@ -210,7 +210,10 @@
     "passwordMismatch": "Passwörter stimmen nicht überein",
     "language": "Sprache",
     "notifications": "Benachrichtigungen",
-    "profileSaved": "Profil gespeichert"
+    "profileSaved": "Profil gespeichert",
+    "nudges": {
+      "untitled": "Unbenannte Erinnerung"
+    }
   },
   "rewards": {
     "title": "Belohnungen",
@@ -219,8 +222,11 @@
     "xpThreshold": "XP-Schwelle",
     "active": "Aktiv",
     "fulfill": "Einlösen",
-    "empty": "Noch keine Belohnungen",
-    "emptyBody": "Erstelle Belohnungen für die Kinder."
+    "empty": {
+      "heading": "Noch keine Belohnungen",
+      "body": "Füge Belohnungen hinzu, auf die eure Familie hinarbeiten kann.",
+      "cta": "Belohnung erstellen"
+    }
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -253,6 +259,11 @@
     "addPlaceholder": "Artikel hinzufügen…",
     "emptyTitle": "Alles eingekauft! 🛒",
     "emptyBody": "Füge Artikel über das Feld oben hinzu.",
+    "empty": {
+      "heading": "Liste ist leer",
+      "body": "Tippe oben, um den ersten Artikel hinzuzufügen.",
+      "cta": "Artikel hinzufügen"
+    },
     "checked": "Erledigt",
     "clearChecked": "Erledigte löschen",
     "clearConfirm": "Alle erledigten Einträge löschen?",
@@ -293,6 +304,21 @@
     "addTime": "Zeit hinzufügen",
     "quietHours": "Ruhezeiten",
     "parentAlert": "Eltern-Alarm"
+  },
+  "nudges": {
+    "empty": {
+      "heading": "Noch keine Erinnerungen",
+      "body": "Richte Erinnerungen ein, die zur richtigen Zeit anklopfen.",
+      "cta": "Erinnerung erstellen"
+    }
+  },
+  "tasks": {
+    "empty": {
+      "heading": "Alles erledigt!",
+      "headingFiltered": "Keine Aufgaben gefunden",
+      "body": "Erstelle eine neue Aufgabe über den + Button.",
+      "cta": "Aufgabe erstellen"
+    }
   },
   "photo": {
     "title": "Beweis-Foto",

@@ -148,9 +148,9 @@ export default function ParentTasks() {
         ) : orderedTasks.length === 0 ? (
           <EmptyState
             icon={CheckSquare}
-            title={t("home.empty.title")}
-            body={t("home.empty.body")}
-            ctaLabel={t("task.create")}
+            title={statusFilter === "open" ? t("tasks.empty.heading", "Alles erledigt!") : t("tasks.empty.headingFiltered", "Keine Aufgaben gefunden")}
+            body={t("tasks.empty.body", "Erstelle eine neue Aufgabe über den + Button.")}
+            ctaLabel={t("tasks.empty.cta", "Aufgabe erstellen")}
             onCta={() => setShowCreate(true)}
           />
         ) : (
