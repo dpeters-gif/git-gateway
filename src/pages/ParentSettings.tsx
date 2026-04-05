@@ -339,7 +339,7 @@ function FamilyManagement({ members, familyId, isAdmin, memberLimit }: any) {
               {m.role === "adult" && <UserCheck className="w-3 h-3 text-primary" />}
               {m.role === "child" && <User className="w-3 h-3 text-accent" />}
               {m.role === "baby" && <Baby className="w-3 h-3 text-secondary" />}
-              <span className="text-[10px] text-muted-foreground capitalize">{t(`settings.role${m.role.charAt(0).toUpperCase() + m.role.slice(1)}`)}</span>
+              <span className="text-xs text-muted-foreground capitalize">{t(`settings.role${m.role.charAt(0).toUpperCase() + m.role.slice(1)}`)}</span>
               {m.is_admin && <Shield className="w-3 h-3 text-primary ml-1" />}
             </div>
           </div>

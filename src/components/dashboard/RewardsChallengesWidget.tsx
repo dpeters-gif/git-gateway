@@ -97,7 +97,7 @@ export default function RewardsChallengesWidget() {
               {r.title}
             </span>
             {r.xp_threshold && (
-              <span className="text-[10px] text-muted-foreground">
+              <span className="text-xs text-muted-foreground">
                 {r.xp_threshold} XP
               </span>
             )}

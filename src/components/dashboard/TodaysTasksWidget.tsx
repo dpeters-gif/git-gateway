@@ -79,7 +79,7 @@ export default function TodaysTasksWidget() {
                 {task.title}
               </span>
               {getMemberName(task.assigned_to_user_id) && (
-                <span className="text-[10px] text-muted-foreground shrink-0">
+                <span className="text-xs text-muted-foreground shrink-0">
                   {getMemberName(task.assigned_to_user_id)}
                 </span>
               )}

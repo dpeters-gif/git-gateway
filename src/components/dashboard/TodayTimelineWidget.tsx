@@ -113,7 +113,7 @@ export default function TodayTimelineWidget() {
               <div className="flex-1 min-w-0">
                 <span className="text-xs text-foreground truncate block">{item.label}</span>
                 {item.memberName && (
-                  <span className="text-[10px] text-muted-foreground">{item.memberName}</span>
+                  <span className="text-xs text-muted-foreground">{item.memberName}</span>
                 )}
               </div>
             </div>
